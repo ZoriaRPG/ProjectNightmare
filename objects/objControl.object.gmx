@@ -79,14 +79,13 @@ global.battle=false;
             <kind>1</kind>
             <string>if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
 {
-    global.musicVolume[global.battle]+=0.025;
-    audio_sound_gain(global.levelMusic[global.battle],global.musicVolume[global.battle],0);
+    global.musicVolume[global.battle]=1;
+    audio_sound_gain(global.levelMusic[global.battle],1,750);
 }
-if (global.levelMusic[!global.battle] &amp;&amp; global.musicVolume[!global.battle]&gt;0)
+if (global.levelMusic[!global.battle] &amp;&amp; global.musicVolume[!global.battle])
 {
-    global.musicVolume[!global.battle]-=0.025;
-    audio_sound_gain(global.levelMusic[!global.battle],
-                     global.musicVolume[!global.battle],0);
+    global.musicVolume[!global.battle]=0;
+    audio_sound_gain(global.levelMusic[!global.battle],0,750);
 }
 </string>
           </argument>
