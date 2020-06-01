@@ -181,6 +181,7 @@ draw_set_color(c_white);
 draw_text(vw,vh+128,"Mario (c) Nintendo");
 draw_set_font(fntLink);
 draw_text(vw,vh+160,"Link (c) Nintendo");
+draw_set_font(-1);
 draw_set_alpha(1);
 draw_set_halign(fa_left);
 </string>

@@ -30,6 +30,7 @@
 hp=0;
 //Flags
 fOnGround=true;
+fOnSlope=false;
 fGravity=true;
 fGhost=false;
 fVisible=true;
@@ -40,11 +41,9 @@ z=9;
 radius=4;
 height=16;
 hSpeed=0;
-hR=0;
 vSpeed=0;
-vR=0;
 zSpeed=0;
-zR=0;
+spd=0;
 faceDir=0;
 sliding=false;
 //Collision
@@ -126,8 +125,14 @@ if (fShadow)
         shadowZ=c_hit_z()+0.1;
     else
         shadowZ=-65536;
+//Physics
+if (spd!=0)
+{
+    hSpeed=lengthdir_x(spd,faceDir);
+    vSpeed=lengthdir_y(spd,faceDir);
+}
 if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x+hSpeed,y+vSpeed,z+1))
-    for (var i=1;i&lt;5;i++)
+    for (var i=1;i&lt;5+fOnSlope;i++)
         if !(c_overlap_world_position(hitbox,x+hSpeed,y+vSpeed,z+i+1))
         {
             z+=i;
@@ -196,6 +201,7 @@ if !(fGhost)
         {
             z=zH+fTop;
             fOnGround=true;
+            fOnSlope=true;
             zSpeed=0;
             if (zAngle&gt;55)
             {
@@ -207,6 +213,8 @@ if !(fGhost)
             else
                 sliding=false;
         }
+        else
+            fOnSlope=false;
         if (z-zH&gt;=fTop)
         {
             shadowZ=fTop+0.1;
@@ -220,6 +228,7 @@ if !(fGhost)
     {
         shadowPitch=0;
         sliding=false;
+        fOnSlope=false;
     }
     if (!fOnGround &amp;&amp; c_overlap_world_position(hitbox,x,y,z+zSpeed))
     {

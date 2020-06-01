@@ -52,9 +52,22 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="objPlayer" x="80" y="240" name="inst_83EFBD6D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objCamera" x="0" y="0" name="inst_280A037B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objFloorAngled" x="64" y="128" name="inst_DE572E5F" locked="0" code="" scaleX="33" scaleY="13" colour="4294967295" rotation="-45"/>
+    <instance objName="objWall" x="32" y="448" name="inst_BE4980CF" locked="0" code="height=128;&#xA;" scaleX="26" scaleY="1" colour="4294967295" rotation="90"/>
+    <instance objName="objFloor" x="32" y="32" name="inst_EC820B24" locked="0" code="tex=3;&#xA;" scaleX="54" scaleY="26" colour="4294967295" rotation="0"/>
+    <instance objName="objWall" x="896" y="448" name="inst_1E352E0D" locked="0" code="height=128;" scaleX="54" scaleY="1" colour="4294967295" rotation="180"/>
+    <instance objName="objWall" x="32" y="32" name="inst_1EE478F5" locked="0" code="height=128;&#xA;" scaleX="54" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objWall" x="896" y="32" name="inst_1FDD5164" locked="0" code="height=128;&#xA;" scaleX="26" scaleY="1" colour="4294967295" rotation="-90"/>
+    <instance objName="objFloor" x="32" y="192" name="inst_441A52FF" locked="0" code="z=64;" scaleX="4" scaleY="6" colour="4294967295" rotation="0"/>
+    <instance objName="objFloorAngled" x="96" y="240" name="inst_E54C99F2" locked="0" code="z=64;" scaleX="3" scaleY="1" colour="4294967295" rotation="90"/>
+    <instance objName="objFloorAngled" x="96" y="240" name="inst_109B0E35" locked="0" code="" scaleX="1" scaleY="3" colour="4294967295" rotation="0"/>
+    <instance objName="objPlayer" x="56" y="232" name="inst_B9CD9739" locked="0" code="z=39;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objWall" x="96" y="288" name="inst_EB3ED062" locked="0" code="z=64;&#xA;height=80;&#xA;tex=8;&#xA;" scaleX="2" scaleY="1" colour="4294967295" rotation="180"/>
+    <instance objName="objWall" x="96" y="192" name="inst_C481B979" locked="0" code="z=64;&#xA;height=80;&#xA;tex=8;&#xA;" scaleX="3.16000008583069" scaleY="1" colour="4294967295" rotation="288.429992675781"/>
+    <instance objName="objWall" x="112" y="240" name="inst_D3C9B011" locked="0" code="z=64;&#xA;height=80;&#xA;tex=8;&#xA;" scaleX="3.16000008583069" scaleY="1" colour="4294967295" rotation="251.570007324219"/>
+    <instance objName="objWall" x="64" y="192" name="inst_19D1E6CB" locked="0" code="z=64;&#xA;height=80;&#xA;tex=8;&#xA;" scaleX="2" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="32" y="128" name="inst_E08547AE" locked="0" code="dir=3;&#xA;height=64;&#xA;tex=7;&#xA;" scaleX="2" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="32" y="288" name="inst_F70CAC3D" locked="0" code="dir=1;&#xA;height=64;&#xA;tex=5;&#xA;" scaleX="2" scaleY="4" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

@@ -64,6 +64,7 @@
     <background>background\btStairs2</background>
     <background>background\btStairs3</background>
     <background>background\btStairs4</background>
+    <background>background\btFence</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -160,6 +161,7 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rmIntro</room>
+    <room>rooms\rmHyrule</room>
     <room>rooms\rmMain</room>
   </rooms>
   <help>
