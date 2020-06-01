@@ -243,16 +243,17 @@ for (var i=0;i&lt;ds_list_size(global.worldModel);i++)
             hR=(x2-x1)/16;
             vR=(y2-y1)/16;
             if (val==1 || val==3)
-            {
-                d3d_primitive_begin_texture(pr_trianglelist,tex);
-                d3d_vertex_texture(x1,y1,z2,0,0);
-                d3d_vertex_texture(x2,y1,z2,hR,0);
-                d3d_vertex_texture(x1,y2,z1,0,vR);
-                d3d_vertex_texture(x2,y1,z2,hR,0);
-                d3d_vertex_texture(x2,y2,z1,hR,vR);
-                d3d_vertex_texture(x1,y2,z1,0,vR);
-                d3d_primitive_end();
-            }
+                {if (rectangle_in_view(x1,y1,x2,y2))
+                {
+                    d3d_primitive_begin_texture(pr_trianglelist,tex);
+                    d3d_vertex_texture(x1,y1,z2,0,0);
+                    d3d_vertex_texture(x2,y1,z2,hR,0);
+                    d3d_vertex_texture(x1,y2,z1,0,vR);
+                    d3d_vertex_texture(x2,y1,z2,hR,0);
+                    d3d_vertex_texture(x2,y2,z1,hR,vR);
+                    d3d_vertex_texture(x1,y2,z1,0,vR);
+                    d3d_primitive_end();
+                }}
             else
                 draw_floor(x1,y1,z1,x2,y2,z2,tex,false,hR,vR);
         break
@@ -266,18 +267,24 @@ for (var i=0;i&lt;ds_list_size(global.worldModel);i++)
                     draw_wall(x1,y1,z2,x2,y2,z1,tex,false,hR,vR);
                 break
                 case (1):
-                    d3d_primitive_begin_texture(pr_trianglelist,tex);
-                    d3d_vertex_texture(x1,y1,z2,0,0);
-                    d3d_vertex_texture(x2,y2,z1,hR,vR);
-                    d3d_vertex_texture(x1,y1,z1,0,vR);
-                    d3d_primitive_end();
+                    if (rectangle_in_view(x1,y1,x2,y2))
+                    {
+                        d3d_primitive_begin_texture(pr_trianglelist,tex);
+                        d3d_vertex_texture(x1,y1,z2,0,0);
+                        d3d_vertex_texture(x2,y2,z1,hR,vR);
+                        d3d_vertex_texture(x1,y1,z1,0,vR);
+                        d3d_primitive_end();
+                    }
                 break
                 case (2):
-                    d3d_primitive_begin_texture(pr_trianglelist,tex);
-                    d3d_vertex_texture(x2,y2,z2,hR,0);
-                    d3d_vertex_texture(x2,y2,z1,hR,vR);
-                    d3d_vertex_texture(x1,y1,z1,0,vR);
-                    d3d_primitive_end();
+                    if (rectangle_in_view(x1,y1,x2,y2))
+                    {
+                        d3d_primitive_begin_texture(pr_trianglelist,tex);
+                        d3d_vertex_texture(x2,y2,z2,hR,0);
+                        d3d_vertex_texture(x2,y2,z1,hR,vR);
+                        d3d_vertex_texture(x1,y1,z1,0,vR);
+                        d3d_primitive_end();
+                    }
                 break
             }
         break

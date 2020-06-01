@@ -127,6 +127,7 @@
     <script>scripts\d3d_sound_play.gml</script>
     <script>scripts\turn_to_angle.gml</script>
     <script>scripts\actor_clear.gml</script>
+    <script>scripts\rectangle_in_view.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
