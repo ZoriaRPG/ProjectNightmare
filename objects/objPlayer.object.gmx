@@ -93,7 +93,7 @@ if (keyboard_check_pressed(ord("R")))
 }
 //Code by YAL
 var keyX=keyboard_check(ord("W"))-keyboard_check(ord("S")),
-    keyY=keyboard_check(ord("A"))-keyboard_check(ord("D")),
+    keyY=keyboard_check(ord("D"))-keyboard_check(ord("A")),
     keyL,camD=0,
     onGround=(c_overlap_world_position(hitbox,x,y,z-2) || fOnGround) &amp;&amp; !sliding,
     spdDis=point_distance(0,0,hSpeed,vSpeed);
@@ -109,15 +109,15 @@ if (keyL&gt;1)
 if (instance_exists(objCamera))
 {
     if (abs(keyY) &amp;&amp; fVisible)
-        objCamera.faceDir+=keyY*spdDis;
+        objCamera.faceDir-=keyY*spdDis;
     camD=objCamera.faceDir;
 }
 // actually move around, if needed:
 if (keyL&gt;0)
 {
-    hSpeed=clamp(hSpeed+(((lengthdir_x(keyX,global.cD)+lengthdir_x(keyY,global.cD+90))*
+    hSpeed=clamp(hSpeed+(((lengthdir_x(keyX,global.cD)+lengthdir_x(keyY,global.cD-90))*
            0.75)/(1+6*!onGround)),-3,3);
-    vSpeed=clamp(vSpeed+(((lengthdir_y(keyX,global.cD)+lengthdir_y(keyY,global.cD+90))*
+    vSpeed=clamp(vSpeed+(((lengthdir_y(keyX,global.cD)+lengthdir_y(keyY,global.cD-90))*
            0.75)/(1+6*!onGround)),-3,3);
     faceDir=point_direction(0,0,keyX,keyY)+global.cD;
 }
