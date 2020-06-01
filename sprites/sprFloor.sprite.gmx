@@ -3,7 +3,7 @@
   <type>0</type>
   <xorig>0</xorig>
   <yorigin>0</yorigin>
-  <colkind>0</colkind>
+  <colkind>1</colkind>
   <coltolerance>0</coltolerance>
   <sepmasks>0</sepmasks>
   <bboxmode>0</bboxmode>
@@ -20,6 +20,6 @@
   <width>16</width>
   <height>16</height>
   <frames>
-    <frame index="0">images\sprBlockAngled_0.png</frame>
+    <frame index="0">images\sprFloor_0.png</frame>
   </frames>
 </sprite>

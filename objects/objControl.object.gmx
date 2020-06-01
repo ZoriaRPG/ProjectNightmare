@@ -151,46 +151,93 @@ c_shape_begin_trimesh();
 globalvar worldFloor,worldWall;
 with (objFloor)
 {
-    var x1,y1,z1,x2,y2,z2;
+    var x1=x,y1=y,z1,x2=x+sprite_width,y2=y+sprite_height,z2,x3,y3,z3,zH=z+height,
+        angled=object_index==objFloorAngled;
     //The floor is rendered based on its slope direction
     switch (dir)
     {
         case (0):
+            if (angled)
+            {
+                z1=z;
+                z2=zH;
+                z3=z;
+            }
+            else
+            {
+                z1=z;
+                z2=zH;
+            }
+        break
         case (1):
-            x1=x;
-            y1=y;
-            z1=z;
-            x2=x+sprite_width;
-            y2=y+sprite_height;
-            z2=z+height;
+            if (angled)
+            {
+                z1=zH;
+                z2=zH;
+                z3=z;
+            }
+            else
+            {
+                z1=z;
+                z2=zH;
+            }
         break
         case (2):
+            if (angled)
+            {
+                z1=zH;
+                z2=z;
+                z3=zH;
+            }
+            else
+            {
+                z1=zH;
+                z2=z;
+            }
+        break
         case (3):
-            x1=x;
-            y1=y;
-            z1=z+height;
-            x2=x+sprite_width;
-            y2=y+sprite_height;
-            z2=z;
+            if (angled)
+            {
+                z1=z;
+                z2=z;
+                z3=zH;
+            }
+            else
+            {
+                z1=zH;
+                z2=z;
+            }
         break
     }
     //Add geometry type header
     worldFloor[id]=ds_list_create();
-    ds_list_add(worldFloor[id],0,tex,dir,ceiling,x1,y1,z1,x2,y2,z2);
+    if (angled)
+    {
+        x2=x+lengthdir_x(sprite_width,image_angle);
+        y2=y+lengthdir_y(sprite_width,image_angle);
+        x3=x+lengthdir_x(sprite_height,image_angle-90);
+        y3=y+lengthdir_y(sprite_height,image_angle-90);
+        ds_list_add(worldFloor[id],0,tex,dir,ceiling,x1,y1,z1,x2,y2,z2,x3,y3,z3);
+    }
+    else
+        ds_list_add(worldFloor[id],0,tex,dir,ceiling,x1,y1,z1,x2,y2,z2);
     ds_list_add(global.worldModel,worldFloor[id]);
     show_debug_message("Model wall "+string(id));
     if (height==0 || ceiling)
     {
-        if (dir==1 &amp;&amp; dir==3)
-        {
-            c_shape_add_triangle(x1,y1,z1,x2,y1,z1,x1,y2,z2);
-            c_shape_add_triangle(x2,y1,z1,x2,y2,z2,x1,y2,z2);
-        }
+        if (angled)
+            c_shape_add_triangle(x1,y1,z1,x2,y2,z2,x3,y3,z3);
         else
-        {
-            c_shape_add_triangle(x1,y1,z1,x2,y1,z2,x1,y2,z1);
-            c_shape_add_triangle(x2,y1,z2,x2,y2,z2,x1,y2,z1);
-        }
+            if (dir==1 &amp;&amp; dir==3)
+            {
+                c_shape_add_triangle(x1,y1,z1,x2,y1,z1,x1,y2,z2);
+                c_shape_add_triangle(x2,y1,z1,x2,y2,z2,x1,y2,z2);
+            }
+            else
+            {
+                c_shape_add_triangle(x1,y1,z1,x2,y1,z2,x1,y2,z1);
+                c_shape_add_triangle(x2,y1,z2,x2,y2,z2,x1,y2,z1);
+            }
         show_debug_message("Collision floor "+string(id));
         instance_destroy();
     }
@@ -199,9 +246,8 @@ with (objFloor)
 }
 with (objWall)
 {
-    var lenX=lengthdir_x(sprite_width,image_angle),
-        lenY=lengthdir_y(sprite_width,image_angle);
-    var x2=x+lenX,y2=y+lenY,z2=z+height;
+    var x2=x+lengthdir_x(sprite_width,image_angle),
+        y2=y+lengthdir_y(sprite_width,image_angle),z2=z+height;
     //Add geometry type header
     worldWall[id]=ds_list_create();
     ds_list_add(worldWall[id],1,tex,slope,x,y,z,x2,y2,z2);

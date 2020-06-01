@@ -105,6 +105,8 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objWall" x="608" y="352" name="inst_BDE6BC5F" locked="0" code="" scaleX="12" scaleY="1" colour="4294967295" rotation="-180"/>
     <instance objName="objWall" x="320" y="368" name="inst_6FEFD5CC" locked="0" code="slope=2;&#xA;" scaleX="5" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="objWall" x="256" y="288" name="inst_78A74FE5" locked="0" code="slope=1;&#xA;" scaleX="5" scaleY="1" colour="4294967295" rotation="-90"/>
+    <instance objName="objFloorAngled" x="416" y="448" name="inst_55AD9D0B" locked="0" code="" scaleX="12" scaleY="5" colour="4294967295" rotation="0"/>
+    <instance objName="objFloorAngled" x="416" y="448" name="inst_C821BEAD" locked="0" code="" scaleX="12" scaleY="-5" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
