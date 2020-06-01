@@ -132,7 +132,7 @@ if (instance_exists(target))
 {
     //ready up target coordinates
     var tX=target.x,tY=target.y,tRZ=target.z,tZS=target.zSpeed,tSZ=target.shadowZ+(target.height*0.5),tZ=tSZ;
-    if (tZS&lt;-2.5 || tZS&gt;2.5 || tSZ==-65536 || tRZ&gt;tSZ+32)
+    if (tZS&lt;-2.5 || tZS&gt;2.5 || tSZ==-65536 || tRZ&gt;tSZ+40)
             tZ=tRZ;
     //toggle looking
     if (mouse_check_button_pressed(mb_right))

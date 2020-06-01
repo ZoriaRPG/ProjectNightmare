@@ -116,10 +116,13 @@ if (instance_exists(objCamera))
 if (keyL&gt;0)
 {
     faceDir=point_direction(0,0,keyX,keyY)+global.cD;
-    var acc=1+6*!onGround;
-    spd=min(spd+point_distance(0,0,lengthdir_x(keyX,global.cD)+lengthdir_x(keyY,
-                                   global.cD-90),lengthdir_y(keyX,global.cD)+
-                                   lengthdir_y(keyY,global.cD-90))/acc,3);
+    var acc=1+6*!onGround,lX=lengthdir_x(keyX,global.cD)+
+                             lengthdir_x(keyY,global.cD-90),
+        lY=lengthdir_y(keyX,global.cD)+lengthdir_y(keyY,global.cD-90),
+        vector=point_distance(0,0,lX,lY),lX2=abs(lengthdir_x(vector,faceDir))*3,
+        lY2=abs(lengthdir_y(vector,faceDir))*3;
+    hSpeed=clamp(hSpeed+((lX*0.75)/acc),-lX2,lX2);
+    vSpeed=clamp(vSpeed+((lY*0.75)/acc),-lY2,lY2);
 }
 // jump when on the ground
 if (onGround)
@@ -131,7 +134,8 @@ if (onGround)
                        sndMarioJump5),false,1);
         d3d_sound_play(sndJump,false,1);
     }
-    spd=lerp(spd,0,0.2);
+    hSpeed=lerp(hSpeed,0,0.2);
+    vSpeed=lerp(vSpeed,0,0.2);
     //Animation control
     if (spdDis)
     {
