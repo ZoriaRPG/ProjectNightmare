@@ -1,5 +1,5 @@
 ///rectangle_in_view(x1,y1,x2,y2)
-var absP=-abs(global.cP)-256,left=global.cD-45,right=global.cD+45,
+var absP=-abs(global.cP)-300,left=global.cD-45,right=global.cD+45,
     dist=global.maxRender+absP;
 //Check if it's in view.
 return (rectangle_in_triangle(argument0,argument1,argument2,argument3,
