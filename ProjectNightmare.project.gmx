@@ -36,6 +36,7 @@
     <sound>sound\sndStart</sound>
     <sound>sound\sndCameraIn</sound>
     <sound>sound\sndCameraOut</sound>
+    <sound>sound\sndCameraSpin</sound>
     <sound>sound\sndPause</sound>
     <sound>sound\sndMarioJump</sound>
     <sound>sound\sndMarioJump2</sound>

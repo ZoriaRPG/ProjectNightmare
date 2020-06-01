@@ -175,31 +175,6 @@ with (objFloor)
     ds_list_add(worldFloor[id],0,tex,dir,x1,y1,z1,x2,y2,z2);
     ds_list_add(global.worldModel,worldFloor[id]);
     show_debug_message("Model wall "+string(id));
-    /*We have to reposition the floor/slope if it's facing up or down
-    if (dir==1 || dir==3)
-    {
-        
-        d3d_model_primitive_begin(global.worldModel,pr_trianglelist);
-        d3d_model_vertex_texture(global.worldModel,x1,y1,z2,0,0);
-        d3d_model_vertex_texture(global.worldModel,x2,y1,z2,1,0);
-        d3d_model_vertex_texture(global.worldModel,x1,y2,z1,0,1);
-        d3d_model_vertex_texture(global.worldModel,x2,y1,z2,1,0);
-        d3d_model_vertex_texture(global.worldModel,x2,y2,z1,1,1);
-        d3d_model_vertex_texture(global.worldModel,x1,y2,z1,0,1);
-        d3d_model_primitive_end(global.worldModel);
-    }
-    else
-    {
-        d3d_model_primitive_begin(global.worldModel,pr_trianglelist);
-        d3d_model_vertex_texture(global.worldModel,x1,y1,z1,0,0);
-        d3d_model_vertex_texture(global.worldModel,x2,y1,z2,1,0);
-        d3d_model_vertex_texture(global.worldModel,x1,y2,z1,0,1);
-        d3d_model_vertex_texture(global.worldModel,x2,y1,z2,1,0);
-        d3d_model_vertex_texture(global.worldModel,x2,y2,z2,1,1);
-        d3d_model_vertex_texture(global.worldModel,x1,y2,z1,0,1);
-        d3d_model_primitive_end(global.worldModel);
-    }
-    show_debug_message("Model floor "+string(id));*/
     if (height==0 || ceiling)
     {
         if (dir==1 &amp;&amp; dir==3)
@@ -235,28 +210,14 @@ with (objWall)
             c_shape_add_triangle(x,y,z2,x2,y2,z,x,y,z);
             c_shape_add_triangle(x,y,z2,x2,y2,z2,x2,y2,z);
             show_debug_message("Collision wall "+string(id));
-            /*d3d_model_wall(global.worldModel,x,y,z2,x2,y2,z,sprite_width/16,height/16);
-            show_debug_message("Model wall "+string(id));*/
         break
         case (1):
             c_shape_add_triangle(x,y,z2,x2,y2,z,x,y,z);
             show_debug_message("Collision slope 1 wall "+string(id));
-            /*d3d_model_primitive_begin(global.worldModel,pr_trianglelist);
-            d3d_model_vertex_texture(global.worldModel,x,y,z2,0,0);
-            d3d_model_vertex_texture(global.worldModel,x2,y2,z,1,1);
-            d3d_model_vertex_texture(global.worldModel,x,y,z,0,1);
-            d3d_model_primitive_end(global.worldModel);
-            show_debug_message("Model slope 1 wall "+string(id));*/
         break
         case (2):
             c_shape_add_triangle(x2,y2,z2,x2,y2,z,x,y,z);
             show_debug_message("Collision slope 2 wall "+string(id));
-            /*d3d_model_primitive_begin(global.worldModel,pr_trianglelist);
-            d3d_model_vertex_texture(global.worldModel,x2,y2,z2,1,0);
-            d3d_model_vertex_texture(global.worldModel,x2,y2,z,1,1);
-            d3d_model_vertex_texture(global.worldModel,x,y,z,0,1);
-            d3d_model_primitive_end(global.worldModel);
-            show_debug_message("Model slope 2 wall "+string(id));*/
         break
     }
     instance_destroy();

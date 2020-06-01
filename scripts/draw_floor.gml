@@ -1,7 +1,7 @@
 ///draw_floor(x1,y1,z1,x2,y2,z2,texture,alwaysdraw)
 var x1=argument0,y1=argument1,z1=argument2,x2=argument3,y2=argument4,z2=argument5,
-    tex=argument6,absP=-abs(global.cP),left=global.cD-45,right=global.cD+45;
-var dist=global.maxRender+absP;
+    tex=argument6,absP=-abs(global.cP)-350,left=global.cD-45,right=global.cD+45,
+    dist=global.maxRender+absP;
 //Check if the floor is in view.
 if (argument7 || rectangle_in_triangle(x1,y1,x2,y2,global.cX+lengthdir_x(absP,global.cD),
                           global.cY+lengthdir_y(absP,global.cD),
