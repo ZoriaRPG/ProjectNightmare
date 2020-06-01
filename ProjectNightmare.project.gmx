@@ -60,6 +60,10 @@
     <background>background\btShadow</background>
     <background>background\btTile</background>
     <background>background\btGrass</background>
+    <background>background\btStairs</background>
+    <background>background\btStairs2</background>
+    <background>background\btStairs3</background>
+    <background>background\btStairs4</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -156,6 +160,7 @@
   <rooms name="rooms">
     <room>rooms\rmIntro</room>
     <room>rooms\rmMain</room>
+    <room>rooms\rmHyrule</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

@@ -74,7 +74,7 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objPlayer" x="80" y="240" name="inst_83EFBD6D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objCamera" x="0" y="0" name="inst_280A037B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="576" y="160" name="inst_2FFAACEC" locked="0" code="z=32;&#xA;" scaleX="2" scaleY="2" colour="4294967295" rotation="0"/>
-    <instance objName="objFloor" x="160" y="192" name="inst_31245D2E" locked="0" code="height=32;" scaleX="2" scaleY="2" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="160" y="192" name="inst_31245D2E" locked="0" code="tex=4;&#xA;height=32;&#xA;" scaleX="2" scaleY="2" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="192" y="112" name="inst_8F692EFB" locked="0" code="tex=3;&#xA;z=32;&#xA;" scaleX="4" scaleY="7" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="256" y="112" name="inst_BDCCD9C9" locked="0" code="tex=3;&#xA;z=32;&#xA;height=96;&#xA;" scaleX="30" scaleY="3" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="112" y="112" name="inst_76545901" locked="0" code="z=32;&#xA;height=80;&#xA;dir=2;&#xA;ceiling=true;&#xA;" scaleX="5" scaleY="5" colour="4294967295" rotation="0"/>

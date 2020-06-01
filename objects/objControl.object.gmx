@@ -31,6 +31,10 @@ texture_background_load(0,btSkybox);
 texture_background_load(1,btShadow);
 texture_background_load(2,btTile);
 texture_background_load(3,btGrass);
+texture_background_load(4,btStairs);
+texture_background_load(5,btStairs2);
+texture_background_load(6,btStairs3);
+texture_background_load(7,btStairs4);
 //Load in sprites. These are a different type of textures and are animated.
 texture_sprite_load(0,stMario);
 texture_sprite_load(1,stMarioRun);
@@ -172,7 +176,7 @@ with (objFloor)
     }
     //Add geometry type header
     worldFloor[id]=ds_list_create();
-    ds_list_add(worldFloor[id],0,tex,dir,x1,y1,z1,x2,y2,z2);
+    ds_list_add(worldFloor[id],0,tex,dir,ceiling,x1,y1,z1,x2,y2,z2);
     ds_list_add(global.worldModel,worldFloor[id]);
     show_debug_message("Model wall "+string(id));
     if (height==0 || ceiling)
