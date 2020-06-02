@@ -164,7 +164,7 @@ if !(fGhost)
     Spalding's unstable collision code, I had to resort to this. As long as you put
     walls around slopes, there should be no weird bugs. Otherwise, if you touch a slope
     from above, you'll end up teleporting to the top of the slope.*/
-    var flor=collision_point(x,y,objFloor,true,false);
+    var flor=collision_rectangle(x-0.5,y-0.5,x+0.5,y+0.5,objFloor,true,false);
     if (flor)
     {
         var fX=flor.x,fY=flor.y,fZ=flor.z,fW=flor.sprite_width,fH=flor.sprite_height,

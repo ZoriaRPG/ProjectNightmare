@@ -36,6 +36,7 @@ texture_background_load(5,btStairs2);
 texture_background_load(6,btStairs3);
 texture_background_load(7,btStairs4);
 texture_background_load(8,btFence);
+texture_background_load(9,btCarpet);
 //Load in sprites. These are a different type of textures and are animated.
 texture_sprite_load(0,stMario);
 texture_sprite_load(1,stMarioRun);
@@ -218,6 +219,7 @@ with (objFloor)
         y2=y+lengthdir_y(sprite_width,image_angle);
         x3=x+lengthdir_x(sprite_height,image_angle-90);
         y3=y+lengthdir_y(sprite_height,image_angle-90);
+        dir=round(abs((dir*90)-point_direction(x2,y2,x,y))/90);
         ds_list_add(worldFloor[id],0,tex,dir,ceiling,x1,y1,z1,x2,y2,z2,x3,y3,z3);
     }
     else
