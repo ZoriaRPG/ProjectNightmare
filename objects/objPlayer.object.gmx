@@ -97,9 +97,9 @@ var keyX=keyboard_check(ord("W"))-keyboard_check(ord("S")),
     keyL,camD=0,
     onGround=(c_overlap_world_position(hitbox,x,y,z-2) || fOnGround) &amp;&amp; !sliding,
     spdDis=point_distance(0,0,hSpeed,vSpeed);
-// length of moving vector:
+//length of moving vector:
 keyL=point_distance(0,0,keyX,keyY);
-// if needed, normalize vector to prevent faster diagonal movement:
+//if needed, normalize vector to prevent faster diagonal movement:
 if (keyL&gt;1)
 {
     keyX/=keyL;
@@ -112,19 +112,19 @@ if (instance_exists(objCamera))
         objCamera.faceDir-=keyY*spdDis;
     camD=objCamera.faceDir;
 }
-// actually move around, if needed:
+//actually move around, if needed:
 if (keyL&gt;0)
 {
     faceDir=point_direction(0,0,keyX,keyY)+global.cD;
-    var acc=1+6*!onGround,lX=lengthdir_x(keyX,global.cD)+
-                             lengthdir_x(keyY,global.cD-90),
-        lY=lengthdir_y(keyX,global.cD)+lengthdir_y(keyY,global.cD-90),
-        vector=point_distance(0,0,lX,lY),lX2=abs(lengthdir_x(vector,faceDir))*3,
-        lY2=abs(lengthdir_y(vector,faceDir))*3;
+    var acc=1+6*!onGround,cDD=global.cD-90,lX=lengthdir_x(keyX,global.cD)+
+                                              lengthdir_x(keyY,cDD),
+        lY=lengthdir_y(keyX,global.cD)+lengthdir_y(keyY,cDD),vector=point_distance(0,0,lX,
+                                                                    lY),
+        lX2=abs(lengthdir_x(vector,faceDir))*3,lY2=abs(lengthdir_y(vector,faceDir))*3;
     hSpeed=clamp(hSpeed+((lX*0.75)/acc),-lX2,lX2);
     vSpeed=clamp(vSpeed+((lY*0.75)/acc),-lY2,lY2);
 }
-// jump when on the ground
+//jump when on the ground
 if (onGround)
 {
     if (keyboard_check_pressed(vk_space))

@@ -133,8 +133,10 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objWall" x="208" y="80" name="inst_0D6E8653" locked="0" code="z=64;&#xA;height=16;&#xA;tex=8;&#xA;" scaleX="1.4099999666214" scaleY="1" colour="4294967295" rotation="-45"/>
     <instance objName="objWall" x="320" y="96" name="inst_4FA328DF" locked="0" code="z=64;&#xA;height=16;&#xA;tex=8;&#xA;" scaleX="1.4099999666214" scaleY="1" colour="4294967295" rotation="45"/>
     <instance objName="objWall" x="336" y="80" name="inst_A73FA875" locked="0" code="z=64;&#xA;height=16;&#xA;tex=8;&#xA;" scaleX="1.4099999666214" scaleY="1" colour="4294967295" rotation="225"/>
-    <instance objName="objFloorAngled" x="560" y="32" name="inst_08927535" locked="0" code="dir=1;&#xA;height=16;&#xA;" scaleX="7" scaleY="9" colour="4294967295" rotation="0"/>
-    <instance objName="objFloorAngled" x="560" y="32" name="inst_2F6847DF" locked="0" code="dir=2;&#xA;height=16;&#xA;" scaleX="9" scaleY="9" colour="4294967295" rotation="270"/>
+    <instance objName="objFloorAngled" x="560" y="32" name="inst_08927535" locked="0" code="tex=3;&#xA;dir=1;&#xA;height=16;&#xA;" scaleX="7" scaleY="9" colour="4294967295" rotation="0"/>
+    <instance objName="objFloorAngled" x="560" y="32" name="inst_2F6847DF" locked="0" code="dir=2;&#xA;height=16;&#xA;tex=3;&#xA;" scaleX="9" scaleY="9" colour="4294967295" rotation="270"/>
+    <instance objName="objWall" x="416" y="32" name="inst_BAD6E8F4" locked="0" code="height=16;&#xA;slope=1;&#xA;" scaleX="12.7299995422363" scaleY="1" colour="4294967295" rotation="315"/>
+    <instance objName="objWall" x="560" y="176" name="inst_9ECF4205" locked="0" code="height=16;&#xA;slope=2;&#xA;" scaleX="11.3999996185303" scaleY="1" colour="4294967295" rotation="52.1300010681152"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
