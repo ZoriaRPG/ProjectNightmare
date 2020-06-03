@@ -128,11 +128,14 @@ global.cP=pitch;
           <argument>
             <kind>1</kind>
             <string>///Attach camera to target
+if (global.paused)
+    exit
 if (instance_exists(target))
 {
     //ready up target coordinates
-    var tX=target.x,tY=target.y,tRZ=target.z,tZS=target.zSpeed,tSZ=target.shadowZ+(target.height*0.5),tZ=tSZ;
-    if (tZS&lt;-2.5 || tZS&gt;2.5 || tSZ==-65536 || tRZ&gt;tSZ+40)
+    var tX=target.x,tY=target.y,tRZ=target.z,tZS=target.zSpeed,
+        tSZ=target.shadowZ+(target.height*0.5),tZ=tSZ,tD=target.faceDir;
+    if (tZS&lt;-4 || tZS&gt;4 || tSZ==-65536 || tRZ&gt;tSZ+40)
             tZ=tRZ;
     //toggle looking
     if (mouse_check_button_pressed(mb_right))
@@ -144,7 +147,7 @@ if (instance_exists(target))
         if (look)
         {
             zoom=sndCameraIn;
-            faceDir=target.faceDir;
+            faceDir=tD;
         }
         else
             target.faceDir=faceDir;
@@ -185,9 +188,9 @@ if (instance_exists(target))
         x=global.cX;
         y=global.cY;
         z=global.cZ;
-        if (keyboard_check_pressed(ord("Q")))
+        if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir!=tD)
         {
-            faceDir=target.faceDir;
+            faceDir=tD;
             audio_play_sound(sndCameraSpin,1,false);
         }
         pitch=clamp(pitch+turn_to_angle(point_pitch(global.cX,global.cY,global.cZ,tX,tY,

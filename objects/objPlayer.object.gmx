@@ -82,6 +82,8 @@ alarm[0]=irandom_range(60,300);
           <argument>
             <kind>1</kind>
             <string>///Move test
+if (global.paused)
+    exit
 if (keyboard_check_pressed(ord("R")))
 {
     x=xstart;

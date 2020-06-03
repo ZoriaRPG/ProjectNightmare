@@ -61,6 +61,7 @@ global.musicVolume[0]=1;
 global.musicVolume[1]=0;
 //global.battle is used for toggling the music. 
 global.battle=false;
+global.paused=false;
 </string>
           </argument>
         </arguments>
@@ -83,15 +84,18 @@ global.battle=false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
+            <string>if !(global.paused)
 {
-    global.musicVolume[global.battle]=1;
-    audio_sound_gain(global.levelMusic[global.battle],1,750);
-}
-if (global.levelMusic[!global.battle] &amp;&amp; global.musicVolume[!global.battle])
-{
-    global.musicVolume[!global.battle]=0;
-    audio_sound_gain(global.levelMusic[!global.battle],0,750);
+    if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
+    {
+        global.musicVolume[global.battle]=1;
+        audio_sound_gain(global.levelMusic[global.battle],1,750);
+    }
+    if (global.levelMusic[!global.battle] &amp;&amp; global.musicVolume[!global.battle])
+    {
+        global.musicVolume[!global.battle]=0;
+        audio_sound_gain(global.levelMusic[!global.battle],0,750);
+    }
 }
 </string>
           </argument>
@@ -313,6 +317,34 @@ global.battle=false;
             <kind>1</kind>
             <string>///Unload game
 ds_list_destroy(global.worldModel);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (instance_exists(objPlayer) &amp;&amp; !audio_is_playing(sndPause))
+{
+    audio_play_sound(sndPause,0,false);
+    global.paused=!global.paused;
+    audio_sound_gain(global.levelMusic[global.battle],1/(1+7*global.paused),100);
+}
 </string>
           </argument>
         </arguments>
