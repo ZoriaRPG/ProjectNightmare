@@ -62,6 +62,34 @@ global.musicVolume[1]=0;
 //global.battle is used for toggling the music. 
 global.battle=false;
 global.paused=false;
+pauseX=-463;
+lolfps=fps_real;
+alarm[0]=60;
+display_set_gui_size(960,540);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>lolfps=fps_real;
+alarm[0]=60;
 </string>
           </argument>
         </arguments>
@@ -322,6 +350,38 @@ ds_list_destroy(global.worldModel);
         </arguments>
       </action>
     </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>pauseX=lerp(pauseX,!global.paused*-463,0.25);
+if (global.paused)
+{
+    draw_set_alpha(0.51);
+    draw_rectangle_colour(0,0,960,540,c_black,c_black,c_black,c_black,
+                          false);
+    draw_set_alpha(1);
+}
+draw_background(bgPauseMario,pauseX,0);
+draw_text(8,8,string(lolfps));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="9" enumb="13">
       <action>
         <libid>1</libid>
@@ -343,7 +403,7 @@ ds_list_destroy(global.worldModel);
 {
     audio_play_sound(sndPause,0,false);
     global.paused=!global.paused;
-    audio_sound_gain(global.levelMusic[global.battle],1/(1+7*global.paused),100);
+    audio_sound_gain(global.levelMusic[global.battle],1/(1+4*global.paused),100);
 }
 </string>
           </argument>

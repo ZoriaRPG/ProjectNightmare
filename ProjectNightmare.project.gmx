@@ -49,23 +49,28 @@
     <sprite>sprites\sprFloor</sprite>
     <sprite>sprites\sprFloorAngled</sprite>
     <sprite>sprites\sprWall</sprite>
-    <sprite>sprites\stMario</sprite>
-    <sprite>sprites\stMarioRun</sprite>
-    <sprite>sprites\stMarioJump</sprite>
-    <sprite>sprites\stMarioBlink</sprite>
     <sprite>sprites\sprIntro</sprite>
+    <sprites name="Textures">
+      <sprite>sprites\stMario</sprite>
+      <sprite>sprites\stMarioRun</sprite>
+      <sprite>sprites\stMarioJump</sprite>
+      <sprite>sprites\stMarioBlink</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
-    <background>background\btSkybox</background>
-    <background>background\btShadow</background>
-    <background>background\btTile</background>
-    <background>background\btGrass</background>
-    <background>background\btStairs</background>
-    <background>background\btStairs2</background>
-    <background>background\btStairs3</background>
-    <background>background\btStairs4</background>
-    <background>background\btFence</background>
-    <background>background\btCarpet</background>
+    <background>background\bgPauseMario</background>
+    <backgrounds name="Textures">
+      <background>background\btSkybox</background>
+      <background>background\btShadow</background>
+      <background>background\btTile</background>
+      <background>background\btGrass</background>
+      <background>background\btStairs</background>
+      <background>background\btStairs2</background>
+      <background>background\btStairs3</background>
+      <background>background\btStairs4</background>
+      <background>background\btFence</background>
+      <background>background\btCarpet</background>
+    </backgrounds>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
