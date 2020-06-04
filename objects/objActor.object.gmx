@@ -132,20 +132,30 @@ if (spd!=0)
     hSpeed=lengthdir_x(spd,faceDir);
     vSpeed=lengthdir_y(spd,faceDir);
 }
-if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x+hSpeed,y+vSpeed,z+1))
-    for (var i=1;i&lt;5;i++)
-        if !(c_overlap_world_position(hitbox,x+hSpeed,y+vSpeed,z+i+1))
-        {
-            z+=i;
-            break
-        }
-if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
+if !(fGhost)
 {
-    var hS=sign(hSpeed);
-    while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; 
-           !c_overlap_world_position(hitbox,x+hS,y,z+1))
-        x+=hS;
-    hSpeed=0;
+    if (c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
+        for (var i=1;i&lt;5;i++)
+            if !(c_overlap_world_position(hitbox,x+hSpeed,y,z+i+1))
+            {
+                z+=i;
+                break
+            }
+    if (c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
+        for (var i=1;i&lt;5;i++)
+            if !(c_overlap_world_position(hitbox,x,y+vSpeed,z+i+1))
+            {
+                z+=i;
+                break
+            }
+    if (c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
+    {
+        var hS=sign(hSpeed);
+        while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; 
+               !c_overlap_world_position(hitbox,x+hS,y,z+1))
+            x+=hS;
+        hSpeed=0;
+    }
 }
 x+=hSpeed;
 if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
