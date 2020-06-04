@@ -368,14 +368,24 @@ ds_list_destroy(global.worldModel);
           <argument>
             <kind>1</kind>
             <string>pauseX=lerp(pauseX,!global.paused*-463,0.25);
+var pX2=2*pauseX+(800*global.paused);
 if (global.paused)
 {
     draw_set_alpha(0.51);
     draw_rectangle_colour(0,0,960,540,c_black,c_black,c_black,c_black,
                           false);
     draw_set_alpha(1);
+    var font=fntMario;
+    if (global.link)
+        font=fntLink;
+    draw_set_font(font);
+    draw_set_halign(fa_right);
+    draw_text_transformed(pX2+100,200,"Paused",2,2,0);
+    draw_set_halign(fa_left);
+    draw_set_font(-1);
 }
 draw_background(bgPauseMario,pauseX,0);
+draw_sprite_ext(sprIntro,global.link,pX2,100,0.5,0.5,0,c_white,1);
 draw_text(8,8,string(lolfps));
 </string>
           </argument>
