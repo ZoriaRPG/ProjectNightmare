@@ -33,7 +33,6 @@
     <sound>sound\sndIntroRupee</sound>
     <sound>sound\sndIntroMario</sound>
     <sound>sound\sndIntroLink</sound>
-    <sound>sound\sndStart</sound>
     <sound>sound\sndCameraIn</sound>
     <sound>sound\sndCameraOut</sound>
     <sound>sound\sndCameraSpin</sound>
@@ -145,9 +144,11 @@
   </fonts>
   <objects name="objects">
     <object>objects\objControl</object>
-    <object>objects\objIntro</object>
-    <object>objects\objTitle</object>
     <object>objects\objCamera</object>
+    <objects name="GUI">
+      <object>objects\objIntro</object>
+      <object>objects\objTitle</object>
+    </objects>
     <objects name="Map">
       <object>objects\objFloor</object>
       <object>objects\objFloorAngled</object>
@@ -172,6 +173,10 @@
   <help>
     <rtf>help.rtf</rtf>
   </help>
+  <audiogroups name="audiogroups">
+    <audiogroup name="audiogroup_default"/>
+    <audiogroup name="audiogroup_sounds"/>
+  </audiogroups>
   <TutorialState>
     <IsTutorial>0</IsTutorial>
     <TutorialName></TutorialName>

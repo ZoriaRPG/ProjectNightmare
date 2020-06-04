@@ -153,7 +153,7 @@ if (keyboard_check_pressed(vk_space))
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
         <id>603</id>
