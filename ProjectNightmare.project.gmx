@@ -43,6 +43,9 @@
     <sound>sound\sndMarioJump4</sound>
     <sound>sound\sndMarioJump5</sound>
     <sound>sound\sndJump</sound>
+    <sound>sound\sndEnter</sound>
+    <sound>sound\sndBegin</sound>
+    <sound>sound\sndSelect</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprFloor</sprite>
@@ -55,6 +58,7 @@
       <sprite>sprites\stMarioJump</sprite>
       <sprite>sprites\stMarioBlink</sprite>
     </sprites>
+    <sprite>sprites\sprFont</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
@@ -137,6 +141,8 @@
     <script>scripts\d3d_sound_play.gml</script>
     <script>scripts\turn_to_angle.gml</script>
     <script>scripts\actor_clear.gml</script>
+    <script>scripts\change_option.gml</script>
+    <script>scripts\transition_create.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
@@ -163,10 +169,12 @@
         <object>objects\objSolid</object>
         <object>objects\objActor</object>
       </objects>
+      <object>objects\objTransition</object>
     </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rmIntro</room>
+    <room>rooms\rmTitle</room>
     <room>rooms\rmHyrule</room>
     <room>rooms\rmMain</room>
   </rooms>

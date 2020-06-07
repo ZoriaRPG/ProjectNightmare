@@ -66,6 +66,7 @@ pauseX=-463;
 lolfps=fps_real;
 alarm[0]=60;
 display_set_gui_size(960,540);
+audio_group_load(audiogroup_sounds);
 </string>
           </argument>
         </arguments>
@@ -88,7 +89,8 @@ display_set_gui_size(960,540);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>lolfps=fps_real;
+            <string>///Update FPS counter
+lolfps=fps_real;
 alarm[0]=60;
 </string>
           </argument>
@@ -112,7 +114,8 @@ alarm[0]=60;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !(global.paused)
+            <string>///Level music control
+if !(global.paused)
 {
     if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
     {
@@ -157,6 +160,7 @@ if (c_shape_exists(worldShape))
 for (var i=0;i&lt;ds_list_size(global.worldModel);i++)
     ds_list_destroy(ds_list_find_value(global.worldModel,i));
 ds_list_clear(global.worldModel);
+audio_stop_all();
 </string>
           </argument>
         </arguments>
@@ -316,7 +320,7 @@ show_debug_message("Done");
 for (var i=0;i&lt;2;i++)
     if (global.levelMusic[i])
     {
-        global.musicVolume[i]=i==0;
+        global.musicVolume[i]=!i;
         audio_sound_gain(global.levelMusic[i],global.musicVolume[i],0);
         audio_play_sound(global.levelMusic[i],0,1);
     }
@@ -367,7 +371,8 @@ ds_list_destroy(global.worldModel);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>pauseX=lerp(pauseX,!global.paused*-463,0.25);
+            <string>///Draw pause GUI
+pauseX=lerp(pauseX,!global.paused*-463,0.25);
 var pX2=2*pauseX+(800*global.paused);
 if (global.paused)
 {
@@ -392,6 +397,34 @@ draw_text(8,8,string(lolfps));
         </arguments>
       </action>
     </event>
+    <event eventtype="9" enumb="27">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Return to title screen
+if (instance_exists(objPlayer))
+{
+    room_goto(rmTitle);
+    global.paused=false;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="9" enumb="13">
       <action>
         <libid>1</libid>
@@ -409,7 +442,8 @@ draw_text(8,8,string(lolfps));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_exists(objPlayer) &amp;&amp; !audio_is_playing(sndPause))
+            <string>///Toggle pause
+if (instance_exists(objPlayer) &amp;&amp; !audio_is_playing(sndPause))
 {
     audio_play_sound(sndPause,0,false);
     global.paused=!global.paused;

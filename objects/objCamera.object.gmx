@@ -33,11 +33,6 @@ d3d_set_culling(true);
 d3d_set_hidden(true);
 draw_set_alpha_test(true);
 draw_set_alpha_test_ref_value(128);
-global.cX=0;
-global.cY=0;
-global.cZ=32;
-global.cD=0;
-global.cP=0;
 //Target must be objActor child
 target=objPlayer;
 range=64;
@@ -52,6 +47,12 @@ fShadow=false;
 look=false;
 sensX=10;
 sensY=10;
+//Set global variables
+global.cX=0;
+global.cY=0;
+global.cZ=0;
+global.cD=0;
+global.cP=0;
 audio_emitter_free(emitter);
 </string>
           </argument>
@@ -195,6 +196,34 @@ if (instance_exists(target))
             <kind>1</kind>
             <string>///Turn off D3D
 d3d_end();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Set global camera variables
+global.cX=x;
+global.cY=y;
+global.cZ=z;
+global.cD=faceDir;
+global.cP=pitch;
 </string>
           </argument>
         </arguments>
