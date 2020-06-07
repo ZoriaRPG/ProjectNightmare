@@ -173,6 +173,7 @@
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rmLoad</room>
     <room>rooms\rmIntro</room>
     <room>rooms\rmTitle</room>
     <room>rooms\rmHyrule</room>
