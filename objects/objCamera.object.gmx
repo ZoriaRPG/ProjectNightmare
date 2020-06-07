@@ -131,10 +131,12 @@ if (instance_exists(target))
     //camera mechanic
     if (look)
     {
-        //not ideal, but still: allows smooth transition from 3rd to 1st person
-        global.cX=lerp(global.cX,tX,0.2);
+        /*global.cX=lerp(global.cX,tX,0.2);
         global.cY=lerp(global.cY,tY,0.2);
-        global.cZ=lerp(global.cZ,tRZ+4,0.2);
+        global.cZ=lerp(global.cZ,tRZ+4,0.2);*/
+        global.cX=tX;
+        global.cY=tY;
+        global.cZ=tRZ+4;
         //mouselook
         if (window_has_focus())
         {
@@ -150,7 +152,7 @@ if (instance_exists(target))
         //set the increments of the camera to zoom out for 3rd person
         var incX=lengthdir_x(range,faceDir),incY=lengthdir_y(range,faceDir);
         //if there is a block behind...
-        if (c_raycast_world(tX,tY,tRZ,tX-incX,tY-incY,tRZ,1))
+        if (c_raycast_world(tX,tY,tRZ+10,tX-incX,tY-incY,tRZ+10,1))
         {
             var dist=point_distance(global.cX,global.cY,c_hit_x(),c_hit_y());
             incX=lengthdir_x(dist,faceDir);
