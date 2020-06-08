@@ -105,7 +105,7 @@ global.cP=pitch;
             <string>///Attach camera to target
 if (global.paused)
     exit
-if (instance_exists(target))
+if (instance_exists(target) &amp;&amp; !instance_exists(objCutscene))
 {
     //ready up target coordinates
     var tX=target.x,tY=target.y,tRZ=target.z,tZS=target.zSpeed,

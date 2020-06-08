@@ -444,7 +444,7 @@ if (instance_exists(objPlayer))
           <argument>
             <kind>1</kind>
             <string>///Toggle pause
-if (instance_exists(objPlayer) &amp;&amp; !audio_is_playing(sndPause))
+if (instance_exists(objPlayer) &amp;&amp; !cutscene_exists() &amp;&amp; !audio_is_playing(sndPause))
 {
     audio_play_sound(sndPause,0,false);
     global.paused=!global.paused;

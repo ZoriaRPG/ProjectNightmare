@@ -143,6 +143,13 @@
     <script>scripts\actor_clear.gml</script>
     <script>scripts\change_option.gml</script>
     <script>scripts\transition_create.gml</script>
+    <script>scripts\cutscene_create.gml</script>
+    <script>scripts\cutscene_camera.gml</script>
+    <script>scripts\cutscene_wait.gml</script>
+    <script>scripts\cutscene_get_value.gml</script>
+    <script>scripts\cutscene_exists.gml</script>
+    <script>scripts\cutscene_end.gml</script>
+    <script>scripts\cutscene_destroy.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
@@ -159,6 +166,7 @@
       <object>objects\objFloor</object>
       <object>objects\objFloorAngled</object>
       <object>objects\objWall</object>
+      <object>objects\objCutscene</object>
     </objects>
     <objects name="Actors">
       <object>objects\objPlayer</object>
