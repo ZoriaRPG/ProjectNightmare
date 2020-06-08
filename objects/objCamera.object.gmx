@@ -28,11 +28,6 @@
             <string>///Set up camera
 event_inherited();
 d3d_start();
-d3d_set_perspective(true);
-d3d_set_culling(true);
-d3d_set_hidden(true);
-draw_set_alpha_test(true);
-draw_set_alpha_test_ref_value(128);
 //Target must be objActor child
 target=objPlayer;
 range=64;

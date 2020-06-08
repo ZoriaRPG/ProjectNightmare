@@ -10,7 +10,13 @@
   <persistent>0</persistent>
   <colour>0</colour>
   <showcolour>-1</showcolour>
-  <code>audio_group_load(audiogroup_sounds);
+  <code>draw_set_circle_precision(64);
+d3d_set_perspective(true);
+d3d_set_culling(true);
+d3d_set_hidden(true);
+draw_set_alpha_test(true);
+draw_set_alpha_test_ref_value(128);
+audio_group_load(audiogroup_sounds);
 instance_create(0,0,objControl);
 room_goto_next();</code>
   <enableViews>0</enableViews>
