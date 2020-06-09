@@ -40,6 +40,7 @@ fGhost=true;
 fShadow=false;
 //Set first person zooming
 look=false;
+free=false;
 sensX=10;
 sensY=10;
 //Set global variables
@@ -107,11 +108,23 @@ if (instance_exists(target) &amp;&amp; !instance_exists(objCutscene))
         tSZ=target.shadowZ+(target.height*0.5),tZ=tSZ,tD=target.faceDir;
     if (tZS&lt;-4 || tZS&gt;4 || tSZ==-65536 || tRZ&gt;tSZ+40)
             tZ=tRZ;
-    //toggle looking
+    //toggle freelook
+    if (mouse_check_button_pressed(mb_left))
+    {
+        free=!free;
+        target.fVisible=true;
+        look=false;
+        var zoom=sndCameraOut;
+        if (free)
+            zoom=sndCameraIn;
+        audio_play_sound(zoom,1,false);
+    }
+    //toggle aiming
     if (mouse_check_button_pressed(mb_right))
     {
         look=!look;
         target.fVisible=!look;
+        free=false;
         pitch=0;
         var zoom=sndCameraOut;
         if (look)
@@ -133,38 +146,40 @@ if (instance_exists(target) &amp;&amp; !instance_exists(objCutscene))
         global.cY=tY;
         global.cZ=tRZ+4;
         //mouselook
-        if (window_has_focus())
-        {
-            var gX=display_mouse_get_x(),gW=display_get_width()*0.5,
-                gY=display_mouse_get_y(),gH=display_get_height()*0.5;
-            faceDir-=(gX-gW)/sensX;
-            pitch=clamp(pitch-((gY-gH)/sensY),-89.95,89.95);
-            display_mouse_set(gW,gH);
-        }
+        mouse_look(true);
     }
     else
     {
+        var lerpAmount=0.18;
+        //freelook
+        if (free)
+        {
+            mouse_look(false);
+            lerpAmount=0.5;
+        }
+        else
+            if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir!=tD)
+            {
+                faceDir=tD;
+                audio_play_sound(sndCameraSpin,1,false);
+            }
         //set the increments of the camera to zoom out for 3rd person
-        var incX=lengthdir_x(range,faceDir),incY=lengthdir_y(range,faceDir);
+        var incX=lengthdir_x(range,faceDir),incY=lengthdir_y(range,faceDir),tIncZ=tRZ+10,
+            tToZ=tZ+32;
         //if there is a block behind...
-        if (c_raycast_world(tX,tY,tRZ+10,tX-incX,tY-incY,tRZ+10,1))
+        if (c_raycast_world(tX,tY,tIncZ,tX-incX,tY-incY,tIncZ,1))
         {
             var dist=point_distance(global.cX,global.cY,c_hit_x(),c_hit_y());
             incX=lengthdir_x(dist,faceDir);
             incY=lengthdir_y(dist,faceDir);
         }
         //smooth turning
-        global.cX=lerp(global.cX,tX-incX,0.18);
-        global.cY=lerp(global.cY,tY-incY,0.18);
-        global.cZ=lerp(global.cZ,tZ+32,0.1);
+        global.cX=lerp(global.cX,tX-incX,lerpAmount);
+        global.cY=lerp(global.cY,tY-incY,lerpAmount);
+        global.cZ=lerp(global.cZ,tToZ,0.1);
         x=global.cX;
         y=global.cY;
         z=global.cZ;
-        if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir!=tD)
-        {
-            faceDir=tD;
-            audio_play_sound(sndCameraSpin,1,false);
-        }
         pitch=clamp(pitch+turn_to_angle(point_pitch(global.cX,global.cY,global.cZ,tX,tY,
                     tZ+12),1,pitch),-89.5,89.5);
     }

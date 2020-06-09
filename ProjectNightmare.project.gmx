@@ -150,6 +150,7 @@
     <script>scripts\cutscene_exists.gml</script>
     <script>scripts\cutscene_end.gml</script>
     <script>scripts\cutscene_destroy.gml</script>
+    <script>scripts\mouse_look.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
