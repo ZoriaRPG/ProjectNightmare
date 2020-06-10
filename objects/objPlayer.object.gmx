@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>objActor</parentName>
@@ -30,6 +30,8 @@ event_inherited();
 sprite=0;
 rotate=true;
 frameSpd=0.01;
+fSolid=true;
+fPushable=true;
 alarm[0]=irandom_range(60,300);
 hitbox_create();
 </string>

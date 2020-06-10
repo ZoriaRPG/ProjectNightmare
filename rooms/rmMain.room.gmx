@@ -90,7 +90,6 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objWall" x="256" y="464" name="inst_3B5CF79B" locked="0" code="height=64;&#xA;" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objWall" x="320" y="464" name="inst_DECC7861" locked="0" code="slope=1;&#xA;height=64;&#xA;" scaleX="2" scaleY="1" colour="4294967295" rotation="90"/>
     <instance objName="objFloor" x="32" y="352" name="inst_4FF55B39" locked="0" code="dir=2;&#xA;height=64;&#xA;tex=3;&#xA;" scaleX="8" scaleY="8" colour="4294967295" rotation="0"/>
-    <instance objName="objEnemy" x="280" y="392" name="inst_EC591954" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objWall" x="192" y="112" name="inst_9E74535C" locked="0" code="z=32;&#xA;height=80;&#xA;" scaleX="5" scaleY="1" colour="4294967295" rotation="180"/>
     <instance objName="objWall" x="112" y="192" name="inst_156D6A21" locked="0" code="z=32;&#xA;height=80;&#xA;" scaleX="5" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objWall" x="160" y="224" name="inst_0BACF250" locked="0" code="" scaleX="16" scaleY="1" colour="4294967295" rotation="0"/>
@@ -107,6 +106,7 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objWall" x="256" y="288" name="inst_78A74FE5" locked="0" code="slope=1;&#xA;" scaleX="5" scaleY="1" colour="4294967295" rotation="-90"/>
     <instance objName="objFloorAngled" x="416" y="448" name="inst_55AD9D0B" locked="0" code="" scaleX="12" scaleY="5" colour="4294967295" rotation="0"/>
     <instance objName="objFloorAngled" x="416" y="448" name="inst_C821BEAD" locked="0" code="" scaleX="5" scaleY="12" colour="4294967295" rotation="90"/>
+    <instance objName="objShroob" x="272" y="384" name="inst_E4DFFA63" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

@@ -35,6 +35,9 @@ fGhost=false;
 fVisible=true;
 fShadow=true;
 fEnemy=false;
+fSolid=false;
+fPushable=false;
+//fPushable allows the actor to be pushed back when it touches a solid actor.
 //Physics
 z=9;
 radius=4;
@@ -132,6 +135,20 @@ if (spd!=0)
     hSpeed=lengthdir_x(spd,faceDir);
     vSpeed=lengthdir_y(spd,faceDir);
 }
+//Actor collision
+var actorTouch=instance_place(x,y,objActor);
+if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable)
+{
+    var h=height*0.5,top=z+h,bottom=z-h,actorZ=actorTouch.z,
+        actorH=actorTouch.height*0.5,actorTop=actorZ+actorH,
+        actorBottom=actorZ-actorH;
+    if (bottom&lt;actorTop &amp;&amp; top&gt;actorBottom)
+    {
+        var angle=point_direction(x,y,actorTouch.x,actorTouch.y);
+        hSpeed=lengthdir_x(-0.3,angle);
+        vSpeed=lengthdir_y(-0.3,angle);
+    }
+}
 if !(fGhost)
 {
     if (c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
@@ -151,8 +168,7 @@ if !(fGhost)
     if (c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
     {
         var hS=sign(hSpeed);
-        while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; 
-               !c_overlap_world_position(hitbox,x+hS,y,z+1))
+        while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x+hS,y,z+1))
             x+=hS;
         hSpeed=0;
     }
@@ -161,8 +177,7 @@ x+=hSpeed;
 if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
 {
     var vS=sign(vSpeed);
-    while (c_overlap_world_position(hitbox,x,y+vSpeed,z+1) &amp;&amp; 
-           !c_overlap_world_position(hitbox,x,y+vS,z+1))
+    while (c_overlap_world_position(hitbox,x,y+vSpeed,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x,y+vS,z+1))
         y+=vS;
     vSpeed=0;
 }
@@ -227,6 +242,7 @@ if !(fGhost)
                 }
                 else
                     sliding=false;
+                zBlocked=true;
             }
             if (z-zH&gt;=fTop)
             {
@@ -251,9 +267,8 @@ if !(fGhost)
     if (!fOnGround &amp;&amp; c_overlap_world_position(hitbox,x,y,z+zSpeed))
     {
         var zS=sign(zSpeed);
-        while (c_overlap_world_position(hitbox,x,y,z+zSpeed) &amp;&amp; 
-            !c_overlap_world_position(hitbox,x,y,z+zS))
-        z+=zS;
+        while (c_overlap_world_position(hitbox,x,y,z+zSpeed) &amp;&amp; !c_overlap_world_position(hitbox,x,y,z+zS))
+            z+=zS;
         fOnGround=true;
         zSpeed=0;
     }

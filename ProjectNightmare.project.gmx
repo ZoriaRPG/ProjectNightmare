@@ -59,6 +59,7 @@
       <sprite>sprites\stMarioBlink</sprite>
     </sprites>
     <sprite>sprites\sprFont</sprite>
+    <sprite>sprites\sprActor</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
@@ -171,12 +172,13 @@
     </objects>
     <objects name="Actors">
       <object>objects\objPlayer</object>
-      <object>objects\objEnemy</object>
+      <object>objects\objShroob</object>
     </objects>
     <objects name="Special">
       <objects name="Parents">
         <object>objects\objSolid</object>
         <object>objects\objActor</object>
+        <object>objects\objEnemy</object>
       </objects>
       <object>objects\objTransition</object>
     </objects>
