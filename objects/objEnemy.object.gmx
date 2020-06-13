@@ -28,6 +28,9 @@
             <string>event_inherited();
 fEnemy=true;
 fSolid=true;
+fBounce=true;
+alert=false;
+target=objPlayer;
 </string>
           </argument>
         </arguments>

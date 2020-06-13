@@ -57,6 +57,7 @@
       <sprite>sprites\stMarioRun</sprite>
       <sprite>sprites\stMarioJump</sprite>
       <sprite>sprites\stMarioBlink</sprite>
+      <sprite>sprites\stGoomba</sprite>
     </sprites>
     <sprite>sprites\sprFont</sprite>
     <sprite>sprites\sprActor</sprite>
@@ -178,7 +179,7 @@
     </objects>
     <objects name="Actors">
       <object>objects\objPlayer</object>
-      <object>objects\objShroob</object>
+      <object>objects\objGoomba</object>
     </objects>
     <objects name="Special">
       <objects name="Parents">

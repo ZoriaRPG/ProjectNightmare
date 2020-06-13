@@ -37,6 +37,7 @@ fShadow=true;
 fEnemy=false;
 fSolid=false;
 fPushable=false;
+fBounce=false;
 //fPushable allows the actor to be pushed back when it touches a solid actor.
 //Physics
 z=9;
@@ -59,6 +60,7 @@ sprite=-1;
 frame=0;
 frameSpd=0;
 rotate=false;
+scale=1;
 emitter=audio_emitter_create();
 audio_emitter_falloff(emitter,85.5,170.5,1);
 </string>
@@ -119,7 +121,8 @@ if (sprite!=-1)
         nums=global.sFrames[sprite,0];
     else
         nums=global.sFrames[sprite,1];
-    frame=(frame+frameSpd) mod (nums);
+    if (nums!=0)
+        frame=(frame+frameSpd) mod (nums);
 }
 //Shadow position
 if (fShadow)
@@ -143,8 +146,8 @@ if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable)
     if (bottom&lt;actorTop &amp;&amp; top&gt;actorBottom)
     {
         var angle=point_direction(x,y,actorTouch.x,actorTouch.y);
-        hSpeed=lengthdir_x(-0.3,angle);
-        vSpeed=lengthdir_y(-0.3,angle);
+        hSpeed=lengthdir_x(-0.3,angle)+actorTouch.hSpeed;
+        vSpeed=lengthdir_y(-0.3,angle)+actorTouch.vSpeed;
     }
 }
 if !(fGhost)
@@ -169,6 +172,8 @@ if !(fGhost)
         while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x+hS,y,z+1))
             x+=hS;
         hSpeed=0;
+        if (fBounce)
+            faceDir=irandom(360);
     }
 }
 x+=hSpeed;
@@ -178,6 +183,8 @@ if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
     while (c_overlap_world_position(hitbox,x,y+vSpeed,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x,y+vS,z+1))
         y+=vS;
     vSpeed=0;
+    if (fBounce)
+        faceDir=irandom(360);
 }
 y+=vSpeed;
 var zR=sign(zSpeed)*(height*0.5);
