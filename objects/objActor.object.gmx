@@ -108,8 +108,6 @@ actor_clear();
           <argument>
             <kind>1</kind>
             <string>///Animation &amp; physics
-if (global.paused)
-    exit
 //Keep the facing direction in range.
 faceDir=angle_normalize(faceDir);
 /*Loop the animation every time the end is reached.

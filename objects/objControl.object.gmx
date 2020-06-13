@@ -62,6 +62,7 @@ global.musicVolume[1]=0;
 //global.battle is used for toggling the music. 
 global.battle=false;
 global.paused=false;
+pauseBg=-1;
 pauseX=-463;
 lolfps=fps_real;
 alarm[0]=60;
@@ -159,6 +160,11 @@ if (c_shape_exists(worldShape))
 for (var i=0;i&lt;ds_list_size(global.worldModel);i++)
     ds_list_destroy(ds_list_find_value(global.worldModel,i));
 ds_list_clear(global.worldModel);
+if (background_exists(pauseBg))
+{
+    global.paused=false;
+    background_delete(pauseBg);
+}
 audio_stop_all();
 </string>
           </argument>
@@ -373,26 +379,26 @@ ds_list_destroy(global.worldModel);
           <argument>
             <kind>1</kind>
             <string>///Draw pause GUI
-pauseX=lerp(pauseX,!global.paused*-463,0.25);
-var pX2=2*pauseX+(800*global.paused);
 if (global.paused)
 {
+    draw_background(pauseBg,0,0);
     draw_set_alpha(0.51);
-    draw_rectangle_colour(0,0,960,540,c_black,c_black,c_black,c_black,
-                          false);
+    draw_rectangle_colour(0,0,960,540,c_black,c_black,c_black,c_black,false);
     draw_set_alpha(1);
-    var font=fntMario;
-    if (global.link)
-        font=fntLink;
-    draw_set_font(font);
-    draw_set_halign(fa_right);
-    draw_text_transformed(pX2+100,200,"Paused",2,2,0);
-    draw_set_halign(fa_left);
-    draw_set_font(-1);
 }
+pauseX=lerp(pauseX,!global.paused*-463,0.25);
+var pX2=2*pauseX+(800*global.paused);
+var font=fntMario;
+if (global.link)
+    font=fntLink;
+draw_set_font(font);
+draw_set_halign(fa_right);
+draw_text_transformed(pX2+100,200,"Paused",2,2,0);
+draw_set_halign(fa_left);
+draw_set_font(-1);
 draw_background(bgPauseMario,pauseX,0);
 draw_sprite_ext(sprIntro,global.link,pX2,100,0.5,0.5,0,c_white,1);
-draw_text(8,8,string(lolfps));
+draw_text(8,8,string(round(lolfps))+" FPS");
 </string>
           </argument>
         </arguments>
@@ -444,11 +450,21 @@ if (instance_exists(objPlayer))
           <argument>
             <kind>1</kind>
             <string>///Toggle pause
-if (instance_exists(objPlayer) &amp;&amp; !cutscene_exists() &amp;&amp; !audio_is_playing(sndPause))
+if (((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(sndPause))
 {
     audio_play_sound(sndPause,0,false);
     global.paused=!global.paused;
     audio_sound_gain(global.levelMusic[global.battle],1/(1+4*global.paused),100);
+    if (global.paused)
+    {
+        pauseBg=background_create_from_surface(application_surface,0,0,view_wview[0],view_hview[0],false,false);
+        instance_deactivate_all(true);
+    }
+    else
+    {
+        background_delete(pauseBg);
+        instance_activate_all();
+    }
 }
 </string>
           </argument>

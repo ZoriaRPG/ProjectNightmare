@@ -91,7 +91,7 @@ if (sprite==3)
         sprite=0;
         frameSpd=0.01;
     }
-if (global.paused || cutscene_exists())
+if (cutscene_exists())
     exit
 if (keyboard_check_pressed(ord("R")))
 {

@@ -78,11 +78,11 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\point_pitch.gml</script>
-    <script>scripts\texture_sprite_load.gml</script>
-    <script>scripts\texture_background_load.gml</script>
     <script>scripts\hitbox_create.gml</script>
-    <script>scripts\angle_normalize.gml</script>
+    <script>scripts\actor_clear.gml</script>
+    <script>scripts\d3d_sound_play.gml</script>
+    <script>scripts\change_option.gml</script>
+    <script>scripts\transition_create.gml</script>
     <scripts name="colllision">
       <script>scripts\c_init.gml</script>
       <script>scripts\c_world_create.gml</script>
@@ -139,19 +139,25 @@
       <script>scripts\draw_wall.gml</script>
       <script>scripts\draw_floor.gml</script>
     </scripts>
-    <script>scripts\d3d_sound_play.gml</script>
-    <script>scripts\turn_to_angle.gml</script>
-    <script>scripts\actor_clear.gml</script>
-    <script>scripts\change_option.gml</script>
-    <script>scripts\transition_create.gml</script>
-    <script>scripts\cutscene_create.gml</script>
-    <script>scripts\cutscene_camera.gml</script>
-    <script>scripts\cutscene_wait.gml</script>
-    <script>scripts\cutscene_get_value.gml</script>
-    <script>scripts\cutscene_exists.gml</script>
-    <script>scripts\cutscene_end.gml</script>
-    <script>scripts\cutscene_destroy.gml</script>
-    <script>scripts\mouse_look.gml</script>
+    <scripts name="textures">
+      <script>scripts\texture_sprite_load.gml</script>
+      <script>scripts\texture_background_load.gml</script>
+    </scripts>
+    <scripts name="geometry">
+      <script>scripts\point_pitch.gml</script>
+      <script>scripts\angle_normalize.gml</script>
+      <script>scripts\mouse_look.gml</script>
+      <script>scripts\turn_to_angle.gml</script>
+    </scripts>
+    <scripts name="cutscenes">
+      <script>scripts\cutscene_create.gml</script>
+      <script>scripts\cutscene_camera.gml</script>
+      <script>scripts\cutscene_wait.gml</script>
+      <script>scripts\cutscene_get_value.gml</script>
+      <script>scripts\cutscene_exists.gml</script>
+      <script>scripts\cutscene_end.gml</script>
+      <script>scripts\cutscene_destroy.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
