@@ -99,42 +99,49 @@ global.cP=pitch;
           <argument>
             <kind>1</kind>
             <string>///Attach camera to target
-if (global.paused)
-    exit
-if (instance_exists(target) &amp;&amp; !instance_exists(objCutscene))
+var cutscened=instance_exists(objCutscene);
+if (instance_exists(target) &amp;&amp; (!cutscened || (cutscened &amp;&amp; global.follow)))
 {
     //ready up target coordinates
     var tX=target.x,tY=target.y,tRZ=target.z,tZS=target.zSpeed,
         tSZ=target.shadowZ+(target.height*0.5),tZ=tSZ,tD=target.faceDir;
     if (tZS&lt;-4 || tZS&gt;4 || tSZ==-65536 || tRZ&gt;tSZ+40)
             tZ=tRZ;
-    //toggle freelook
-    if (mouse_check_button_pressed(mb_left))
+    if (cutscened)
     {
-        free=!free;
-        target.fVisible=true;
-        look=false;
-        var zoom=sndCameraOut;
-        if (free)
-            zoom=sndCameraIn;
-        audio_play_sound(zoom,1,false);
-    }
-    //toggle aiming
-    if (mouse_check_button_pressed(mb_right))
-    {
-        look=!look;
-        target.fVisible=!look;
         free=false;
-        pitch=0;
-        var zoom=sndCameraOut;
-        if (look)
+        look=false;
+    }
+    else
+    {
+        //toggle freelook
+        if (mouse_check_button_pressed(mb_left))
         {
-            zoom=sndCameraIn;
-            faceDir=tD;
+            free=!free;
+            target.fVisible=true;
+            look=false;
+            var zoom=sndCameraOut;
+            if (free)
+                zoom=sndCameraIn;
+            audio_play_sound(zoom,1,false);
         }
-        else
-            target.faceDir=faceDir;
-        audio_play_sound(zoom,1,false);
+        //toggle aiming
+        if (mouse_check_button_pressed(mb_right))
+        {
+            look=!look;
+            target.fVisible=!look;
+            free=false;
+            pitch=0;
+            var zoom=sndCameraOut;
+            if (look)
+            {
+                zoom=sndCameraIn;
+                faceDir=tD;
+            }
+            else
+                target.faceDir=faceDir;
+            audio_play_sound(zoom,1,false);
+        }
     }
     //camera mechanic
     if (look)

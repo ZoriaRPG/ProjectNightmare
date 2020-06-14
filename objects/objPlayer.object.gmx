@@ -94,7 +94,7 @@ if (sprite==3)
     }
 if (!instance_exists(objTransition) &amp;&amp; z&lt;global.minZ-300)
     transition_create(room,c_black);
-if (cutscene_exists() || falling)
+if (cutscene_exists())
     exit
 if (keyboard_check_pressed(ord("R")))
 {
@@ -178,14 +178,18 @@ if (near)
 else
     global.battle=false;
 //Bottomless pit detection
-if (!falling &amp;&amp; z&lt;global.minZ)
+if (z&lt;global.minZ)
 {
     look=false;
     free=false;
     audio_stop_all();
     d3d_sound_play(choose(sndMarioFall,sndMarioFall2),false,1);
     audio_play_sound(musLose,1,false);
-    falling=true;
+    with (instance_create(0,0,objCutscene))
+    {
+        global.follow=true;
+        cutscene_create();
+    }
 }
 </string>
           </argument>
