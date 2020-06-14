@@ -126,6 +126,20 @@ if (alert)
         alert=false;
     }
 }
+var player=instance_place(x,y,objPlayer);
+if (player)
+{
+    var h=height*0.5,playerH=player.height*0.5,playerTop=player.z+playerH,
+        playerBottom=player.z-playerH;
+    if (z-h&lt;playerTop &amp;&amp; z+h&gt;playerBottom)
+        if (player.zSpeed&lt;0 &amp;&amp; playerBottom&gt;z)
+        {
+            player.zSpeed=2;
+            instance_destroy();
+        }
+        else
+            {/*Hurt player code*/}
+}
 </string>
           </argument>
         </arguments>

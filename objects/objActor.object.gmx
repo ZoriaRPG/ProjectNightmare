@@ -140,10 +140,9 @@ if (spd!=0)
 var actorTouch=instance_place(x,y,objActor);
 if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable)
 {
-    var h=height*0.5,top=z+h,bottom=z-h,actorZ=actorTouch.z,
-        actorH=actorTouch.height*0.5,actorTop=actorZ+actorH,
-        actorBottom=actorZ-actorH;
-    if (bottom&lt;actorTop &amp;&amp; top&gt;actorBottom)
+    var h=height*0.5,actorH=actorTouch.height*0.5,actorTop=actorTouch.z+actorH,
+        actorBottom=actorTouch.z-actorH;
+    if (z-h&lt;actorTop &amp;&amp; z+h&gt;actorBottom)
     {
         var angle=point_direction(x,y,actorTouch.x,actorTouch.y);
         hSpeed=lengthdir_x(-0.3,angle)+actorTouch.hSpeed;
