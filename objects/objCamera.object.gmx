@@ -176,7 +176,7 @@ if (instance_exists(target) &amp;&amp; !instance_exists(objCutscene))
         //smooth turning
         global.cX=lerp(global.cX,tX-incX,lerpAmount);
         global.cY=lerp(global.cY,tY-incY,lerpAmount);
-        global.cZ=lerp(global.cZ,tToZ,0.1);
+        global.cZ=max(global.minZ,lerp(global.cZ,tToZ,0.1));
         x=global.cX;
         y=global.cY;
         z=global.cZ;

@@ -32,6 +32,7 @@ rotate=true;
 frameSpd=0.01;
 fSolid=true;
 fPushable=true;
+falling=false;
 alarm[0]=irandom_range(60,300);
 hitbox_create();
 </string>
@@ -91,7 +92,9 @@ if (sprite==3)
         sprite=0;
         frameSpd=0.01;
     }
-if (cutscene_exists())
+if (!instance_exists(objTransition) &amp;&amp; z&lt;global.minZ-300)
+    transition_create(room,c_black);
+if (cutscene_exists() || falling)
     exit
 if (keyboard_check_pressed(ord("R")))
 {
@@ -174,6 +177,16 @@ if (near)
     global.battle=point_distance_3d(x,y,z,near.x,near.y,near.z)&lt;100;
 else
     global.battle=false;
+//Bottomless pit detection
+if (!falling &amp;&amp; z&lt;global.minZ)
+{
+    look=false;
+    free=false;
+    audio_stop_all();
+    d3d_sound_play(choose(sndMarioFall,sndMarioFall2),false,1);
+    audio_play_sound(musLose,1,false);
+    falling=true;
+}
 </string>
           </argument>
         </arguments>

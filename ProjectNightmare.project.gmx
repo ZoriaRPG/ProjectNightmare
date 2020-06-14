@@ -27,6 +27,7 @@
     <sound>sound\musTitle</sound>
     <sound>sound\musHyrule</sound>
     <sound>sound\musHyruleBattle</sound>
+    <sound>sound\musLose</sound>
     <sound>sound\sndIntroCoin</sound>
     <sound>sound\sndIntroRupee</sound>
     <sound>sound\sndIntroMario</sound>
@@ -46,6 +47,8 @@
     <sound>sound\sndSelect</sound>
     <sound>sound\sndGoomba</sound>
     <sound>sound\sndGoombaDead</sound>
+    <sound>sound\sndMarioFall</sound>
+    <sound>sound\sndMarioFall2</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprFloor</sprite>
