@@ -109,7 +109,7 @@ if !(c_raycast_world(x,y,z+1,x+hSpeed,y+vSpeed,z-5,1))
 if (instance_exists(target))
     {if (!alert &amp;&amp; point_distance_3d(x,y,z,target.x,target.y,target.z)&lt;100 &amp;&amp; !c_raycast_world(x,y,z,target.x,target.y,target.z,1))
     {
-        d3d_sound_play(sndJump,false,1);
+        d3d_sound_play(sndGoomba,false,1);
         alarm[0]=600;
         alert=true;
         spd=1;
@@ -134,7 +134,11 @@ if (player)
     if (z-h&lt;playerTop &amp;&amp; z+h&gt;playerBottom)
         if (player.zSpeed&lt;0 &amp;&amp; playerBottom&gt;z)
         {
-            player.zSpeed=2;
+            with (player)
+            {
+                zSpeed=2;
+                d3d_sound_play(sndGoombaDead,false,1);
+            }
             instance_destroy();
         }
         else

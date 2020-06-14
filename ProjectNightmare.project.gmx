@@ -44,6 +44,8 @@
     <sound>sound\sndEnter</sound>
     <sound>sound\sndBegin</sound>
     <sound>sound\sndSelect</sound>
+    <sound>sound\sndGoomba</sound>
+    <sound>sound\sndGoombaDead</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprFloor</sprite>
