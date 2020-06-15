@@ -49,6 +49,9 @@
     <sound>sound\sndGoombaDead</sound>
     <sound>sound\sndMarioFall</sound>
     <sound>sound\sndMarioFall2</sound>
+    <sound>sound\sndMessageOpen</sound>
+    <sound>sound\sndMessage</sound>
+    <sound>sound\sndMessageClose</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprFloor</sprite>
@@ -192,6 +195,7 @@
         <object>objects\objEnemy</object>
       </objects>
       <object>objects\objTransition</object>
+      <object>objects\objMessage</object>
     </objects>
   </objects>
   <rooms name="rooms">
