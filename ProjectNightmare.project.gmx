@@ -60,6 +60,7 @@
       <sprite>sprites\stMarioRun</sprite>
       <sprite>sprites\stMarioJump</sprite>
       <sprite>sprites\stMarioBlink</sprite>
+      <sprite>sprites\stMarioWoah</sprite>
       <sprite>sprites\stGoomba</sprite>
     </sprites>
     <sprite>sprites\sprFont</sprite>

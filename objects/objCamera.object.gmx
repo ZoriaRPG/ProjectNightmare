@@ -99,15 +99,14 @@ global.cP=pitch;
           <argument>
             <kind>1</kind>
             <string>///Attach camera to target
-var cutscened=instance_exists(objCutscene);
-if (instance_exists(target) &amp;&amp; (!cutscened || (cutscened &amp;&amp; global.follow)))
+if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow)))
 {
     //ready up target coordinates
     var tX=target.x,tY=target.y,tRZ=target.z,tZS=target.zSpeed,
         tSZ=target.shadowZ+(target.height*0.5),tZ=tSZ,tD=target.faceDir;
     if (tZS&lt;-4 || tZS&gt;4 || tSZ==-65536 || tRZ&gt;tSZ+40)
             tZ=tRZ;
-    if (cutscened)
+    if (cutscene_exists())
     {
         free=false;
         look=false;
@@ -421,7 +420,7 @@ with (objActor)
         else
             cFrame=frame;
         draw_wall(x-w*cSin,y-w*cCos,realZ+h,x+w*cSin,y+w*cCos,realZ-h,
-                      global.spr[sprite,cFrame],1,1);
+                      global.spr[sprite,floor(cFrame)],1,1);
     }
     if (fShadow &amp;&amp; shadowZ!=-65536)
     {

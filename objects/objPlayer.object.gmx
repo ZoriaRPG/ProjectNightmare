@@ -32,7 +32,6 @@ rotate=true;
 frameSpd=0.01;
 fSolid=true;
 fPushable=true;
-falling=false;
 alarm[0]=irandom_range(60,300);
 hitbox_create();
 </string>
@@ -180,11 +179,11 @@ else
 //Bottomless pit detection
 if (z&lt;global.minZ)
 {
-    look=false;
-    free=false;
     audio_stop_all();
     d3d_sound_play(choose(sndMarioFall,sndMarioFall2),false,1);
     audio_play_sound(musLose,1,false);
+    sprite=4;
+    frameSpd=0.3;
     with (instance_create(0,0,objCutscene))
     {
         global.follow=true;

@@ -31,7 +31,7 @@ height=5;
 hitbox_create();
 faceDir=irandom(360);
 spd=0.4;
-sprite=4;
+sprite=5;
 scale=0.1875;
 </string>
           </argument>
@@ -106,6 +106,8 @@ if !(c_raycast_world(x,y,z+1,x+hSpeed,y+vSpeed,z-5,1))
           <argument>
             <kind>1</kind>
             <string>///Goomba AI
+if (cutscene_exists())
+    exit
 if (instance_exists(target))
     {if (!alert &amp;&amp; point_distance_3d(x,y,z,target.x,target.y,target.z)&lt;100 &amp;&amp; !c_raycast_world(x,y,z,target.x,target.y,target.z,1))
     {

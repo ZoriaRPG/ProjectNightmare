@@ -6,5 +6,5 @@ global.sSize[argument0,0]=sprite_get_width(argument1)/2;
 global.sSize[argument0,1]=sprite_get_height(argument1)/2;
 //Prepare frames values for animations
 var frames=sprite_get_number(argument1);
-global.sFrames[argument0,0]=(frames/4);
+global.sFrames[argument0,0]=frames/4;
 global.sFrames[argument0,1]=frames-1;
