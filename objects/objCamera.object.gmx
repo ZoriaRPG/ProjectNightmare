@@ -415,12 +415,12 @@ with (objActor)
                     (4);
             while (dir&lt;0)
                 dir+=4;
-            cFrame=(global.sFrames[sprite,0]*dir)+frame;
+            cFrame=min((global.sFrames[sprite,0]*dir)+frame,global.sFrames[sprite,1]);
         }
         else
             cFrame=frame;
         draw_wall(x-w*cSin,y-w*cCos,realZ+h,x+w*cSin,y+w*cCos,realZ-h,
-                      global.spr[sprite,floor(cFrame)],1,1);
+                      global.spr[sprite,cFrame],1,1);
     }
     if (fShadow &amp;&amp; shadowZ!=-65536)
     {
