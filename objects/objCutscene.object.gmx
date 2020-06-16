@@ -36,7 +36,6 @@ z=0;
 pitch=0;
 lerpAmount=1;
 global.follow=false;
-global.freeze=false;
 </string>
           </argument>
         </arguments>
