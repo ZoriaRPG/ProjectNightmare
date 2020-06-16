@@ -165,6 +165,8 @@
       <script>scripts\cutscene_exists.gml</script>
       <script>scripts\cutscene_end.gml</script>
       <script>scripts\cutscene_destroy.gml</script>
+      <script>scripts\cutscene_message.gml</script>
+      <script>scripts\cutscene_wait_message.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">

@@ -1,1 +1,1 @@
-return (instance_exists(objCutscene))
+return (instance_exists(objCutscene) || instance_exists(objMessage))

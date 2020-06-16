@@ -137,7 +137,7 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objFloorAngled" x="560" y="32" name="inst_2F6847DF" locked="0" code="dir=2;&#xA;height=16;&#xA;tex=3;&#xA;" scaleX="9" scaleY="9" colour="4294967295" rotation="270"/>
     <instance objName="objWall" x="416" y="32" name="inst_BAD6E8F4" locked="0" code="height=16;&#xA;slope=1;&#xA;" scaleX="12.7299995422363" scaleY="1" colour="4294967295" rotation="315"/>
     <instance objName="objWall" x="560" y="176" name="inst_9ECF4205" locked="0" code="height=16;&#xA;slope=2;&#xA;" scaleX="11.3999996185303" scaleY="1" colour="4294967295" rotation="52.1300010681152"/>
-    <instance objName="objCutscene" x="48" y="48" name="inst_80AFE8C0" locked="0" code="cutscene_create();&#xA;cutscene_camera(784,400,100,140,-12,0.1);&#xA;cutscene_wait(240);&#xA;cutscene_camera(32,232,105,0,-40,0.25);&#xA;cutscene_wait(60);&#xA;cutscene_end();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objCutscene" x="48" y="48" name="inst_80AFE8C0" locked="0" code="cutscene_create();&#xA;cutscene_camera(784,400,100,140,-12,0.1);&#xA;cutscene_wait(120);&#xA;cutscene_message(&quot;badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass&quot;);&#xA;cutscene_wait_message();&#xA;cutscene_camera(32,232,105,0,-50,0.25);&#xA;cutscene_wait(60);&#xA;cutscene_end();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

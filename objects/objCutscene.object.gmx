@@ -36,6 +36,7 @@ z=0;
 pitch=0;
 lerpAmount=1;
 global.follow=false;
+global.freeze=false;
 </string>
           </argument>
         </arguments>
@@ -62,8 +63,7 @@ global.follow=false;
 wait=1;
 if (ds_list_empty(list))
     exit
-move=cutscene_get_value();
-switch (move)
+switch (cutscene_get_value())
 {
     case (0):
         x=cutscene_get_value();
@@ -78,6 +78,14 @@ switch (move)
     break
     case (2):
         cutscene_destroy();
+    break
+    case (3):
+        var str=cutscene_get_value();
+        with (instance_create(0,0,objMessage))
+            message[0]=str;
+    break
+    case (4):
+        wait=-2;
     break
 }
 alarm[0]=wait;
@@ -110,6 +118,11 @@ alarm[0]=wait;
     global.cZ=lerp(global.cZ,z,lerpAmount);
     objCamera.faceDir=lerp(objCamera.faceDir,direction,lerpAmount);
     objCamera.pitch=lerp(objCamera.pitch,pitch,lerpAmount);
+}
+if (wait==-2 &amp;&amp; !instance_exists(objMessage))
+{
+    alarm[0]=1;
+    wait=1;
 }
 </string>
           </argument>
