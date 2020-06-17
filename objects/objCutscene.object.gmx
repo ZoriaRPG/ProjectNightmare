@@ -79,9 +79,11 @@ switch (cutscene_get_value())
         cutscene_destroy();
     break
     case (3):
-        var str=cutscene_get_value();
+        var strings=cutscene_get_value();
         with (instance_create(0,0,objMessage))
-            message[0]=str;
+            for (var i=0;i&lt;ds_list_size(strings);i++)
+                message[1+i]=ds_list_find_value(strings,i);
+        ds_list_destroy(strings);
     break
     case (4):
         wait=-2;
@@ -110,7 +112,8 @@ alarm[0]=wait;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_exists(objCamera) &amp;&amp; !global.follow)
+            <string>///Camera positioning &amp; waiting
+if (instance_exists(objCamera) &amp;&amp; !global.follow)
 {
     global.cX=lerp(global.cX,x,lerpAmount);
     global.cY=lerp(global.cY,y,lerpAmount);

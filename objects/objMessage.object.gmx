@@ -29,7 +29,7 @@
 alarm[1]=5;
 alarmToggle=false;
 message[0]="";
-message[1]="";
+currentMessage=1;
 audio_play_sound(sndMessageOpen,1,false);
 </string>
           </argument>
@@ -53,7 +53,7 @@ audio_play_sound(sndMessageOpen,1,false);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (message[1]!=message[0])
+            <string>if (message[0]!=message[currentMessage])
     audio_play_sound(sndMessage,1,false);
 alarm[1]=5;
 </string>
@@ -106,20 +106,26 @@ else
             <kind>1</kind>
             <string>if (alarmToggle &amp;&amp; alarm[0]==-1)
 {
-    if (message[1]!=message[0])
+    if (message[0]!=message[currentMessage])
     {
-        message[1]=string_copy(message[0],1,string_length(message[1])+1);
+        message[0]=string_copy(message[currentMessage],1,string_length(message[0])+1);
         if (keyboard_check_pressed(vk_space))
         {
-            message[1]=message[0];
+            message[0]=message[currentMessage];
             exit
         }
     }
     if (keyboard_check_pressed(vk_space))
-    {
-        audio_play_sound(sndMessageClose,1,false);
-        alarm[0]=10;
-    }
+        if (currentMessage&lt;array_length_1d(message)-1)
+        {
+            message[0]="";
+            currentMessage++;
+        }
+        else
+        {
+            audio_play_sound(sndMessageClose,1,false);
+            alarm[0]=10;
+        }
 }
 </string>
           </argument>
@@ -157,7 +163,7 @@ draw_set_alpha(0.51);
 draw_rectangle(16,view_hview[0]-(144*scale),view_wview[0]-16,view_hview[0]-(16*scale),false);
 draw_set_alpha(1);
 draw_set_color(c_white);
-draw_text_ext_transformed(20,view_hview[0]-(140*scale),message[1],-1,(view_wview[0]*0.5)-36,2,2*scale,0);
+draw_text_ext_transformed(20,view_hview[0]-(140*scale),message[0],-1,(view_wview[0]*0.5)-36,2,2*scale,0);
 </string>
           </argument>
         </arguments>
