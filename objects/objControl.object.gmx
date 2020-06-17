@@ -65,6 +65,7 @@ global.musicVolume[1]=0;
 global.battle=false;
 global.paused=false;
 global.minZ=0;
+global.messageFont=font_add_sprite(sprFont,ord("!"),true,1);
 pauseBg=-1;
 pauseX=-463;
 lolfps=fps_real;
@@ -364,6 +365,7 @@ if (room==rmTitle)
             <kind>1</kind>
             <string>///Unload game
 ds_list_destroy(global.worldModel);
+font_delete(global.messageFont);
 </string>
           </argument>
         </arguments>
