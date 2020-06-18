@@ -57,6 +57,7 @@ scale=0.1875;
             <kind>1</kind>
             <string>alert=false;
 spd=0.4;
+lostTarget=false;
 </string>
           </argument>
         </arguments>
@@ -81,8 +82,8 @@ spd=0.4;
             <kind>1</kind>
             <string>///Turn around on ledges
 event_inherited();
-if !(c_raycast_world(x,y,z+1,x+hSpeed,y+vSpeed,z-5,1))
-    faceDir=irandom(360);
+if !(c_raycast_world(x,y,shadowZ+1,x+hSpeed,y+vSpeed,shadowZ-5,1))
+    faceDir=point_direction(x+hSpeed,y+vSpeed,x,y);
 </string>
           </argument>
         </arguments>
@@ -107,9 +108,20 @@ if !(c_raycast_world(x,y,z+1,x+hSpeed,y+vSpeed,z-5,1))
             <kind>1</kind>
             <string>///Goomba AI
 if (cutscene_exists())
+{
+    spd=0;
+    hSpeed=0;
+    vSpeed=0;
     exit
+}
+else
+    if !(spd)
+        if (alert)
+            spd=1;
+        else
+            spd=0.4;
 if (instance_exists(target))
-    {if (!alert &amp;&amp; point_distance_3d(x,y,z,target.x,target.y,target.z)&lt;100 &amp;&amp; !c_raycast_world(x,y,z,target.x,target.y,target.z,1))
+    {if (!alert &amp;&amp; target.z&gt;z-8 &amp;&amp; target.z&lt;z+8 &amp;&amp; point_distance_3d(x,y,z,target.x,target.y,target.z)&lt;100 &amp;&amp; !c_raycast_world(x,y,z,target.x,target.y,target.z,1))
     {
         d3d_sound_play(sndGoomba,false,1);
         alarm[0]=600;
@@ -121,11 +133,11 @@ else
     alert=false;
 if (alert)
 {
-    faceDir=point_direction(x,y,target.x,target.y);
-    if (point_distance_3d(x,y,z,target.x,target.y,target.z)&gt;=100)
+    faceDir+=turn_to_angle(point_direction(x,y,target.x,target.y),5,faceDir);
+    if (!lostTarget &amp;&amp; (point_distance_3d(x,y,z,target.x,target.y,target.z)&gt;=100 || c_raycast_world(x,y,z,target.x,target.y,target.z,1)))
     {
-        alarm[0]=1;
-        alert=false;
+        lostTarget=true;
+        alarm[0]=60;
     }
 }
 var player=instance_place(x,y,objPlayer);
