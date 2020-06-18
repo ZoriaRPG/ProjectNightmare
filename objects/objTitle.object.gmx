@@ -161,7 +161,8 @@ else
           <argument>
             <kind>1</kind>
             <string>///Draw menus
-//Now we need to prepare a lot of variables for recycling. Optimization is key.
+//Now we need to prepare a lot of variables for recycling. Optimization is important, of
+//course.
 var vw=view_wview[0]*0.5,vh=view_hview[0]*0.5,dir=get_timer()/900,
     s=(image_xscale+lengthdir_x(wobble*0.5,dir))*460,w=wobble*0.04,
     blink=merge_color(make_color_rgb(248,248,248),make_color_rgb(251,231,0),

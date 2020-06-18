@@ -164,7 +164,7 @@ draw_rectangle(16,view_hview[0]-(144*scale),view_wview[0]-16,view_hview[0]-(16*s
 draw_set_alpha(1);
 draw_set_color(c_white);
 draw_set_font(global.messageFont);
-draw_text_ext_transformed(20,view_hview[0]-(140*scale),message[0],-1,(view_wview[0]*0.5)-36,2,2*scale,0);
+draw_text_ext_transformed(20,view_hview[0]-(140*scale),message[0],-1,(view_wview[0]*0.5)-20,2,2*scale,0);
 draw_set_font(-1);
 </string>
           </argument>
