@@ -131,7 +131,7 @@ if (fShadow)
     else
         shadowZ=-65536;
 //Physics
-if (spd!=0)
+if (spd!=0 &amp;&amp; !sliding)
 {
     hSpeed=lengthdir_x(spd,faceDir);
     vSpeed=lengthdir_y(spd,faceDir);
