@@ -110,6 +110,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
     {
         free=false;
         look=false;
+        target.fVisible=true;
     }
     else
     {
