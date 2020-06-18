@@ -151,20 +151,24 @@ if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable)
 }
 if !(fGhost)
 {
-    if (c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
-        for (var i=1;i&lt;5;i++)
-            if !(c_overlap_world_position(hitbox,x+hSpeed,y,z+i+1))
-            {
-                z+=i;
-                break
-            }
-    if (c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
-        for (var i=1;i&lt;5;i++)
-            if !(c_overlap_world_position(hitbox,x,y+vSpeed,z+i+1))
-            {
-                z+=i;
-                break
-            }
+    //Step collision
+    if (zSpeed&lt;=0)
+    {
+        if (c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
+            for (var i=1;i&lt;5;i++)
+                if !(c_overlap_world_position(hitbox,x+hSpeed,y,z+i+1))
+                {
+                    z+=i;
+                    break
+                }
+        if (c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
+            for (var i=1;i&lt;5;i++)
+                if !(c_overlap_world_position(hitbox,x,y+vSpeed,z+i+1))
+                {
+                    z+=i;
+                    break
+                }
+    }
     if (c_overlap_world_position(hitbox,x+hSpeed,y,z+1))
     {
         var hS=sign(hSpeed);
