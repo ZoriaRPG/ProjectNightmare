@@ -2,7 +2,8 @@
 An arguably better recreation of Nintendo Nightmare.
 Basically: make the game less janky and give it the facelift it deserves.
 
-Original: https://fazana.itch.io/910-nightmare-dx
+Original: https://adriendittrick.itch.io/9-10-do-nightmare
+Deluxe Edition: https://fazana.itch.io/910-nightmare-dx
 
 # DISCLAIMER
 This is an unofficial game (a fan game).
