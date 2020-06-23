@@ -202,7 +202,7 @@ c_shape_begin_trimesh();
 globalvar worldFloor,worldWall;
 with (objFloor)
 {
-    var x1=x,y1=y,z1,x2=x+sprite_width,y2=y+sprite_height,z2,x3,y3,z3,zH=z+height,
+    var x1=x,y1=y,z1,x2=x+sprite_width,y2=y+sprite_height,z2,x3=undefined,y3,z3,zH=z+height,
         angled=object_index==objFloorAngled;
     //The floor is rendered based on its slope direction
     switch (dir)

@@ -138,6 +138,22 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objWall" x="560" y="176" name="inst_9ECF4205" locked="0" code="height=16;&#xA;slope=2;&#xA;" scaleX="11.3999996185303" scaleY="1" colour="4294967295" rotation="52.1300010681152"/>
     <instance objName="objCutscene" x="48" y="48" name="inst_80AFE8C0" locked="0" code="cutscene_create();&#xA;cutscene_camera(784,400,100,140,-12,0.1);&#xA;cutscene_wait(120);&#xA;cutscene_message(&quot;badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass&quot;,&#xA;                 &quot;message 2&quot;,&quot;i love crutches&quot;);&#xA;cutscene_wait_message();&#xA;cutscene_camera(80,224,74,180,0,1);&#xA;var name=&quot;mario&quot;,job=&quot;plumber&quot;;&#xA;if (global.link)&#xA;{&#xA;    name=&quot;link&quot;;&#xA;    job=&quot;warrior&quot;;&#xA;}&#xA;cutscene_message(&quot;this is the guy you play as, he's called &quot;+name+&quot; and he's a really cool &quot;+job+&quot;, can you believe it?&quot;);&#xA;cutscene_wait_message();&#xA;cutscene_camera(32,232,105,0,-50,0.25);&#xA;cutscene_wait(60);&#xA;cutscene_end();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objPlayerSpawn" x="56" y="232" name="inst_F42C4B6C" locked="0" code="z=79;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="256" y="384" name="inst_60A231F3" locked="0" code="z=12;&#xA;" scaleX="7" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="368" y="384" name="inst_49A40F78" locked="0" code="z=12;&#xA;height=12;&#xA;tex=4;&#xA;" scaleX="27" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="800" y="384" name="inst_15A2724A" locked="0" code="z=24;&#xA;" scaleX="6" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="368" y="384" name="inst_2FFBC2BA" locked="0" code="z=12;&#xA;height=12;&#xA;ceiling=true;&#xA;" scaleX="27" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="256" y="384" name="inst_37DA60F0" locked="0" code="z=12;&#xA;ceiling=true;&#xA;" scaleX="7" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="800" y="384" name="inst_D84BAF7E" locked="0" code="z=24;&#xA;ceiling=true;&#xA;" scaleX="6" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="800" y="192" name="inst_2E630C54" locked="0" code="z=24;&#xA;height=12;&#xA;tex=5;&#xA;" scaleX="6" scaleY="12" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="800" y="192" name="inst_E7D7176E" locked="0" code="z=24;&#xA;height=12;&#xA;ceiling=true;&#xA;" scaleX="6" scaleY="12" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="736" y="112" name="inst_E12C5FFB" locked="0" code="z=36;&#xA;" scaleX="10" scaleY="5" colour="4294967295" rotation="0"/>
+    <instance objName="objFloor" x="736" y="112" name="inst_9F2081D5" locked="0" code="z=36;&#xA;ceiling=true;&#xA;" scaleX="10" scaleY="5" colour="4294967295" rotation="0"/>
+    <instance objName="objWall" x="736" y="112" name="inst_62CF7E19" locked="0" code="z=36;&#xA;height=4;&#xA;tex=8;&#xA;" scaleX="10" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objWall" x="896" y="112" name="inst_C9B56A35" locked="0" code="z=36;&#xA;height=4;&#xA;tex=8;&#xA;" scaleX="10" scaleY="1" colour="4294967295" rotation="180"/>
+    <instance objName="objWall" x="736" y="112" name="inst_6ACE07B0" locked="0" code="z=36;&#xA;height=4;&#xA;tex=8;&#xA;" scaleX="5" scaleY="1" colour="4294967295" rotation="-90"/>
+    <instance objName="objWall" x="736" y="192" name="inst_450A310D" locked="0" code="z=36;&#xA;height=4;&#xA;tex=8;&#xA;" scaleX="5" scaleY="1" colour="4294967295" rotation="90"/>
+    <instance objName="objWall" x="736" y="192" name="inst_66E8E495" locked="0" code="z=36;&#xA;height=4;&#xA;tex=8;&#xA;" scaleX="4" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objWall" x="800" y="192" name="inst_59362CBC" locked="0" code="z=36;&#xA;height=4;&#xA;tex=8;&#xA;" scaleX="4" scaleY="1" colour="4294967295" rotation="180"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
