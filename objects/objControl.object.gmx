@@ -44,6 +44,10 @@ texture_sprite_load(2,stMarioJump);
 texture_sprite_load(3,stMarioBlink);
 texture_sprite_load(4,stMarioWoah);
 texture_sprite_load(5,stGoomba);
+texture_sprite_load(6,stLink);
+texture_sprite_load(7,stLinkRun);
+texture_sprite_load(8,stLinkJump);
+texture_sprite_load(9,stLinkBlink);
 c_init();
 worldShape=-1;
 worldObject=-1;
@@ -408,7 +412,30 @@ draw_set_halign(fa_left);
 draw_set_font(-1);
 draw_background(bgPauseMario,pauseX,0);
 draw_sprite_ext(sprIntro,global.link,pX2,100,0.5,0.5,0,c_white,1);
-draw_text(8,8,string(round(lolfps))+" FPS");
+draw_text(8,8,string(round(lolfps))+" FPS#"+string(global.link));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="76">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.link=!global.link;
 </string>
           </argument>
         </arguments>

@@ -3,8 +3,8 @@
   <caption></caption>
   <width>960</width>
   <height>540</height>
-  <vsnap>16</vsnap>
-  <hsnap>16</hsnap>
+  <vsnap>8</vsnap>
+  <hsnap>8</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
   <persistent>0</persistent>
@@ -71,7 +71,6 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objWall" x="511" y="238" name="inst_480A2953" locked="0" code="" scaleX="3" scaleY="1" colour="4294967295" rotation="-45"/>
     <instance objName="objWall" x="533" y="215" name="inst_B4D2A5B7" locked="0" code="" scaleX="2" scaleY="1" colour="4294967295" rotation="-135"/>
     <instance objName="objFloor" x="608" y="160" name="inst_521BE13A" locked="0" code="z=64;&#xA;height=96;" scaleX="8" scaleY="12" colour="4294967295" rotation="0"/>
-    <instance objName="objPlayer" x="80" y="240" name="inst_83EFBD6D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objCamera" x="0" y="0" name="inst_280A037B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="576" y="160" name="inst_2FFAACEC" locked="0" code="z=32;&#xA;" scaleX="2" scaleY="2" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="160" y="192" name="inst_31245D2E" locked="0" code="tex=4;&#xA;height=32;&#xA;" scaleX="2" scaleY="2" colour="4294967295" rotation="0"/>
@@ -107,6 +106,7 @@ global.levelMusic[1]=musHyruleBattle;</code>
     <instance objName="objFloorAngled" x="416" y="448" name="inst_55AD9D0B" locked="0" code="" scaleX="12" scaleY="5" colour="4294967295" rotation="0"/>
     <instance objName="objFloorAngled" x="416" y="448" name="inst_C821BEAD" locked="0" code="" scaleX="5" scaleY="12" colour="4294967295" rotation="90"/>
     <instance objName="objGoomba" x="272" y="384" name="inst_E4DFFA63" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objPlayerSpawn" x="96" y="256" name="inst_CAFA44CB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

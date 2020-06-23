@@ -48,9 +48,6 @@
       <sound>sound\sndMessage</sound>
       <sound>sound\sndMessageClose</sound>
     </sounds>
-    <sounds name="SFX">
-      <sound>sound\sndJump</sound>
-    </sounds>
     <sounds name="Enemies">
       <sound>sound\sndGoomba</sound>
       <sound>sound\sndGoombaDead</sound>
@@ -64,6 +61,16 @@
       <sound>sound\sndMarioFall</sound>
       <sound>sound\sndMarioFall2</sound>
     </sounds>
+    <sounds name="Link">
+      <sound>sound\sndLinkJump</sound>
+      <sound>sound\sndLinkJump2</sound>
+      <sound>sound\sndLinkJump3</sound>
+      <sound>sound\sndLinkJump4</sound>
+      <sound>sound\sndLinkJump5</sound>
+      <sound>sound\sndLinkFall</sound>
+      <sound>sound\sndLinkFall2</sound>
+    </sounds>
+    <sound>sound\sndJump</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprIntro</sprite>
@@ -75,6 +82,12 @@
         <sprite>sprites\stMarioJump</sprite>
         <sprite>sprites\stMarioBlink</sprite>
         <sprite>sprites\stMarioWoah</sprite>
+      </sprites>
+      <sprites name="Link">
+        <sprite>sprites\stLink</sprite>
+        <sprite>sprites\stLinkRun</sprite>
+        <sprite>sprites\stLinkJump</sprite>
+        <sprite>sprites\stLinkBlink</sprite>
       </sprites>
       <sprite>sprites\stGoomba</sprite>
     </sprites>
@@ -203,7 +216,7 @@
       <object>objects\objCutscene</object>
     </objects>
     <objects name="Actors">
-      <object>objects\objPlayer</object>
+      <object>objects\objPlayerSpawn</object>
       <object>objects\objGoomba</object>
     </objects>
     <objects name="Special">
@@ -211,6 +224,9 @@
         <object>objects\objSolid</object>
         <object>objects\objActor</object>
         <object>objects\objEnemy</object>
+        <object>objects\objPlayer</object>
+        <object>objects\objMario</object>
+        <object>objects\objLink</object>
       </objects>
       <object>objects\objTransition</object>
       <object>objects\objMessage</object>
