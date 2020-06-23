@@ -24,50 +24,66 @@
   </datafiles>
   <NewExtensions/>
   <sounds name="sound">
-    <sound>sound\musTitle</sound>
-    <sound>sound\musHyrule</sound>
-    <sound>sound\musHyruleBattle</sound>
-    <sound>sound\musLose</sound>
-    <sound>sound\sndIntroCoin</sound>
-    <sound>sound\sndIntroRupee</sound>
-    <sound>sound\sndIntroMario</sound>
-    <sound>sound\sndIntroLink</sound>
-    <sound>sound\sndCameraIn</sound>
-    <sound>sound\sndCameraOut</sound>
-    <sound>sound\sndCameraSpin</sound>
-    <sound>sound\sndPause</sound>
-    <sound>sound\sndMarioJump</sound>
-    <sound>sound\sndMarioJump2</sound>
-    <sound>sound\sndMarioJump3</sound>
-    <sound>sound\sndMarioJump4</sound>
-    <sound>sound\sndMarioJump5</sound>
-    <sound>sound\sndJump</sound>
-    <sound>sound\sndEnter</sound>
-    <sound>sound\sndBegin</sound>
-    <sound>sound\sndSelect</sound>
-    <sound>sound\sndGoomba</sound>
-    <sound>sound\sndGoombaDead</sound>
-    <sound>sound\sndMarioFall</sound>
-    <sound>sound\sndMarioFall2</sound>
-    <sound>sound\sndMessageOpen</sound>
-    <sound>sound\sndMessage</sound>
-    <sound>sound\sndMessageClose</sound>
+    <sounds name="Music">
+      <sound>sound\musTitle</sound>
+      <sound>sound\musHyrule</sound>
+      <sound>sound\musHyruleBattle</sound>
+      <sound>sound\musLose</sound>
+    </sounds>
+    <sounds name="Intro">
+      <sound>sound\sndIntroCoin</sound>
+      <sound>sound\sndIntroRupee</sound>
+      <sound>sound\sndIntroMario</sound>
+      <sound>sound\sndIntroLink</sound>
+    </sounds>
+    <sounds name="GUI">
+      <sound>sound\sndCameraIn</sound>
+      <sound>sound\sndCameraOut</sound>
+      <sound>sound\sndCameraSpin</sound>
+      <sound>sound\sndPause</sound>
+      <sound>sound\sndEnter</sound>
+      <sound>sound\sndBegin</sound>
+      <sound>sound\sndSelect</sound>
+      <sound>sound\sndMessageOpen</sound>
+      <sound>sound\sndMessage</sound>
+      <sound>sound\sndMessageClose</sound>
+    </sounds>
+    <sounds name="SFX">
+      <sound>sound\sndJump</sound>
+    </sounds>
+    <sounds name="Enemies">
+      <sound>sound\sndGoomba</sound>
+      <sound>sound\sndGoombaDead</sound>
+    </sounds>
+    <sounds name="Mario">
+      <sound>sound\sndMarioJump</sound>
+      <sound>sound\sndMarioJump2</sound>
+      <sound>sound\sndMarioJump3</sound>
+      <sound>sound\sndMarioJump4</sound>
+      <sound>sound\sndMarioJump5</sound>
+      <sound>sound\sndMarioFall</sound>
+      <sound>sound\sndMarioFall2</sound>
+    </sounds>
   </sounds>
   <sprites name="sprites">
-    <sprite>sprites\sprFloor</sprite>
-    <sprite>sprites\sprFloorAngled</sprite>
-    <sprite>sprites\sprWall</sprite>
     <sprite>sprites\sprIntro</sprite>
+    <sprite>sprites\sprFont</sprite>
     <sprites name="Textures">
-      <sprite>sprites\stMario</sprite>
-      <sprite>sprites\stMarioRun</sprite>
-      <sprite>sprites\stMarioJump</sprite>
-      <sprite>sprites\stMarioBlink</sprite>
-      <sprite>sprites\stMarioWoah</sprite>
+      <sprites name="Mario">
+        <sprite>sprites\stMario</sprite>
+        <sprite>sprites\stMarioRun</sprite>
+        <sprite>sprites\stMarioJump</sprite>
+        <sprite>sprites\stMarioBlink</sprite>
+        <sprite>sprites\stMarioWoah</sprite>
+      </sprites>
       <sprite>sprites\stGoomba</sprite>
     </sprites>
-    <sprite>sprites\sprFont</sprite>
-    <sprite>sprites\sprActor</sprite>
+    <sprites name="Level">
+      <sprite>sprites\sprFloor</sprite>
+      <sprite>sprites\sprFloorAngled</sprite>
+      <sprite>sprites\sprWall</sprite>
+      <sprite>sprites\sprActor</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
@@ -91,7 +107,7 @@
     <script>scripts\d3d_sound_play.gml</script>
     <script>scripts\change_option.gml</script>
     <script>scripts\transition_create.gml</script>
-    <scripts name="colllision">
+    <scripts name="Collision">
       <script>scripts\c_init.gml</script>
       <script>scripts\c_world_create.gml</script>
       <script>scripts\c_world_destroy.gml</script>
@@ -143,21 +159,21 @@
       <script>scripts\c_raycast_object.gml</script>
       <script>scripts\c_sweep_world.gml</script>
     </scripts>
-    <scripts name="primitives">
+    <scripts name="Primitives">
       <script>scripts\draw_wall.gml</script>
       <script>scripts\draw_floor.gml</script>
     </scripts>
-    <scripts name="textures">
+    <scripts name="Textures">
       <script>scripts\texture_sprite_load.gml</script>
       <script>scripts\texture_background_load.gml</script>
     </scripts>
-    <scripts name="geometry">
+    <scripts name="Geometry">
       <script>scripts\point_pitch.gml</script>
       <script>scripts\angle_normalize.gml</script>
       <script>scripts\mouse_look.gml</script>
       <script>scripts\turn_to_angle.gml</script>
     </scripts>
-    <scripts name="cutscenes">
+    <scripts name="Cutscenes">
       <script>scripts\cutscene_create.gml</script>
       <script>scripts\cutscene_camera.gml</script>
       <script>scripts\cutscene_wait.gml</script>
@@ -204,8 +220,10 @@
     <room>rooms\rmLoad</room>
     <room>rooms\rmIntro</room>
     <room>rooms\rmTitle</room>
-    <room>rooms\rmHyrule</room>
-    <room>rooms\rmMain</room>
+    <rooms name="Levels">
+      <room>rooms\rmHyrule</room>
+      <room>rooms\rmMain</room>
+    </rooms>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
