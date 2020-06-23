@@ -408,8 +408,8 @@ with (objActor)
 {
     if (fVisible &amp;&amp; sprite!=-1)
     {
-        var w=scale*global.sSize[sprite,0]*0.5,h=scale*global.sSize[sprite,1]*0.5,
-            realZ=z+scale*global.sSize[sprite,1]*0.25,cFrame;
+        var w=scale*global.sSize[sprite,0]*0.5,h=scale*global.sSize[sprite,1],
+            realZ=z-height*0.5,cFrame;
         if (rotate)
         {
             var dir=(round((point_direction(x,y,global.cX,global.cY)-faceDir)/90)) mod
@@ -420,7 +420,7 @@ with (objActor)
         }
         else
             cFrame=frame;
-        draw_wall(x-w*cSin,y-w*cCos,realZ+h,x+w*cSin,y+w*cCos,realZ-h,
+        draw_wall(x-w*cSin,y-w*cCos,realZ+h,x+w*cSin,y+w*cCos,realZ,
                       global.spr[sprite,cFrame],1,1);
     }
     if (fShadow &amp;&amp; shadowZ!=-65536)
