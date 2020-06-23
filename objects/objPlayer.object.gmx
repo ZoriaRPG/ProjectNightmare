@@ -39,7 +39,6 @@ spdDis=0;
 jumpSnd[0]=noone;
 fallSnd[0]=noone;
 alarm[0]=irandom_range(60,300);
-hitbox_create();
 </string>
           </argument>
         </arguments>

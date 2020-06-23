@@ -33,6 +33,7 @@ jumpSnd[3]=sndMarioJump4;
 jumpSnd[4]=sndMarioJump5;
 fallSnd[0]=sndMarioFall;
 fallSnd[1]=sndMarioFall2;
+hitbox_create();
 </string>
           </argument>
         </arguments>
