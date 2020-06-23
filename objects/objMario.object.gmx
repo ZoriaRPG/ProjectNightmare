@@ -94,6 +94,12 @@ if (sprite==3)
     }
 event_inherited();
 //Animation control
+if (z&lt;global.minZ)
+{
+    sprite=4;
+    frameSpd=0.3;
+    exit
+}
 if (onGround)
 {
     if (spdDis)
@@ -114,11 +120,6 @@ else
     sprite=2;
     frameSpd=0;
     frame=zSpeed&lt;=0;
-}
-if (z&lt;global.minZ &amp;&amp; sprite!=4)
-{
-    sprite=4;
-    frameSpd=0.3;
 }
 </string>
           </argument>
