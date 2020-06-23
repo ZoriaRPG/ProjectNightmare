@@ -188,7 +188,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         y=global.cY;
         z=global.cZ;
         pitch=clamp(pitch+turn_to_angle(point_pitch(global.cX,global.cY,global.cZ,tX,tY,
-                    tZ+12),1,pitch),-89.5,89.5);
+                    tZ+16),1,pitch),-89.5,89.5);
     }
 }
 </string>
