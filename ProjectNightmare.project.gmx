@@ -71,6 +71,7 @@
       <sound>sound\sndLinkFall2</sound>
     </sounds>
     <sound>sound\sndJump</sound>
+    <sound>sound\sndRespawn</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprIntro</sprite>

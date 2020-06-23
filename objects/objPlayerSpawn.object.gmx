@@ -28,7 +28,7 @@
             <string>///Handle character type
 //This will spawn the character based on the current chapter (Mario in the former half and
 //Link in the latter half).
-z=9;
+z=((1+global.link*1.5)*8)+1;
 alarm[0]=1;
 </string>
           </argument>
