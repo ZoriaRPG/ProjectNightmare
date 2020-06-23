@@ -158,17 +158,19 @@ else
 //Bottomless pit detection
 if (z&lt;global.minZ)
 {
-    audio_stop_all();
-    if (fallSnd[0])
-        d3d_sound_play(fallSnd[max(0,irandom(array_length_1d(fallSnd)-1))],false,1);
     if (global.link)
         for (var i=0;i&lt;2;i++)
         {
             if (global.levelMusic[i])
-                audio_sound_gain(global.levelMusic[i],0,1000);
+                audio_sound_gain(global.levelMusic[i],0,750);
         }
     else
+    {
+        audio_stop_all();
         audio_play_sound(musLose,1,false);
+    }
+    if (fallSnd[0])
+        d3d_sound_play(fallSnd[max(0,irandom(array_length_1d(fallSnd)-1))],false,1);
     with (instance_create(0,0,objCutscene))
     {
         global.follow=true;
