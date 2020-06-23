@@ -32,7 +32,7 @@ rotate=true;
 frameSpd=0.01;
 fSolid=true;
 fPushable=true;
-onGround=false;
+onGround=true;
 spdDis=0;
 //Variables with the postfix "Snd" have arrays that can be extended. Use this to assign
 //multiple sounds to one variable.
