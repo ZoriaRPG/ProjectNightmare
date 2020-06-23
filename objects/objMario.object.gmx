@@ -115,7 +115,7 @@ else
     frameSpd=0;
     frame=zSpeed&lt;=0;
 }
-if (z&lt;global.minZ)
+if (z&lt;global.minZ &amp;&amp; sprite!=4)
 {
     sprite=4;
     frameSpd=0.3;
