@@ -30,7 +30,7 @@ event_inherited();
 d3d_start();
 //Target must be objActor child
 target=objPlayer;
-range=64;
+range=80;
 pitch=0;
 radius=1;
 height=2;
@@ -43,6 +43,7 @@ look=false;
 free=false;
 sensX=10;
 sensY=10;
+previousZ=0;
 //Set global variables
 global.cX=0;
 global.cY=0;
@@ -102,10 +103,7 @@ global.cP=pitch;
 if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow)))
 {
     //ready up target coordinates
-    var tX=target.x,tY=target.y,tRZ=target.z,tZS=target.zSpeed,
-        tSZ=target.shadowZ+(target.height*0.5),tZ=tSZ,tD=target.faceDir;
-    if (tZS&lt;-4 || tZS&gt;4 || tSZ==-65536 || tRZ&gt;tSZ+40)
-            tZ=tRZ;
+    var tX=target.x,tY=target.y,tRZ=target.z-target.height*0.5,tZ=tRZ;
     if (cutscene_exists())
     {
         free=false;
@@ -114,6 +112,12 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
     }
     else
     {
+        var tZS=target.zSpeed,tSZ=target.shadowZ,tD=target.faceDir;
+        tZ=previousZ;
+        if (tSZ!=-65536)
+            previousZ=tSZ;
+        if (tZS&lt;-4 || tZS&gt;4 || tRZ&gt;previousZ+40)
+            tZ=tRZ;
         //toggle freelook
         if (mouse_check_button_pressed(mb_left))
         {
@@ -188,7 +192,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         y=global.cY;
         z=global.cZ;
         pitch=clamp(pitch+turn_to_angle(point_pitch(global.cX,global.cY,global.cZ,tX,tY,
-                    tZ+16),1,pitch),-89.5,89.5);
+                    tZ+24),1+cutscene_exists(),pitch),-89.5,89.5);
     }
 }
 </string>

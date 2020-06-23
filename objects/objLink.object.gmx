@@ -116,9 +116,11 @@ else
     if (sprite!=8)
     {
         sprite=8;
-        frame=(zSpeed&lt;0)*2;
+        frame=0.5;
     }
     frameSpd=((zSpeed&gt;1 &amp;&amp; frame&lt;=1) || (zSpeed&lt;1 &amp;&amp; frame&lt;=3))*0.15;
+    if (frame&gt;=3 &amp;&amp; zSpeed&gt;0)
+        frame=0.5;
 }
 </string>
           </argument>
