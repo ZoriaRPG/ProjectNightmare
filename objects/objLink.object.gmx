@@ -34,6 +34,7 @@ jumpSnd[3]=sndLinkJump4;
 jumpSnd[4]=sndLinkJump5;
 fallSnd[0]=sndLinkFall;
 fallSnd[1]=sndLinkFall2;
+jumpSpd=2;
 height=18;
 hitbox_create();
 </string>

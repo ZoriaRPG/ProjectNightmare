@@ -34,6 +34,7 @@ fSolid=true;
 fPushable=true;
 onGround=true;
 spdDis=0;
+jumpSpd=2.5;
 //Variables with the postfix "Snd" have arrays that can be extended. Use this to assign
 //multiple sounds to one variable.
 jumpSnd[0]=noone;
@@ -140,7 +141,7 @@ if (onGround)
 {
     if (keyboard_check_pressed(vk_space))
     {
-        zSpeed=2.5;
+        zSpeed=jumpSpd;
         if (jumpSnd[0])
             d3d_sound_play(jumpSnd[max(0,irandom(array_length_1d(jumpSnd)-1))],false,1);
         d3d_sound_play(sndJump,false,1);
