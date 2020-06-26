@@ -82,8 +82,12 @@ lostTarget=false;
             <kind>1</kind>
             <string>///Turn around on ledges
 event_inherited();
-if !(c_raycast_world(x,y,shadowZ+1,x+hSpeed,y+vSpeed,shadowZ-5,1))
-    faceDir=point_direction(x+hSpeed,y+vSpeed,x,y);
+if !(shadowZ==-65536 &amp;&amp; c_raycast_world(x,y,shadowZ+1,x+hSpeed,y+vSpeed,shadowZ-5,1))
+{
+    x=xprevious;
+    y=yprevious;
+    faceDir=irandom(360);
+}
 </string>
           </argument>
         </arguments>
