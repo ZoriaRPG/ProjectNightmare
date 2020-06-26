@@ -170,7 +170,10 @@ if !(fGhost)
         while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x+hS,y,z+1))
             x+=hS;
         if (fBounce)
-            hSpeed=-round(hSpeed/bounciness);
+            if (bounciness)
+                hSpeed/=-bounciness;
+            else
+                hSpeed=0;
         else
         {
             hSpeed=0;
@@ -186,7 +189,10 @@ if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
     while (c_overlap_world_position(hitbox,x,y+vSpeed,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x,y+vS,z+1))
         y+=vS;
     if (fBounce)
-        vSpeed=-round(vSpeed/bounciness);
+        if (bounciness)
+            vSpeed/=-bounciness;
+        else
+            vSpeed=0;
     else
     {
         vSpeed=0;

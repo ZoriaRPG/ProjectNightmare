@@ -1,8 +1,18 @@
 if (fBounce)
 {
-    hSpeed=-round(hSpeed/bounciness);
-    vSpeed=-round(vSpeed/bounciness);
-    zSpeed=-round(zSpeed/bounciness);
+    //Prevent division by zero error if a holdable is not bouncy at all.
+    if (bounciness)
+    {
+        hSpeed/=bounciness;
+        vSpeed/=bounciness;
+        zSpeed/=-bounciness;
+    }
+    else
+    {
+        hSpeed=0;
+        vSpeed=0;
+        zSpeed=0;
+    }
 }
 else
     zSpeed=0;
