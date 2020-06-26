@@ -223,13 +223,17 @@
     </objects>
     <objects name="Special">
       <objects name="Parents">
+        <objects name="Characters">
+          <object>objects\objMario</object>
+          <object>objects\objLink</object>
+        </objects>
+        <objects name="Actors">
+          <object>objects\objActor</object>
+          <object>objects\objPlayer</object>
+          <object>objects\objEnemy</object>
+          <object>objects\objHoldable</object>
+        </objects>
         <object>objects\objSolid</object>
-        <object>objects\objActor</object>
-        <object>objects\objEnemy</object>
-        <object>objects\objPlayer</object>
-        <object>objects\objMario</object>
-        <object>objects\objLink</object>
-        <object>objects\objHoldable</object>
       </objects>
       <object>objects\objTransition</object>
       <object>objects\objMessage</object>
