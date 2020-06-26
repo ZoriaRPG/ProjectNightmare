@@ -160,16 +160,8 @@ else
 //Holding mechanic
 if (keyboard_check_pressed(ord("E")))
     if (holding)
-    {
-        with (holding)
-        {
-            target=noone;
-            hSpeed=other.hSpeed+lengthdir_x(1.5,faceDir);
-            vSpeed=other.vSpeed+lengthdir_y(1.5,faceDir);
-            zSpeed=other.zSpeed+1.5;
-        }
-        holding=noone;
-    }
+        player_drop_holdable(other.hSpeed+lengthdir_x(1.5,faceDir),
+                             other.vSpeed+lengthdir_y(1.5,faceDir),other.zSpeed+1.5);
     else
     {
         near=instance_nearest(x,y,objHoldable);
@@ -195,6 +187,7 @@ if (z&lt;global.minZ)
     }
     if (fallSnd[0])
         d3d_sound_play(fallSnd[max(0,irandom(array_length_1d(fallSnd)-1))],false,1);
+    player_drop_holdable(0,0,1);
     with (instance_create(0,0,objCutscene))
     {
         global.follow=true;
