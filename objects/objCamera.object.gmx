@@ -155,7 +155,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         global.cZ=lerp(global.cZ,tRZ+4,0.2);*/
         global.cX=tX;
         global.cY=tY;
-        global.cZ=tRZ+4;
+        global.cZ=tRZ+target.height-4;
         //mouselook
         mouse_look(true);
     }
