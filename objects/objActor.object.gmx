@@ -316,8 +316,10 @@ z+=zSpeed;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Set audio emitter position
+            <string>///Update audio &amp; disappear in pits
 audio_emitter_position(emitter,x,y,z);
+if (!cutscene_exists &amp;&amp; z&lt;global.minZ-500)
+    instance_destroy();
 </string>
           </argument>
         </arguments>
