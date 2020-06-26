@@ -164,9 +164,9 @@ if (keyboard_check_pressed(ord("E")))
         with (holding)
         {
             target=noone;
-            hSpeed=other.hSpeed+lengthdir_x(3,faceDir);
-            vSpeed=other.vSpeed+lengthdir_y(3,faceDir);
-            zSpeed=other.zSpeed+3;
+            hSpeed=other.hSpeed+lengthdir_x(1,faceDir);
+            vSpeed=other.vSpeed+lengthdir_y(1,faceDir);
+            zSpeed=other.zSpeed+1;
         }
         holding=noone;
     }
