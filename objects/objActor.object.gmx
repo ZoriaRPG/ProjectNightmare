@@ -50,6 +50,7 @@ vSpeed=0;
 zSpeed=0;
 spd=0;
 bounciness=0;
+//Bounciness is calculated by spd divided by bounciness. Less is more.
 faceDir=0;
 sliding=false;
 //Collision
