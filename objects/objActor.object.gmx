@@ -116,18 +116,8 @@ actor_clear();
             <string>///Animation &amp; physics
 //Keep the facing direction in range.
 faceDir=angle_normalize(faceDir);
-//Loop the animation every time the end is reached.
-//As a failsafe, check if the actor has a sprite. If not, abort.
-if (sprite!=-1)
-{
-    var nums;
-    if (rotate)
-        nums=global.sFrames[sprite,0];
-    else
-        nums=global.sFrames[sprite,1];
-    if (nums!=0)
-        frame=(frame+frameSpd) mod (nums);
-}
+//Update sprite
+actor_sprite_update();
 //Shadow position
 if (fShadow)
     if (c_raycast_world(x,y,z,x,y,z-65536,1))
