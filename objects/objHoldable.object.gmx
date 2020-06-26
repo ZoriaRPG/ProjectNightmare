@@ -53,6 +53,7 @@ bounciness=3;
             <string>///Move to holder's position
 if (target)
 {
+    fShadow=false;
     faceDir=target.faceDir;
     x=target.x;
     y=target.y;
@@ -60,7 +61,10 @@ if (target)
     actor_sprite_update();
 }
 else
+{
+    fShadow=true;
     event_inherited();
+}
 </string>
           </argument>
         </arguments>
