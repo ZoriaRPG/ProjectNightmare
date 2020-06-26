@@ -124,6 +124,7 @@
       <script>scripts\actor_clear.gml</script>
       <script>scripts\d3d_sound_play.gml</script>
       <script>scripts\actor_sprite_update.gml</script>
+      <script>scripts\actor_bounce_z.gml</script>
     </scripts>
     <scripts name="Collision">
       <script>scripts\c_init.gml</script>

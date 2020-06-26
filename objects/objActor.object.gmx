@@ -49,7 +49,7 @@ hSpeed=0;
 vSpeed=0;
 zSpeed=0;
 spd=0;
-bounciness=0;
+bounciness=1;
 //Bounciness is calculated by spd divided by bounciness. Less is more.
 faceDir=0;
 sliding=false;
@@ -168,9 +168,14 @@ if !(fGhost)
         var hS=sign(hSpeed);
         while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x+hS,y,z+1))
             x+=hS;
-        hSpeed=0;
-        if (fEnemy)
-            faceDir=irandom(360);
+        if (fBounce)
+            hSpeed=-round(hSpeed/bounciness);
+        else
+        {
+            hSpeed=0;
+            if (fEnemy)
+                faceDir=irandom(360);
+        }
     }
 }
 x+=hSpeed;
@@ -179,9 +184,14 @@ if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
     var vS=sign(vSpeed);
     while (c_overlap_world_position(hitbox,x,y+vSpeed,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x,y+vS,z+1))
         y+=vS;
-    vSpeed=0;
-    if (fEnemy)
-        faceDir=irandom(360);
+    if (fBounce)
+        vSpeed=-round(vSpeed/bounciness);
+    else
+    {
+        vSpeed=0;
+        if (fEnemy)
+            faceDir=irandom(360);
+    }
 }
 y+=vSpeed;
 var zR=sign(zSpeed)*(height*0.5);
@@ -234,7 +244,7 @@ if !(fGhost)
             {
                 z=zH+fTop;
                 fOnGround=true;
-                zSpeed=0;
+                actor_bounce_z();
                 if (zAngle&gt;55)
                 {
                     hSpeed-=(fDir==0)-(fDir==2);
@@ -272,7 +282,7 @@ if !(fGhost)
         while (c_overlap_world_position(hitbox,x,y,z+zSpeed) &amp;&amp; !c_overlap_world_position(hitbox,x,y,z+zS))
             z+=zS;
         fOnGround=true;
-        zSpeed=0;
+        actor_bounce_z();
     }
     if (!fOnGround &amp;&amp; fGravity &amp;&amp; zSpeed&gt;-10)
         zSpeed-=0.1;
