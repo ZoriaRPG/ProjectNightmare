@@ -42,11 +42,14 @@ fBounce=false;
 //Physics
 z=9;
 radius=4;
+//The radius is the actor's width split in half, i.e. 8 = 4. This does not apply for
+//height.
 height=16;
 hSpeed=0;
 vSpeed=0;
 zSpeed=0;
 spd=0;
+bounciness=0;
 faceDir=0;
 sliding=false;
 //Collision
@@ -112,8 +115,8 @@ actor_clear();
             <string>///Animation &amp; physics
 //Keep the facing direction in range.
 faceDir=angle_normalize(faceDir);
-/*Loop the animation every time the end is reached.
-As a failsafe, check if the actor has a sprite. If not, abort.*/
+//Loop the animation every time the end is reached.
+//As a failsafe, check if the actor has a sprite. If not, abort.
 if (sprite!=-1)
 {
     var nums;
@@ -175,7 +178,7 @@ if !(fGhost)
         while (c_overlap_world_position(hitbox,x+hSpeed,y,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x+hS,y,z+1))
             x+=hS;
         hSpeed=0;
-        if (fBounce)
+        if (fEnemy)
             faceDir=irandom(360);
     }
 }
@@ -186,7 +189,7 @@ if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vSpeed,z+1))
     while (c_overlap_world_position(hitbox,x,y+vSpeed,z+1) &amp;&amp; !c_overlap_world_position(hitbox,x,y+vS,z+1))
         y+=vS;
     vSpeed=0;
-    if (fBounce)
+    if (fEnemy)
         faceDir=irandom(360);
 }
 y+=vSpeed;
@@ -234,8 +237,8 @@ if !(fGhost)
             var zH=height*0.5,zUp=abs(zDist)*(flor.height/zDir),zJump=max(0,zSpeed*2);
             //Check if the player is below the slope
             var fTop=fZ+zUp,zAngle=abs(point_direction(0,0,zDir,(fZ+flor.height)-fZ)-360);
-            /*zJump is there to allow the actor to jump on slopes.
-            If 2 * jumping speed is lower than 3, the actor won't be able to jump.*/
+            //zJump is there to allow the actor to jump on slopes.
+            //If 2 * jumping speed is lower than 3, the actor won't be able to jump.
             if (z-zH-3+zJump&lt;fTop &amp;&amp; z+zH-zJump&gt;fTop)
             {
                 z=zH+fTop;
