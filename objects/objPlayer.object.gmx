@@ -173,7 +173,7 @@ if (keyboard_check_pressed(ord("E")))
     else
     {
         near=instance_nearest(x,y,objHoldable);
-        if (near &amp;&amp; point_distance_3d(x,y,z,near.x,near.y,near.z)&lt;1.5*near.radius)
+        if (near &amp;&amp; point_distance_3d(x,y,z,near.x,near.y,near.z)&lt;2*near.radius)
         {
             near.target=other;
             holding=near;
