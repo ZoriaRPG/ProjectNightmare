@@ -48,6 +48,7 @@ texture_sprite_load(6,stLink);
 texture_sprite_load(7,stLinkRun);
 texture_sprite_load(8,stLinkJump);
 texture_sprite_load(9,stLinkBlink);
+texture_sprite_load(10,stBomb);
 c_init();
 worldShape=-1;
 worldObject=-1;

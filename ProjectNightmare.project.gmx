@@ -91,7 +91,7 @@
         <sprite>sprites\stLinkBlink</sprite>
       </sprites>
       <sprite>sprites\stGoomba</sprite>
-      <sprite>sprites\sprBomb</sprite>
+      <sprite>sprites\stBomb</sprite>
     </sprites>
     <sprites name="Level">
       <sprite>sprites\sprFloor</sprite>
@@ -224,6 +224,7 @@
     <objects name="Actors">
       <object>objects\objPlayerSpawn</object>
       <object>objects\objGoomba</object>
+      <object>objects\objBomb</object>
     </objects>
     <objects name="Special">
       <objects name="Parents">
