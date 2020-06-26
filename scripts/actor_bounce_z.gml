@@ -5,7 +5,10 @@ if (fBounce)
     {
         hSpeed/=bounciness;
         vSpeed/=bounciness;
-        zSpeed/=-bounciness;
+        if (zSpeed>=0.5)
+            zSpeed/=-bounciness;
+        else
+            zSpeed=0;
     }
     else
     {
