@@ -28,6 +28,7 @@
             <string>///Create actor
 //Actions
 hp=0;
+target=noone;
 //Flags
 fOnGround=true;
 fGravity=true;
