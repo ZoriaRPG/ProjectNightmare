@@ -28,7 +28,6 @@
             <string>event_inherited();
 fEnemy=true;
 fSolid=true;
-fBounce=true;
 alert=false;
 target=objPlayer;
 lostTarget=false;
