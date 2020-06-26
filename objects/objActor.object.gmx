@@ -254,7 +254,6 @@ if !(fGhost)
                 }
                 else
                     sliding=false;
-                zBlocked=true;
             }
             if (z-zH&gt;=fTop)
             {
