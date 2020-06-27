@@ -204,6 +204,8 @@
       <script>scripts\cutscene_message.gml</script>
       <script>scripts\cutscene_wait_message.gml</script>
     </scripts>
+    <script>scripts\timer_create.gml</script>
+    <script>scripts\timer_tick.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>

@@ -162,12 +162,12 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
     }
     else
     {
-        var lerpAmount=0.18;
+        var lerpAmount=0.18*global.deltaTime;
         //freelook
         if (free)
         {
             mouse_look(false);
-            lerpAmount=0.5;
+            lerpAmount=0.5*global.deltaTime;
         }
         else
             if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir!=tD)
@@ -188,7 +188,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         //smooth turning
         global.cX=lerp(global.cX,tX-incX,lerpAmount);
         global.cY=lerp(global.cY,tY-incY,lerpAmount);
-        global.cZ=max(global.minZ,lerp(global.cZ,tToZ,0.1));
+        global.cZ=max(global.minZ,lerp(global.cZ,tToZ,0.1*global.deltaTime));
         x=global.cX;
         y=global.cY;
         z=global.cZ;

@@ -30,6 +30,7 @@ wobble=0;
 state=0;
 image_xscale=0;
 image_alpha=0;
+timer_create();
 </string>
           </argument>
         </arguments>
@@ -57,14 +58,12 @@ switch (state)
 {
     case (0):
         //Set our timer to begin
-        alarm[0]=30;
+        timer[0]=30;
         state=1;
     break
     case (1):
         //Tick down the timer before the logo appears.
-        if (alarm[0])
-            alarm[0]--;
-        else
+        if (timer_tick(0))
         {
             //Play sound based on random intro variety
             var snd=sndIntroCoin;
@@ -82,22 +81,21 @@ switch (state)
             state=3;
         }
         else
-            image_xscale+=0.05;
+            image_xscale+=0.05*global.deltaTime;
     break
     case (3):
         //dewobble the logo
         if (wobble&gt;0)
-            wobble-=0.05;
+            wobble-=0.05*global.deltaTime;
         else
         {
-            alarm[0]=30;
+            wobble=0;
+            timer[0]=30;
             state=4;
         }
     break
     case (4):
-        if (alarm[0])
-            alarm[0]--;
-        else
+        if (timer_tick(0))
         {
             //It's-a me, Mario!
             var snd=sndIntroMario;
@@ -105,41 +103,38 @@ switch (state)
             if (global.link)
                 snd=sndIntroLink;
             audio_play_sound(snd,1,false);
-            alarm[0]=30;
+            timer[0]=30;
             state=5;
         }
     break
     case (5):
-        if (alarm[0])
-            alarm[0]--;
-        else
+        timer_tick(0);
+        if !(timer[0])
             if (image_alpha)
             {
-                alarm[0]=80;
+                timer[0]=80;
                 state=6;
             }
             else
-                image_alpha+=0.05;
+                image_alpha+=0.05*global.deltaTime;
     break
     case (6):
-        if (alarm[0])
-            alarm[0]--;
-        else
+        timer_tick(0);
+        if !(timer[0])
             if (image_alpha&gt;0)
-                image_alpha-=0.05;
+                image_alpha-=0.05*global.deltaTime;
             else
                 if (image_xscale&gt;0)
-                    image_xscale-=0.05;
+                    image_xscale-=0.05*global.deltaTime;
                 else
                 {
-                    alarm[0]=40;
+                    image_xscale=0;
+                    timer[0]=40;
                     state=7;
                 }
     break
     case (7):
-        if (alarm[0])
-            alarm[0]--;
-        else
+        if (timer_tick(0))
             room_goto_next();
     break
 }

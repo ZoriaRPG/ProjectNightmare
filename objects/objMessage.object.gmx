@@ -25,63 +25,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>alarm[0]=10;
-alarm[1]=5;
+            <string>timer_create();
+timer[0]=10;
+timer[1]=5;
 alarmToggle=false;
 message[0]="";
 currentMessage=1;
 audio_play_sound(sndMessageOpen,1,false);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if (message[0]!=message[currentMessage])
-    audio_play_sound(sndMessage,1,false);
-alarm[1]=5;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if (alarmToggle)
-    instance_destroy();
-else
-    alarmToggle=true;
 </string>
           </argument>
         </arguments>
@@ -104,7 +54,18 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (alarmToggle &amp;&amp; alarm[0]==-1)
+            <string>if (timer_tick(0))
+    if (alarmToggle)
+        instance_destroy();
+    else
+        alarmToggle=true;
+if (timer_tick(1))
+{
+    if (message[0]!=message[currentMessage])
+        audio_play_sound(sndMessage,1,false);
+    timer[1]=5;
+}
+if (alarmToggle &amp;&amp; timer[0]==-65536)
 {
     if (message[0]!=message[currentMessage])
     {
@@ -124,7 +85,7 @@ else
         else
         {
             audio_play_sound(sndMessageClose,1,false);
-            alarm[0]=10;
+            timer[0]=10;
         }
 }
 </string>
@@ -151,12 +112,12 @@ else
             <kind>1</kind>
             <string>var scale;
 if (alarmToggle)
-    if (alarm[0])
-        scale=alarm[0];
+    if (timer[0])
+        scale=timer[0];
     else
         scale=10;
 else
-    scale=(10-alarm[0]);
+    scale=(10-timer[0]);
 scale*=0.1;
 draw_set_color(c_black);
 draw_set_alpha(0.51);

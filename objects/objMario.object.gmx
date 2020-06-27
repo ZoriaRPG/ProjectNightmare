@@ -39,35 +39,6 @@ hitbox_create();
         </arguments>
       </action>
     </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Blink
-if !(sprite)
-{
-    sprite=3;
-    frameSpd=0.2;
-}
-event_inherited();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -86,6 +57,16 @@ event_inherited();
           <argument>
             <kind>1</kind>
             <string>///Mario's animation &amp; move test
+//Blink
+if (timer_tick(0))
+{
+    if !(sprite)
+    {
+        sprite=3;
+        frameSpd=0.2;
+    }
+    timer[0]=irandom_range(60,300);
+}
 if (sprite==3)
     if (frame&gt;=2.5)
     {
@@ -105,7 +86,7 @@ if (onGround)
     if (spdDis)
     {
         sprite=1;
-        frameSpd=spdDis*0.125;
+        frameSpd=spdDis*0.15;
     }
     else
         if (sprite!=3)

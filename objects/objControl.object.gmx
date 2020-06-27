@@ -71,36 +71,13 @@ global.battle=false;
 global.paused=false;
 global.minZ=0;
 global.messageFont=font_add_sprite(sprFont,ord("!"),true,1);
+global.deltaTime=60/1000000*delta_time;
 pauseBg=-1;
 pauseX=-463;
 lolfps=fps_real;
-alarm[0]=60;
+timer_create();
+timer[0]=320;
 display_set_gui_size(960,540);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Update FPS counter
-lolfps=fps_real;
-alarm[0]=60;
 </string>
           </argument>
         </arguments>
@@ -123,7 +100,14 @@ alarm[0]=60;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Level music control
+            <string>///Level music control &amp; delta timing
+//Update FPS counter
+if (timer_tick(0))
+{
+    lolfps=fps_real;
+    timer[0]=320;
+}
+global.deltaTime=60/1000000*delta_time;
 if !(global.paused)
 {
     if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
@@ -336,7 +320,8 @@ global.world=c_world_create();
 c_world_add_object(worldObject);
 show_debug_message("Done");
 //Reset in-game states
-for (var i=0;i&lt;2;i++)
+var i;
+for (i=0;i&lt;2;i++)
     if (global.levelMusic[i])
     {
         global.musicVolume[i]=!i;
@@ -346,6 +331,7 @@ for (var i=0;i&lt;2;i++)
 global.battle=false;
 if (room==rmTitle)
     audio_sound_gain(global.levelMusic[0],1,0);
+room_speed=320;
 </string>
           </argument>
         </arguments>
@@ -401,7 +387,7 @@ if (global.paused)
     draw_rectangle_colour(0,0,960,540,c_black,c_black,c_black,c_black,false);
     draw_set_alpha(1);
 }
-pauseX=lerp(pauseX,!global.paused*-463,0.25);
+pauseX=lerp(pauseX,!global.paused*-463,0.25*global.deltaTime);
 var pX2=2*pauseX+(800*global.paused);
 var font=fntMario;
 if (global.link)
@@ -413,7 +399,8 @@ draw_set_halign(fa_left);
 draw_set_font(-1);
 draw_background(bgPauseMario,pauseX,0);
 draw_sprite_ext(sprIntro,global.link,pX2,100,0.5,0.5,0,c_white,1);
-draw_text(8,8,string(round(lolfps))+" FPS#"+string(global.link));
+draw_text(8,8,string(round(lolfps))+" FPS#"+string(global.link)+"#"+
+          string(global.deltaTime));
 </string>
           </argument>
         </arguments>

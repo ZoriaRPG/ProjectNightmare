@@ -38,31 +38,6 @@ scale=0.1875;
         </arguments>
       </action>
     </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>alert=false;
-spd=0.4;
-lostTarget=false;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="2">
       <action>
         <libid>1</libid>
@@ -111,6 +86,12 @@ if (shadowZ!=-65536 &amp;&amp; !c_raycast_world(x,y,shadowZ+1,x+hSpeed,y+vSpeed,
           <argument>
             <kind>1</kind>
             <string>///Goomba AI
+if (timer_tick(0))
+{
+    alert=false;
+    spd=0.4;
+    lostTarget=false;
+}
 if (cutscene_exists())
 {
     spd=0;
@@ -128,7 +109,7 @@ if (instance_exists(target))
     {if (!alert &amp;&amp; target.z&gt;z-8 &amp;&amp; target.z&lt;z+8 &amp;&amp; point_distance_3d(x,y,z,target.x,target.y,target.z)&lt;100 &amp;&amp; !c_raycast_world(x,y,z,target.x,target.y,target.z,1))
     {
         d3d_sound_play(sndGoomba,false,1);
-        alarm[0]=600;
+        timer[0]=600;
         alert=true;
         spd=1;
         zSpeed=1;
@@ -141,7 +122,7 @@ if (alert)
     if (!lostTarget &amp;&amp; (point_distance_3d(x,y,z,target.x,target.y,target.z)&gt;=100 || c_raycast_world(x,y,z,target.x,target.y,target.z,1)))
     {
         lostTarget=true;
-        alarm[0]=60;
+        timer[0]=60;
     }
 }
 var player=instance_place(x,y,objPlayer);

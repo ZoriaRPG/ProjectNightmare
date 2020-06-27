@@ -64,30 +64,6 @@ audio_play_sound(musTitle,1,true);
         </arguments>
       </action>
     </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>toMenu=1;
-transition=true;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -106,38 +82,50 @@ transition=true;
           <argument>
             <kind>1</kind>
             <string>///Menu control
+if (timer_tick(0))
+{
+    toMenu=1;
+    transition=true;
+}
 switch (state)
 {
     case (0):
         //grow the logo
         if (image_xscale)
         {
+            image_xscale=1;
             wobble=1;
             state=1;
         }
         else
-            image_xscale+=0.05;
+            image_xscale+=0.05*global.deltaTime;
     break
     case (1):
         //dewobble the logo
         if (wobble&gt;0)
-            wobble-=0.05;
+            wobble-=0.05*global.deltaTime;
         else
+        {
+            wobble=0;
             state=2;
+        }
     break
 }
 //Transition to other menus
 if (transition)
     if (transY&lt;240)
-        transY+=40;
+        transY+=30*global.deltaTime;
     else
     {
+        transY=240;
         transition=false;
         currentMenu=toMenu;
     }
 else
     if (transY&gt;0)
-        transY-=40;
+        transY-=30*global.deltaTime;
+    else
+        transY=0;
 </string>
           </argument>
         </arguments>
@@ -164,10 +152,10 @@ else
 //Now we need to prepare a lot of variables for recycling. Optimization is important, of
 //course.
 var vw=view_wview[0]*0.5,vh=view_hview[0]*0.5,dir=get_timer()/900,
-    s=(image_xscale+lengthdir_x(wobble*0.5,dir))*460,w=wobble*0.04,
+    s=(image_xscale+lengthdir_x(wobble*0.5,dir))*230,w=wobble*0.04,
     blink=merge_color(make_color_rgb(248,248,248),make_color_rgb(251,231,0),
-          abs(lengthdir_x(1,get_timer()/4500))),wx=2*(image_xscale+lengthdir_x(w,dir)),
-    wy=2*(image_xscale+lengthdir_y(w,dir)),tvh=vh+transY,wx2=2*wx,wy2=2*wy;
+          abs(lengthdir_x(1,get_timer()/4500))),wx=image_xscale+lengthdir_x(w,dir),
+    wy=image_xscale+lengthdir_y(w,dir),tvh=vh+transY,wx2=2*wx,wy2=2*wy;
 draw_set_alpha(0.51);
 draw_rectangle_color(vw-s,0,vw+s,view_hview[0],c_black,c_black,c_black,c_black,false);
 draw_set_alpha(1);
@@ -288,12 +276,12 @@ transY=220;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (alarm[0]==-1)
+            <string>if (timer[0]==-65536)
     switch (currentMenu)
     {
         case (0):
             audio_play_sound(sndBegin,1,false);
-            alarm[0]=60;
+            timer[0]=60;
         break
         case (1):
             if !(instance_exists(objTransition))
