@@ -482,6 +482,7 @@ if (((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused
     audio_sound_gain(global.levelMusic[global.battle],1/(1+4*global.paused),100);
     if (global.paused)
     {
+        pauseX=1000;
         pauseBg=background_create_from_surface(application_surface,0,0,view_wview[0],view_hview[0],false,false);
         instance_deactivate_all(true);
     }
