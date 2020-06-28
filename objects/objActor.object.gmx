@@ -147,7 +147,7 @@ if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable)
 }
 var hFinal=hSpeed*global.deltaTime,vFinal=vSpeed*global.deltaTime,
     zFinal=zSpeed*global.deltaTime;
-if !(fGhost)
+if !(sliding &amp;&amp; fGhost)
 {
     //Step collision
     if (zSpeed&lt;=0)
@@ -194,7 +194,7 @@ if !(fGhost)
     }
 }
 x+=hFinal;
-if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vFinal,z+1))
+if (!sliding &amp;&amp; !fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vFinal,z+1))
 {
     var vS=sign(vFinal);
     while (c_overlap_world_position(hitbox,x,y+vFinal,z+1) &amp;&amp;
@@ -272,7 +272,7 @@ if !(fGhost)
             //If 2 * jumping speed is lower than 3, the actor won't be able to jump.
             if (z-zH-3+zJump&lt;fTop &amp;&amp; z+zH-zJump&gt;fTop)
             {
-                if (fBounce)
+                if (fBounce &amp;&amp; !sliding)
                     fOnGround=actor_bounce_z()==0;
                 else
                 {
@@ -282,19 +282,24 @@ if !(fGhost)
                 }
                 zFinal=zSpeed*global.deltaTime;
                 if (zAngle&gt;55)
+                {
+                    var slideX=(fDir==0)-(fDir==2),slideY=(fDir==1)-(fDir==3);
                     if (sliding)
                     {
-                        hSpeed=clamp(hSpeed-((fDir==0)-(fDir==2))*0.2*global.deltaTime,-2,2);
-                        vSpeed=clamp(vSpeed+((fDir==1)-(fDir==3))*0.2*global.deltaTime,-2,2);
+                        hSpeed=clamp(hSpeed-slideX*0.1*global.deltaTime,-1,1);
+                        vSpeed=clamp(vSpeed+slideY*0.1*global.deltaTime,-1,1);
                         zSpeed=-0.5*global.deltaTime;
                         zFinal=zSpeed*global.deltaTime;
+                        faceDir=point_direction(0,0,-slideX,slideY);
                     }
                     else
                     {
                         hSpeed=0;
                         vSpeed=0;
                         sliding=true;
+                        show_debug_message("Starting slide");
                     }
+                }
                 else
                     sliding=false;
             }
@@ -318,18 +323,21 @@ if !(fGhost)
         shadowPitch=0;
         sliding=false;
     }
-    if (!fOnGround &amp;&amp; c_overlap_world_position(hitbox,x,y,z+zFinal))
+    if !(fOnGround)
     {
-        var zS=sign(zFinal);
-        while (c_overlap_world_position(hitbox,x,y,z+zFinal) &amp;&amp;
-               !c_overlap_world_position(hitbox,x,y,z+zS))
+        if (c_overlap_world_position(hitbox,x,y,z+zFinal))
+        {
+            var zS=sign(zFinal);
+            while (c_overlap_world_position(hitbox,x,y,z+zFinal) &amp;&amp;
+                !c_overlap_world_position(hitbox,x,y,z+zS))
             z+=zS;
-        fOnGround=true;
-        actor_bounce_z();
-        zFinal=zSpeed*global.deltaTime;
+            fOnGround=true;
+            actor_bounce_z();
+            zFinal=zSpeed*global.deltaTime;
+        }
+        if (fGravity &amp;&amp; zSpeed&gt;-10)
+            zSpeed-=0.1*global.deltaTime;
     }
-    if (!fOnGround &amp;&amp; fGravity &amp;&amp; zSpeed&gt;-10)
-        zSpeed-=0.1*global.deltaTime;
 }
 z+=zFinal;
 </string>

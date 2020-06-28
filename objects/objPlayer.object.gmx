@@ -106,13 +106,13 @@ if (keyboard_check_pressed(ord("R")))
     zSpeed=0;
 }
 //Code by YAL
-var keyX=keyboard_check(ord("W"))-keyboard_check(ord("S")),
+var keyX=(keyboard_check(ord("W"))-keyboard_check(ord("S"))),
     keyY=keyboard_check(ord("D"))-keyboard_check(ord("A")),
     keyL,camD=0;
 onGround=(c_overlap_world_position(hitbox,x,y,z-2) || fOnGround) &amp;&amp; !sliding;
 spdDis=point_distance(0,0,hSpeed,vSpeed);
 //length of moving vector:
-keyL=point_distance(0,0,keyX,keyY);
+keyL=point_distance(0,0,keyX,keyY)*!sliding;
 //if needed, normalize vector to prevent faster diagonal movement:
 if (keyL&gt;1)
 {
