@@ -227,9 +227,12 @@ if !(fGhost)
     /*Slope collisions: these are objects instead of actual hitboxes. Because of Shaun
     Spalding's unstable collision code, I had to resort to this. As long as you put
     walls around slopes, there should be no weird bugs. Otherwise, if you touch a slope
-    from above, you'll end up teleporting to the top of the slope.*/
+    from above, you'll end up teleporting to the top of the slope.
+    P.S. Don't put slope objects on top of each other, otherwise the latest one will be
+    make the one below it unusable. I will fix this later, but for now it just works
+    ECKS DEE!!!1111one*/
     var x1=x-0.5,y1=y-0.5,x2=x+0.5,y2=y+0.5;
-    var flor=collision_rectangle(x1,y1,x2,y2,objFloor,true,false);
+    var flor=collision_rectangle(x1,y1,x2,y2,objFloor,false,false);
     if (flor)
     {
         var inSlope=true,fX=flor.x,fY=flor.y,fW=flor.sprite_width,fH=flor.sprite_height,
@@ -294,8 +297,8 @@ if !(fGhost)
                     }
                     else
                     {
-                        hSpeed=0;
-                        vSpeed=0;
+                        //hSpeed=0;
+                        //vSpeed=0;
                         sliding=true;
                         show_debug_message("Starting slide");
                     }

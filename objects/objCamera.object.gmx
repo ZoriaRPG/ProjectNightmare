@@ -288,8 +288,12 @@ texture_set_repeat(true);
 for (var i=0;i&lt;ds_list_size(global.worldModel);i++)
 {
     var object=ds_list_find_value(global.worldModel,i),
-        texSlot=ds_list_find_value(object,1),tex=global.tex[texSlot],
-        tW=global.tSize[texSlot,0],tH=global.tSize[texSlot,1],
+        texSlot=ds_list_find_value(object,1);
+    //Skip invisible geometry
+    if (texSlot==-1)
+        continue
+    //Otherwise, continue
+    var tex=global.tex[texSlot],tW=global.tSize[texSlot,0],tH=global.tSize[texSlot,1],
         val=ds_list_find_value(object,2);
     //Check geometry type header
     switch (ds_list_find_value(object,0))
