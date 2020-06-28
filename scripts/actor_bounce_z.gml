@@ -1,3 +1,4 @@
+///Returns the actor's new zSpeed after bouncing.
 if (fBounce)
 {
     //Prevent division by zero error if a holdable is not bouncy at all.
@@ -19,3 +20,4 @@ if (fBounce)
 }
 else
     zSpeed=0;
+return (zSpeed)

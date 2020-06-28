@@ -272,9 +272,14 @@ if !(fGhost)
             //If 2 * jumping speed is lower than 3, the actor won't be able to jump.
             if (z-zH-3+zJump&lt;fTop &amp;&amp; z+zH-zJump&gt;fTop)
             {
-                z=zH+fTop;
-                fOnGround=true;
-                actor_bounce_z();
+                if (fBounce)
+                    fOnGround=actor_bounce_z()==0;
+                else
+                {
+                    z=zH+fTop;
+                    zSpeed=0;
+                    fOnGround=true;
+                }
                 zFinal=zSpeed*global.deltaTime;
                 if (zAngle&gt;55)
                 {
