@@ -28,6 +28,7 @@
             <string>timer_create();
 timer[0]=10;
 timer[1]=5;
+timer[2]=1;
 alarmToggle=false;
 message[0]="";
 currentMessage=1;
@@ -69,10 +70,15 @@ if (alarmToggle &amp;&amp; timer[0]==-65536)
 {
     if (message[0]!=message[currentMessage])
     {
-        message[0]=string_copy(message[currentMessage],1,string_length(message[0])+1);
+        if (timer_tick(2))
+        {
+            message[0]=string_copy(message[currentMessage],1,string_length(message[0])+1);
+            timer[2]=1;
+        }
         if (keyboard_check_pressed(vk_space))
         {
             message[0]=message[currentMessage];
+            timer[2]=-65536;
             exit
         }
     }
@@ -80,6 +86,7 @@ if (alarmToggle &amp;&amp; timer[0]==-65536)
         if (currentMessage&lt;array_length_1d(message)-1)
         {
             message[0]="";
+            timer[2]=1;
             currentMessage++;
         }
         else
