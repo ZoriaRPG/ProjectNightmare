@@ -136,8 +136,8 @@ if (keyL&gt;0)
                                                                     lY),
         lX2=abs(lengthdir_x(vector,faceDir))*2,
         lY2=abs(lengthdir_y(vector,faceDir))*2,acc2=0.75;
-    hSpeed=clamp(hSpeed+((lX*acc2)/acc),-lX2,lX2);
-    vSpeed=clamp(vSpeed+((lY*acc2)/acc),-lY2,lY2);
+    hSpeed=clamp(hSpeed+((lX*acc2)/acc)*global.deltaTime,-lX2,lX2);
+    vSpeed=clamp(vSpeed+((lY*acc2)/acc)*global.deltaTime,-lY2,lY2);
 }
 //jump when on the ground
 if (onGround)

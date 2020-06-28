@@ -282,13 +282,19 @@ if !(fGhost)
                 }
                 zFinal=zSpeed*global.deltaTime;
                 if (zAngle&gt;55)
-                {
-                    hSpeed-=(fDir==0)-(fDir==2);
-                    vSpeed+=(fDir==1)-(fDir==3);
-                    zSpeed=-1;
-                    zFinal=-1*global.deltaTime;
-                    sliding=true;
-                }
+                    if (sliding)
+                    {
+                        hSpeed=clamp(hSpeed-((fDir==0)-(fDir==2))*0.2*global.deltaTime,-2,2);
+                        vSpeed=clamp(vSpeed+((fDir==1)-(fDir==3))*0.2*global.deltaTime,-2,2);
+                        zSpeed=-0.5*global.deltaTime;
+                        zFinal=zSpeed*global.deltaTime;
+                    }
+                    else
+                    {
+                        hSpeed=0;
+                        vSpeed=0;
+                        sliding=true;
+                    }
                 else
                     sliding=false;
             }
