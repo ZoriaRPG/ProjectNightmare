@@ -30,6 +30,7 @@ timer[0]=10;
 timer[1]=5;
 timer[2]=1;
 alarmToggle=false;
+show=false;
 message[0]="";
 currentMessage=1;
 audio_play_sound(sndMessageOpen,1,false);
@@ -59,7 +60,10 @@ audio_play_sound(sndMessageOpen,1,false);
     if (alarmToggle)
         instance_destroy();
     else
+    {
         alarmToggle=true;
+        show=true;
+    }
 if (timer_tick(1))
 {
     if (message[0]!=message[currentMessage])
@@ -93,6 +97,7 @@ if (alarmToggle &amp;&amp; timer[0]==-65536)
         {
             audio_play_sound(sndMessageClose,1,false);
             timer[0]=10;
+            show=false;
         }
 }
 </string>
@@ -117,14 +122,13 @@ if (alarmToggle &amp;&amp; timer[0]==-65536)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var scale;
-if (alarmToggle)
-    if (timer[0])
+            <string>if (show)
+    scale=10;
+else
+    if (alarmToggle)
         scale=timer[0];
     else
-        scale=10;
-else
-    scale=(10-timer[0]);
+        scale=(10-timer[0]);
 scale*=0.1;
 draw_set_color(c_black);
 draw_set_alpha(0.51);
