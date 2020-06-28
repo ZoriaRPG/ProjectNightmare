@@ -97,7 +97,9 @@ if (timer_tick(0))
 }
 if (instance_exists(objCamera) &amp;&amp; !global.follow)
 {
-    var l=lerpAmount*global.deltaTime;
+    var l=lerpAmount;
+    if (l!=1)
+        l*=global.deltaTime;
     global.cX=lerp(global.cX,x,l);
     global.cY=lerp(global.cY,y,l);
     global.cZ=lerp(global.cZ,z,l);
