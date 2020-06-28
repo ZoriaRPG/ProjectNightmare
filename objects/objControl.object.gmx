@@ -76,7 +76,7 @@ pauseBg=-1;
 pauseX=-463;
 lolfps=fps_real;
 timer_create();
-timer[0]=320;
+timer[0]=60;
 display_set_gui_size(960,540);
 </string>
           </argument>
@@ -105,7 +105,7 @@ display_set_gui_size(960,540);
 if (timer_tick(0))
 {
     lolfps=fps_real;
-    timer[0]=320;
+    timer[0]=60;
 }
 global.deltaTime=60/1000000*delta_time;
 if !(global.paused)
