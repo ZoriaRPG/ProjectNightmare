@@ -30,30 +30,26 @@
 hp=0;
 target=noone;
 //Flags
-fOnGround=true;
+fOnGround=true; //Used to check if the actor is on the ground, to do specific things.
 fGravity=true;
-fGhost=false;
+fGhost=false; //Turn on if you don't want the actor to have collision checking.
 fVisible=true;
 fShadow=true;
-fEnemy=false;
+fEnemy=false; //Used by objEnemy.
 fSolid=false;
-fPushable=false;
-fBounce=false;
-//fPushable allows the actor to be pushed back when it touches a solid actor.
+fPushable=false; //Turn on if you want the actor to get pushed back when touching other actors.
+fBounce=false; //Turn on if you want the actor to bounce from walls and floors. You can also change the bounciness value.
 //Physics
 z=9;
-radius=4;
-//The radius is the actor's width split in half, i.e. 8 = 4. This does not apply for
-//height.
+radius=4; //The radius is the actor's width split in half, i.e. 8 = 4.
 height=16;
 hSpeed=0;
 vSpeed=0;
 zSpeed=0;
 spd=0;
-bounciness=1;
-//Bounciness is calculated by spd divided by bounciness. Less is more.
+bounciness=1; //Bounciness is calculated by spd divided by bounciness. Less is more.
 faceDir=0;
-sliding=false;
+sliding=false; //Used for sliding off of steep slopes.
 //Collision
 hitboxShape=-1;
 hitbox=-1;
@@ -62,10 +58,10 @@ shadowZ=-9;
 shadowDir=0;
 shadowPitch=0;
 sprite=-1;
-frame=0;
-frameSpd=0;
-rotate=false;
-scale=1;
+frame=0; //Similar to image_index.
+frameSpd=0; //Similar to image_speed.
+rotate=false; //Use rotate only if your sprite has 4 angles.
+scale=1; //scale is used for changing the actor's sprite size. Does not affect hitbox.
 emitter=audio_emitter_create();
 audio_emitter_falloff(emitter,85.5,170.5,1);
 timer_create();
@@ -121,12 +117,15 @@ faceDir=angle_normalize(faceDir);
 //Update sprite
 actor_sprite_update();
 //Shadow position
+//The shadowZ will always be at -65536 if no floor is detected.
 if (fShadow)
     if (c_raycast_world(x,y,z,x,y,z-65536,1))
         shadowZ=c_hit_z()+0.1;
     else
         shadowZ=-65536;
-//Physics
+/*Physics
+spd is a shortcut for setting hSpeed and vSpeed based on faceDir. You have to 
+manually reset hSpeed and vSpeed if you want to stop the actor from moving.*/
 if (spd!=0 &amp;&amp; !sliding)
 {
     hSpeed=lengthdir_x(spd,faceDir);
@@ -134,24 +133,29 @@ if (spd!=0 &amp;&amp; !sliding)
 }
 //Actor collision
 var actorTouch=instance_place(x,y,objActor);
+//If there is a solid actor and I'm pushable...
 if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable)
 {
     var h=height*0.5,actorH=actorTouch.height*0.5,actorTop=actorTouch.z+actorH,
         actorBottom=actorTouch.z-actorH;
+    //And if I am overlapping the actor...
     if (z-h&lt;actorTop &amp;&amp; z+h&gt;actorBottom)
     {
+        //Move out of the way
         var angle=point_direction(x,y,actorTouch.x,actorTouch.y);
         hSpeed=lengthdir_x(-0.3,angle)+actorTouch.hSpeed;
         vSpeed=lengthdir_y(-0.3,angle)+actorTouch.vSpeed;
     }
 }
+//Adjust every speed based on delta time, This will save a lot of time
 var hFinal=hSpeed*global.deltaTime,vFinal=vSpeed*global.deltaTime,
     zFinal=zSpeed*global.deltaTime;
 if !(fGhost)
 {
-    //Step collision
+    //Step collision: If I'm on the ground or falling...
     if (zSpeed&lt;=0)
     {
+        //Check for steps and slopes by raycasting from all edges
         var half=height*0.5,bottom=z-half,bottom2=bottom+4;
         if (c_raycast_world(x-radius,y-radius,bottom,x-radius+hFinal,y-radius+vFinal,bottom2,1) ||
             c_raycast_world(x+radius,y-radius,bottom,x+radius+hFinal,y-radius+vFinal,bottom2,1) ||
@@ -159,10 +163,12 @@ if !(fGhost)
             c_raycast_world(x+radius,y+radius,bottom,x+radius+hFinal,y+radius+vFinal,bottom2,1))
         {
             var zz=c_hit_z()+half;
+            //Quick hack to check if it's not actually a tall wall
             if !(c_overlap_world_position(hitbox,c_hit_x(),c_hit_y(),zz+8))
                 z=zz;
         }
     }
+    //Horizontal collision
     if (c_overlap_world_position(hitbox,x+hFinal,y,z+1))
     {
         var hS=sign(hFinal);
@@ -190,7 +196,8 @@ if !(fGhost)
     }
 }
 x+=hFinal;
-if (!sliding &amp;&amp; !fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vFinal,z+1))
+//Vertical collision
+if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+vFinal,z+1))
 {
     var vS=sign(vFinal);
     while (c_overlap_world_position(hitbox,x,y+vFinal,z+1) &amp;&amp;
@@ -216,6 +223,7 @@ if (!sliding &amp;&amp; !fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+v
     }
 }
 y+=vFinal;
+//Z-axis collision
 if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y,z+zFinal))
 {
     var zS=sign(zFinal);
