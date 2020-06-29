@@ -264,12 +264,12 @@ with (objFloor)
         global.minZ=min(global.minZ,z1,z2);
     else
         global.minZ=min(global.minZ,z1,z2,z3);
-    if (height==0 || ceiling)
-    {
+    //if (height==0 || ceiling)
+    //{
         if (angled)
             c_shape_add_triangle(x1,y1,z1,x2,y2,z2,x3,y3,z3);
         else
-            if (dir==1 &amp;&amp; dir==3)
+            if (dir==1 || dir==3)
             {
                 c_shape_add_triangle(x1,y1,z1,x2,y1,z1,x1,y2,z2);
                 c_shape_add_triangle(x2,y1,z1,x2,y2,z2,x1,y2,z2);
@@ -281,9 +281,9 @@ with (objFloor)
             }
         show_debug_message("Collision floor "+string(id));
         instance_destroy();
-    }
-    else
-        show_debug_message("Collision slope "+string(id));
+    //}
+    //else
+    //    show_debug_message("Collision slope "+string(id));
 }
 with (objWall)
 {

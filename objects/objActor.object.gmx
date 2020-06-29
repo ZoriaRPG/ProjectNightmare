@@ -147,25 +147,21 @@ if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable)
 }
 var hFinal=hSpeed*global.deltaTime,vFinal=vSpeed*global.deltaTime,
     zFinal=zSpeed*global.deltaTime;
-if !(sliding &amp;&amp; fGhost)
+if !(fGhost)
 {
     //Step collision
     if (zSpeed&lt;=0)
     {
-        if (c_overlap_world_position(hitbox,x+hFinal,y,z+1))
-            for (var i=1;i&lt;5;i++)
-                if !(c_overlap_world_position(hitbox,x+hFinal,y,z+i+1))
-                {
-                    z+=i;
-                    break
-                }
-        if (c_overlap_world_position(hitbox,x,y+vFinal,z+1))
-            for (var i=1;i&lt;5;i++)
-                if !(c_overlap_world_position(hitbox,x,y+vFinal,z+i+1))
-                {
-                    z+=i;
-                    break
-                }
+        var half=height*0.5,bottom=z-half,bottom2=bottom+4;
+        if (c_raycast_world(x-radius,y-radius,bottom,x-radius+hFinal,y-radius+vFinal,bottom2,1) ||
+            c_raycast_world(x+radius,y-radius,bottom,x+radius+hFinal,y-radius+vFinal,bottom2,1) ||
+            c_raycast_world(x-radius,y+radius,bottom,x-radius+hFinal,y+radius+vFinal,bottom2,1) ||
+            c_raycast_world(x+radius,y+radius,bottom,x+radius+hFinal,y+radius+vFinal,bottom2,1))
+        {
+            var zz=c_hit_z()+half;
+            if !(c_overlap_world_position(hitbox,c_hit_x(),c_hit_y(),zz+8))
+                z=zz;
+        }
     }
     if (c_overlap_world_position(hitbox,x+hFinal,y,z+1))
     {
@@ -220,128 +216,20 @@ if (!sliding &amp;&amp; !fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y+v
     }
 }
 y+=vFinal;
-var zR=sign(zFinal)*(height*0.5);
-if !(fGhost)
+if (!fGhost &amp;&amp; c_overlap_world_position(hitbox,x,y,z+zFinal))
 {
-    fOnGround=false;
-    /*Slope collisions: these are objects instead of actual hitboxes. Because of Shaun
-    Spalding's unstable collision code, I had to resort to this. As long as you put
-    walls around slopes, there should be no weird bugs. Otherwise, if you touch a slope
-    from above, you'll end up teleporting to the top of the slope.
-    P.S. Don't put slope objects on top of each other, otherwise the latest one will be
-    make the one below it unusable. I will fix this later, but for now it just works
-    ECKS DEE!!!1111one*/
-    var x1=x-0.5,y1=y-0.5,x2=x+0.5,y2=y+0.5;
-    var flor=collision_rectangle(x1,y1,x2,y2,objFloor,false,false);
-    if (flor)
-    {
-        var inSlope=true,fX=flor.x,fY=flor.y,fW=flor.sprite_width,fH=flor.sprite_height,
-            fA=flor.image_angle,fAD=fA-90;
-        if (flor.object_index==objFloorAngled &amp;&amp; 
-            !rectangle_in_triangle(x1,y1,x2,y2,fX,fY,fX+lengthdir_x(fW,fA),
-                                   fY+lengthdir_y(fW,fA),fX+lengthdir_x(fH,fAD),
-                                   fY+lengthdir_y(fH,fAD)))
-            inSlope=false;
-        if (inSlope)
-        {
-            var fZ=flor.z,zStart,zDist,zDir,fDir=flor.dir;
-            switch (fDir)
-            {
-                case (0):
-                    zStart=x;
-                    zDist=fX-x;
-                    zDir=fW;
-                break
-                case (1):
-                    zStart=y;
-                    zDist=(fY+fH)-y;
-                    zDir=fH;
-                break
-                case (2):
-                    zStart=x;
-                    zDist=(fX+fW)-x;
-                    zDir=fW;
-                break
-                case (3):
-                    zStart=y;
-                    zDist=fY-y;
-                    zDir=fH;
-                break
-            }
-            var zH=height*0.5,zUp=abs(zDist)*(flor.height/zDir),zJump=max(0,zSpeed*2);
-            //Check if the player is below the slope
-            var fTop=fZ+zUp,zAngle=abs(point_direction(0,0,zDir,(fZ+flor.height)-fZ)-360);
-            //zJump is there to allow the actor to jump on slopes.
-            //If 2 * jumping speed is lower than 3, the actor won't be able to jump.
-            if (z-zH-3+zJump&lt;fTop &amp;&amp; z+zH-zJump&gt;fTop)
-            {
-                if (fBounce &amp;&amp; !sliding)
-                    fOnGround=actor_bounce_z()==0;
-                else
-                {
-                    z=zH+fTop;
-                    zSpeed=0;
-                    fOnGround=true;
-                }
-                zFinal=zSpeed*global.deltaTime;
-                if (zAngle&gt;55)
-                {
-                    var slideX=(fDir==0)-(fDir==2),slideY=(fDir==1)-(fDir==3);
-                    if (sliding)
-                    {
-                        hSpeed=clamp(hSpeed-slideX*0.1*global.deltaTime,-1,1);
-                        vSpeed=clamp(vSpeed+slideY*0.1*global.deltaTime,-1,1);
-                        zSpeed=-0.5*global.deltaTime;
-                        zFinal=zSpeed*global.deltaTime;
-                        faceDir=point_direction(0,0,-slideX,slideY);
-                    }
-                    else
-                    {
-                        //hSpeed=0;
-                        //vSpeed=0;
-                        sliding=true;
-                        show_debug_message("Starting slide");
-                    }
-                }
-                else
-                    sliding=false;
-            }
-            if (z-zH&gt;=fTop)
-            {
-                shadowZ=fTop+0.1;
-                shadowDir=fDir;
-                shadowPitch=zAngle;
-            }
-            else
-                shadowPitch=0;
-        }
-        else
-        {
-            shadowPitch=0;
-            sliding=false;
-        }
-    }
-    else
-    {
-        shadowPitch=0;
-        sliding=false;
-    }
-    if !(fOnGround)
-    {
-        if (c_overlap_world_position(hitbox,x,y,z+zFinal))
-        {
-            var zS=sign(zFinal);
-            while (c_overlap_world_position(hitbox,x,y,z+zFinal) &amp;&amp;
-                !c_overlap_world_position(hitbox,x,y,z+zS))
-            z+=zS;
-            fOnGround=true;
-            actor_bounce_z();
-            zFinal=zSpeed*global.deltaTime;
-        }
-        if (fGravity &amp;&amp; zSpeed&gt;-10)
-            zSpeed-=0.1*global.deltaTime;
-    }
+    var zS=sign(zFinal);
+    while (c_overlap_world_position(hitbox,x,y,z+zFinal) &amp;&amp;
+        !c_overlap_world_position(hitbox,x,y,z+zS))
+    z+=zS;
+    fOnGround=true;
+    actor_bounce_z();
+    zFinal=zSpeed*global.deltaTime;
 }
+else
+    fOnGround=false;
+if (!fOnGround &amp;&amp; fGravity &amp;&amp; zSpeed&gt;-10)
+    zSpeed-=0.1*global.deltaTime;
 z+=zFinal;
 </string>
           </argument>
