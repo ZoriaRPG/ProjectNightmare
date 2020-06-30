@@ -159,7 +159,7 @@ if !(fGhost)
         //Check for steps and slopes by raycasting from all edges
         var xRad,yRad;
         if (zSpeed&lt;0)
-            bottom2=bottom-4;
+            bottom2=bottom-point_distance(0,0,hSpeed,vSpeed);
         for (var i=0;i&lt;4;i++)
         {
             switch (i)
@@ -192,6 +192,7 @@ if !(fGhost)
                     z=zz;
                     while (c_overlap_world_position(hitbox,x,y,z+1))
                         z++;
+                    zSpeed=0;
                 }
             }
         }
