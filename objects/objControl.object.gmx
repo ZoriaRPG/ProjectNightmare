@@ -53,8 +53,7 @@ c_init();
 worldShape=-1;
 worldObject=-1;
 global.world=-1;
-/*Geometry types are stored in global.worldModel. They will also contain a list with
-their position:
+/*Geometry types are stored in global.worldModel. They will also contain a list with their position:
 0 - floor
 1 - wall*/
 global.worldModel=ds_list_create();
@@ -62,14 +61,11 @@ audio_falloff_set_model(audio_falloff_exponent_distance);
 //Level properties
 for (var i=0;i&lt;2;i++)
     global.levelMusic[i]=noone;
-/*Music slot 0 is the main level music. Set it to noone for silence.
-Music slot 1 is used for battle music. Set it to noone for no battle music in levels.*/
-global.musicVolume[0]=1;
-global.musicVolume[1]=0;
-//global.battle is used for toggling the music. 
-global.battle=false;
+global.musicVolume[0]=1; //Music slot 0 is the main level music. Set it to noone for silence.
+global.musicVolume[1]=0; //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
+global.battle=false; //Used for switching between normal and battle music. 
 global.paused=false;
-global.minZ=0;
+global.minZ=0; //The minimal Z of the level. Used for deleting actors below this position.
 global.messageFont=font_add_sprite(sprFont,ord("!"),true,1);
 global.deltaTime=60/1000000*delta_time;
 pauseBg=-1;
@@ -108,6 +104,7 @@ if (timer_tick(0))
     timer[0]=60;
 }
 global.deltaTime=60/1000000*delta_time;
+//Music control. Sets volume of each track accordingly while the game is unpaused
 if !(global.paused)
 {
     if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
@@ -264,26 +261,21 @@ with (objFloor)
         global.minZ=min(global.minZ,z1,z2);
     else
         global.minZ=min(global.minZ,z1,z2,z3);
-    //if (height==0 || ceiling)
-    //{
-        if (angled)
-            c_shape_add_triangle(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+    if (angled)
+        c_shape_add_triangle(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+    else
+        if (dir==1 || dir==3)
+        {
+            c_shape_add_triangle(x1,y1,z1,x2,y1,z1,x1,y2,z2);
+            c_shape_add_triangle(x2,y1,z1,x2,y2,z2,x1,y2,z2);
+        }
         else
-            if (dir==1 || dir==3)
-            {
-                c_shape_add_triangle(x1,y1,z1,x2,y1,z1,x1,y2,z2);
-                c_shape_add_triangle(x2,y1,z1,x2,y2,z2,x1,y2,z2);
-            }
-            else
-            {
-                c_shape_add_triangle(x1,y1,z1,x2,y1,z2,x1,y2,z1);
-                c_shape_add_triangle(x2,y1,z2,x2,y2,z2,x1,y2,z1);
-            }
-        show_debug_message("Collision floor "+string(id));
-        instance_destroy();
-    //}
-    //else
-    //    show_debug_message("Collision slope "+string(id));
+        {
+            c_shape_add_triangle(x1,y1,z1,x2,y1,z2,x1,y2,z1);
+            c_shape_add_triangle(x2,y1,z2,x2,y2,z2,x1,y2,z1);
+        }
+    show_debug_message("Collision floor "+string(id));
+    instance_destroy();
 }
 with (objWall)
 {
@@ -320,8 +312,7 @@ global.world=c_world_create();
 c_world_add_object(worldObject);
 show_debug_message("Done");
 //Reset in-game states
-var i;
-for (i=0;i&lt;2;i++)
+for (var i=0;i&lt;2;i++)
     if (global.levelMusic[i])
     {
         global.musicVolume[i]=!i;
