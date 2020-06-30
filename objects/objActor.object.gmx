@@ -118,11 +118,10 @@ faceDir=angle_normalize(faceDir);
 actor_sprite_update();
 //Shadow position
 //The shadowZ will always be at -65536 if no floor is detected.
-if (fShadow)
-    if (c_raycast_world(x,y,z,x,y,z-65536,1))
-        shadowZ=c_hit_z()+0.1;
-    else
-        shadowZ=-65536;
+if (c_raycast_world(x,y,z,x,y,z-65536,1))
+    shadowZ=c_hit_z()+0.1;
+else
+    shadowZ=-65536;
 /*Physics
 spd is a shortcut for setting hSpeed and vSpeed based on faceDir. You have to 
 manually reset hSpeed and vSpeed if you want to stop the actor from moving.*/
@@ -153,12 +152,14 @@ var hFinal=hSpeed*global.deltaTime,vFinal=vSpeed*global.deltaTime,
 if !(fGhost)
 {
     //Step collision
-    var half=height*0.5,bottom=z-half;
+    var half=height*0.5,bottom=z-half,bottom2=bottom+4;
     //If I'm on the ground...
-    if (zSpeed==0)
+    if (zSpeed&lt;=0)
     {
         //Check for steps and slopes by raycasting from all edges
-        var bottom2=bottom+4,xRad,yRad;
+        var xRad,yRad;
+        if (zSpeed&lt;0)
+            bottom2=bottom-4;
         for (var i=0;i&lt;4;i++)
         {
             switch (i)
@@ -187,7 +188,11 @@ if !(fGhost)
                 var zz=c_hit_z()+half;
                 //Quick hack to check if it's not actually a tall wall
                 if !(c_overlap_world_position(hitbox,c_hit_x(),c_hit_y(),zz+8))
+                {
                     z=zz;
+                    while (c_overlap_world_position(hitbox,x,y,z+1))
+                        z++;
+                }
             }
         }
     }
