@@ -152,20 +152,43 @@ var hFinal=hSpeed*global.deltaTime,vFinal=vSpeed*global.deltaTime,
     zFinal=zSpeed*global.deltaTime;
 if !(fGhost)
 {
-    //Step collision: If I'm on the ground or falling...
-    if (zSpeed&lt;=0)
+    //Step collision
+    var half=height*0.5,bottom=z-half;
+    //If I'm on the ground...
+    if (zSpeed==0)
     {
         //Check for steps and slopes by raycasting from all edges
-        var half=height*0.5,bottom=z-half,bottom2=bottom+4;
-        if (c_raycast_world(x-radius,y-radius,bottom,x-radius+hFinal,y-radius+vFinal,bottom2,1) ||
-            c_raycast_world(x+radius,y-radius,bottom,x+radius+hFinal,y-radius+vFinal,bottom2,1) ||
-            c_raycast_world(x-radius,y+radius,bottom,x-radius+hFinal,y+radius+vFinal,bottom2,1) ||
-            c_raycast_world(x+radius,y+radius,bottom,x+radius+hFinal,y+radius+vFinal,bottom2,1))
+        var bottom2=bottom+4,xRad,yRad;
+        for (var i=0;i&lt;4;i++)
         {
-            var zz=c_hit_z()+half;
-            //Quick hack to check if it's not actually a tall wall
-            if !(c_overlap_world_position(hitbox,c_hit_x(),c_hit_y(),zz+8))
-                z=zz;
+            switch (i)
+            {
+                case (0):
+                    xRad=-1;
+                    yRad=-1;
+                break
+                case (1):
+                    xRad=1;
+                    yRad=-1;
+                break
+                case (2):
+                    xRad=1;
+                    yRad=1;
+                break
+                case (3):
+                    xRad=-1;
+                    yRad=1;
+                break
+            }
+            xRad*=radius;
+            yRad*=radius;
+            if (c_raycast_world(x+xRad,y+yRad,bottom,x+xRad+hFinal,y+yRad+vFinal,bottom2,1))
+            {
+                var zz=c_hit_z()+half;
+                //Quick hack to check if it's not actually a tall wall
+                if !(c_overlap_world_position(hitbox,c_hit_x(),c_hit_y(),zz+8))
+                    z=zz;
+            }
         }
     }
     //Horizontal collision
