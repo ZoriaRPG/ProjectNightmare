@@ -27,7 +27,7 @@
     <sounds name="Music">
       <sound>sound\musTitle</sound>
       <sound>sound\musHyrule</sound>
-      <sound>sound\musHyruleBattle</sound>
+      <sound>sound\musBattle</sound>
       <sound>sound\musLose</sound>
     </sounds>
     <sounds name="Intro">

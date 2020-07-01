@@ -11,7 +11,7 @@
   <colour>16777164</colour>
   <showcolour>-1</showcolour>
   <code>global.levelMusic[0]=musHyrule;
-global.levelMusic[1]=musHyruleBattle;</code>
+global.levelMusic[1]=musBattle;</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
