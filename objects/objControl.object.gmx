@@ -392,6 +392,8 @@ draw_background(bgPauseMario,pauseX,0);
 draw_sprite_ext(sprIntro,global.link,pX2,100,0.5,0.5,0,c_white,1);
 draw_text(8,8,string(round(lolfps))+" FPS#"+string(global.link)+"#"+
           string(global.deltaTime));
+if (instance_exists(objPlayer) &amp;&amp; c_raycast_world(objPlayer.x,objPlayer.y,objPlayer.z,objPlayer.x,objPlayer.y,objPlayer.z-65536,1))
+    draw_text(8,64,string(c_hit_nx())+", "+string(c_hit_ny())+", "+string(c_hit_nz()));
 </string>
           </argument>
         </arguments>
