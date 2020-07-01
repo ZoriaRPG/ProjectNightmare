@@ -118,10 +118,11 @@ faceDir=angle_normalize(faceDir);
 actor_sprite_update();
 //Shadow position
 //The shadowZ will always be at -65536 if no floor is detected.
-if (c_raycast_world(x,y,z,x,y,z-65536,1))
-    shadowZ=c_hit_z()+0.1;
-else
-    shadowZ=-65536;
+if (fShadow)
+    if (c_raycast_world(x,y,z,x,y,z-65536,1))
+        shadowZ=c_hit_z()+0.1;
+    else
+        shadowZ=-65536;
 /*Physics
 spd is a shortcut for setting hSpeed and vSpeed based on faceDir. You have to 
 manually reset hSpeed and vSpeed if you want to stop the actor from moving.*/
@@ -192,7 +193,11 @@ if !(fGhost)
                     z=zz;
                     while (c_overlap_world_position(hitbox,x,y,z+1))
                         z++;
-                    zSpeed=0;
+                    zSpeed=actor_bounce_z();
+                    zFinal=zSpeed*global.deltaTime;
+                    //If the actor bounces, break out of the loop to prevent sticking on to the floor
+                    if (zSpeed)
+                        break
                 }
             }
         }
