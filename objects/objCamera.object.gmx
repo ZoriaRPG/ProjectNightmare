@@ -29,27 +29,27 @@
 event_inherited();
 d3d_start();
 //Target must be objActor child
-target=objPlayer;
-range=80;
-pitch=0;
-radius=1;
-height=2;
-fGravity=false;
-fVisible=false;
-fGhost=true;
-fShadow=false;
+target = objPlayer;
+range = 80;
+pitch = 0;
+radius = 1;
+height = 2;
+fGravity = false;
+fVisible = false;
+fGhost = true;
+fShadow = false;
 //Set first person zooming
-look=false;
-free=false;
-sensX=10;
-sensY=10;
-previousZ=0;
+look = false;
+free = false;
+sensX = 10;
+sensY = 10;
+previousZ = 0;
 //Set global variables
-global.cX=0;
-global.cY=0;
-global.cZ=0;
-global.cD=0;
-global.cP=0;
+global.cX = 0;
+global.cY = 0;
+global.cZ = 0;
+global.cD = 0;
+global.cP = 0;
 audio_emitter_free(emitter);
 </string>
           </argument>
@@ -74,9 +74,9 @@ audio_emitter_free(emitter);
           <argument>
             <kind>1</kind>
             <string>///Normalize direction
-faceDir=angle_normalize(faceDir);
-global.cD=faceDir;
-global.cP=pitch;
+faceDir = angle_normalize(faceDir);
+global.cD = faceDir;
+global.cP = pitch;
 </string>
           </argument>
         </arguments>
@@ -102,98 +102,93 @@ global.cP=pitch;
             <string>///Attach camera to target
 if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow)))
 {
-    //ready up target coordinates
-    var tX=target.x,tY=target.y,tRZ=target.z-target.height*0.5,tZ=tRZ;
+    //Ready up target coordinates
+    var tX = target.x, tY = target.y, tRZ = target.z - target.height * 0.5, tZ = tRZ;
     if (cutscene_exists())
     {
-        free=false;
-        look=false;
-        target.fVisible=true;
+        free = false;
+        look = false;
+        target.fVisible = true;
     }
     else
     {
-        var tZS=target.zSpeed,tSZ=target.shadowZ,tD=target.faceDir;
-        tZ=previousZ;
-        if (tSZ!=-65536)
-            previousZ=tSZ;
-        if (tZS&lt;-4 || tZS&gt;4 || tRZ&gt;previousZ+40)
-            tZ=tRZ;
-        //toggle freelook
+        var tZS = target.zSpeed, tSZ = target.shadowZ, tD = target.faceDir;
+        tZ = previousZ;
+        if (tSZ != -65536)
+            previousZ = tSZ;
+        if (tZS &lt; -4 || tZS &gt; 4 || tRZ &gt; previousZ + 40)
+            tZ = tRZ;
+        //Toggle freelook
         if (mouse_check_button_pressed(mb_left))
         {
-            free=!free;
-            target.fVisible=true;
-            look=false;
-            var zoom=sndCameraOut;
+            free = !free;
+            target.fVisible = true;
+            look = false;
+            var zoom = sndCameraOut;
             if (free)
-                zoom=sndCameraIn;
-            audio_play_sound(zoom,1,false);
+                zoom = sndCameraIn;
+            audio_play_sound(zoom, 1, false);
         }
-        //toggle aiming
+        //Toggle aiming
         if (mouse_check_button_pressed(mb_right))
         {
-            look=!look;
-            target.fVisible=!look;
-            free=false;
-            pitch=0;
-            var zoom=sndCameraOut;
+            look = !look;
+            target.fVisible = !look;
+            free = false;
+            pitch = 0;
+            var zoom = sndCameraOut;
             if (look)
             {
-                zoom=sndCameraIn;
-                faceDir=tD;
+                zoom = sndCameraIn;
+                faceDir = tD;
             }
             else
-                target.faceDir=faceDir;
-            audio_play_sound(zoom,1,false);
+                target.faceDir = faceDir;
+            audio_play_sound(zoom, 1, false);
         }
     }
-    //camera mechanic
+    //Camera mechanics
     if (look)
     {
-        /*global.cX=lerp(global.cX,tX,0.2);
-        global.cY=lerp(global.cY,tY,0.2);
-        global.cZ=lerp(global.cZ,tRZ+4,0.2);*/
-        global.cX=tX;
-        global.cY=tY;
-        global.cZ=tRZ+target.height-4;
-        //mouselook
+        global.cX = tX;
+        global.cY = tY;
+        global.cZ = tRZ + target.height - 4;
+        //Mouselook
         mouse_look(true);
-        target.faceDir=global.cD;
+        target.faceDir = global.cD;
     }
     else
     {
-        var lerpAmount=0.18*global.deltaTime;
-        //freelook
+        var lerpAmount = 0.18;
+        //Freelook
         if (free)
         {
             mouse_look(false);
-            lerpAmount=0.5*global.deltaTime;
+            lerpAmount = 0.5;
         }
         else
-            if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir!=tD)
+            if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir != tD)
             {
-                faceDir=tD;
-                audio_play_sound(sndCameraSpin,1,false);
+                faceDir = tD;
+                audio_play_sound(sndCameraSpin, 1, false);
             }
-        //set the increments of the camera to zoom out for 3rd person
-        var incX=lengthdir_x(range,faceDir),incY=lengthdir_y(range,faceDir),tIncZ=tRZ+10,
-            tToZ=tZ+32;
-        //if there is a block behind...
-        if (c_raycast_world(tX,tY,tIncZ,tX-incX,tY-incY,tIncZ,1))
+        //Set the increments of the camera to zoom out for 3rd person
+        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), tIncZ = tRZ + 10, tToZ = tZ + 32;
+        //If there is a block behind...
+        if (c_raycast_world(tX, tY, tIncZ, tX - incX, tY - incY, tIncZ, 1))
         {
-            var dist=point_distance(global.cX,global.cY,c_hit_x(),c_hit_y());
-            incX=lengthdir_x(dist,faceDir);
-            incY=lengthdir_y(dist,faceDir);
+            var dist = point_distance(global.cX, global.cY, c_hit_x(), c_hit_y());
+            incX = lengthdir_x(dist, faceDir);
+            incY = lengthdir_y(dist, faceDir);
         }
         //smooth turning
-        global.cX=lerp(global.cX,tX-incX,lerpAmount);
-        global.cY=lerp(global.cY,tY-incY,lerpAmount);
-        global.cZ=max(global.minZ,lerp(global.cZ,tToZ,0.1*global.deltaTime));
-        x=global.cX;
-        y=global.cY;
-        z=global.cZ;
-        pitch=clamp(pitch+turn_to_angle(point_pitch(global.cX,global.cY,global.cZ,tX,tY,
-                    tZ+24),1+cutscene_exists(),pitch),-89.5,89.5);
+        global.cX = lerp_delta(global.cX, tX - incX, lerpAmount);
+        global.cY = lerp_delta(global.cY, tY - incY, lerpAmount);
+        global.cZ = max(global.minZ, lerp_delta(global.cZ, tToZ, 0.1));
+        x = global.cX;
+        y = global.cY;
+        z = global.cZ;
+        pitch = clamp(pitch + turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tZ + 24), 1 + cutscene_exists(), pitch), -89.5, 89.5);
     }
 }
 </string>
@@ -243,11 +238,11 @@ d3d_end();
           <argument>
             <kind>1</kind>
             <string>///Set global camera variables
-global.cX=x;
-global.cY=y;
-global.cZ=z;
-global.cD=faceDir;
-global.cP=pitch;
+global.cX = x;
+global.cY = y;
+global.cZ = z;
+global.cD = faceDir;
+global.cP = pitch;
 </string>
           </argument>
         </arguments>
@@ -272,125 +267,113 @@ global.cP=pitch;
             <kind>1</kind>
             <string>///Rendering
 draw_set_color(c_white);
-var dir=degtorad(global.cD),cSin=sin(dir),cCos=cos(dir),cTan=tan(degtorad(pitch)),
-    xTo=global.cX+cCos,yTo=global.cY-cSin,zTo=global.cZ+cTan;
-d3d_set_projection_ext(global.cX,global.cY,global.cZ,xTo,yTo,zTo,0,0,1,45,
-                       view_wview[0]/view_hview[0],1,65536);
-audio_listener_position(global.cX,global.cY,global.cZ);
-audio_listener_orientation(-cCos,cSin,cTan,0,0,1);
+var dir = degtorad(global.cD), cSin = sin(dir), cCos = cos(dir), cTan = tan(degtorad(pitch)), xTo = global.cX + cCos, yTo = global.cY - cSin, zTo = global.cZ + cTan;
+d3d_set_projection_ext(global.cX, global.cY, global.cZ, xTo, yTo, zTo, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
+audio_listener_position(global.cX, global.cY, global.cZ);
+audio_listener_orientation(-cCos, cSin, cTan, 0, 0, 1);
 //Draw the skybox
 d3d_set_zwriteenable(false);
-d3d_draw_ellipsoid(global.cX+128,global.cY+128,global.cZ+256,global.cX-128,global.cY-128,
-                   global.cZ-256,global.tex[0],1,-1,32);
+d3d_draw_ellipsoid(global.cX + 128, global.cY + 128, global.cZ + 256, global.cX - 128, global.cY - 128, global.cZ - 256, global.tex[0], 1, -1, 32);
 d3d_set_zwriteenable(true);
 //Draw world model
 texture_set_repeat(true);
-for (var i=0;i&lt;ds_list_size(global.worldModel);i++)
+for (var i = 0; i &lt; ds_list_size(global.worldModel); i++)
 {
-    var object=ds_list_find_value(global.worldModel,i),
-        texSlot=ds_list_find_value(object,1);
-    //Skip invisible geometry
-    if (texSlot==-1)
+    var object = ds_list_find_value(global.worldModel, i), texSlot = ds_list_find_value(object, 1);
+    //Skip invisible walls &amp; floors
+    if (texSlot == -1)
         continue
     //Otherwise, continue
-    var tex=global.tex[texSlot],tW=global.tSize[texSlot,0],tH=global.tSize[texSlot,1],
-        val=ds_list_find_value(object,2);
+    var tex = global.tex[texSlot], tW = global.tSize[texSlot, 0], tH = global.tSize[texSlot, 1], val = ds_list_find_value(object, 2);
     //Check geometry type header
-    switch (ds_list_find_value(object,0))
+    switch (ds_list_find_value(object, 0))
     {
         //Floor
         case (0):
-            var val2=ds_list_find_value(object,3),x1=ds_list_find_value(object,4),
-                y1=ds_list_find_value(object,5),z1=ds_list_find_value(object,6),
-                x2=ds_list_find_value(object,7),y2=ds_list_find_value(object,8),
-                z2=ds_list_find_value(object,9),x3=ds_list_find_value(object,10),hR,vR;
+            var val2 = ds_list_find_value(object, 3),x1 = ds_list_find_value(object, 4), y1 = ds_list_find_value(object, 5), z1 = ds_list_find_value(object, 6), x2 = ds_list_find_value(object, 7), y2 = ds_list_find_value(object, 8), z2 = ds_list_find_value(object, 9), x3 = ds_list_find_value(object, 10), hR, vR;
             if !(is_undefined(x3))
             {
-                var y3=ds_list_find_value(object,11),z3=ds_list_find_value(object,12),
-                    hR2=x2/tW,vR2=y2/tH,hR3=x3/tW,vR3=y3/tH;
-                hR=x1/tW;
-                vR=y1/tH;
-                d3d_primitive_begin_texture(pr_trianglelist,tex);
+                var y3 = ds_list_find_value(object, 11), z3 = ds_list_find_value(object, 12), hR2 = x2 / tW, vR2 = y2 / tH, hR3 = x3 / tW, vR3 = y3 / tH;
+                hR = x1 / tW;
+                vR = y1 / tH;
+                d3d_primitive_begin_texture(pr_trianglelist, tex);
                 if (val2)
                 {
-                    d3d_vertex_texture(x3,y3,z3,-hR,vR);
-                    d3d_vertex_texture(x2,y2,z2,-hR2,vR2);
-                    d3d_vertex_texture(x1,y1,z1,-hR3,vR3); 
+                    d3d_vertex_texture(x3, y3, z3, -hR, vR);
+                    d3d_vertex_texture(x2, y2, z2, -hR2, vR2);
+                    d3d_vertex_texture(x1, y1, z1, -hR3, vR3); 
                 }
                 else
                 {
-                    d3d_vertex_texture(x1,y1,z1,hR,vR);
-                    d3d_vertex_texture(x2,y2,z2,hR2,vR2);
-                    d3d_vertex_texture(x3,y3,z3,hR3,vR3);
+                    d3d_vertex_texture(x1, y1, z1, hR, vR);
+                    d3d_vertex_texture(x2, y2, z2, hR2, vR2);
+                    d3d_vertex_texture(x3, y3, z3, hR3, vR3);
                 }
                 d3d_primitive_end();
             }
             else
             {
-                hR=(x2-x1)/tW;
-                vR=(y2-y1)/tH;
-                if (val==1 || val==3)
+                hR = (x2 - x1) / tW;
+                vR = (y2 - y1) / tH;
+                if (val == 1 || val == 3)
                 {
-                    d3d_primitive_begin_texture(pr_trianglelist,tex);
+                    d3d_primitive_begin_texture(pr_trianglelist, tex);
                     if (val2)
                     {
-                        d3d_vertex_texture(x1,y2,z1,0,vR);
-                        d3d_vertex_texture(x2,y1,z2,-hR,0);
-                        d3d_vertex_texture(x1,y1,z2,0,0);
-                        d3d_vertex_texture(x1,y2,z1,0,vR);
-                        d3d_vertex_texture(x2,y2,z1,-hR,vR);
-                        d3d_vertex_texture(x2,y1,z2,-hR,0);
+                        d3d_vertex_texture(x1, y2, z1, 0, vR);
+                        d3d_vertex_texture(x2, y1, z2, -hR, 0);
+                        d3d_vertex_texture(x1, y1, z2, 0, 0);
+                        d3d_vertex_texture(x1, y2, z1, 0, vR);
+                        d3d_vertex_texture(x2, y2, z1, -hR, vR);
+                        d3d_vertex_texture(x2, y1, z2, -hR, 0);
                     }
                     else
                     {
-                        d3d_vertex_texture(x1,y1,z2,0,0);
-                        d3d_vertex_texture(x2,y1,z2,hR,0);
-                        d3d_vertex_texture(x1,y2,z1,0,vR);
-                        d3d_vertex_texture(x2,y1,z2,hR,0);
-                        d3d_vertex_texture(x2,y2,z1,hR,vR);
-                        d3d_vertex_texture(x1,y2,z1,0,vR);
+                        d3d_vertex_texture(x1, y1, z2, 0, 0);
+                        d3d_vertex_texture(x2, y1, z2, hR, 0);
+                        d3d_vertex_texture(x1, y2, z1, 0, vR);
+                        d3d_vertex_texture(x2, y1, z2, hR, 0);
+                        d3d_vertex_texture(x2, y2, z1, hR, vR);
+                        d3d_vertex_texture(x1, y2, z1, 0, vR);
                     }
                     d3d_primitive_end();
                 }
                 else
                     if (val2)
                     {
-                        d3d_primitive_begin_texture(pr_trianglelist,tex);
-                        d3d_vertex_texture(x1,y1,z1,0,0);
-                        d3d_vertex_texture(x1,y2,z1,0,vR);
-                        d3d_vertex_texture(x2,y1,z2,-hR,0);
-                        d3d_vertex_texture(x1,y2,z1,0,vR);
-                        d3d_vertex_texture(x2,y2,z2,-hR,vR);
-                        d3d_vertex_texture(x2,y1,z2,-hR,0);
+                        d3d_primitive_begin_texture(pr_trianglelist, tex);
+                        d3d_vertex_texture(x1, y1, z1, 0, 0);
+                        d3d_vertex_texture(x1, y2, z1, 0, vR);
+                        d3d_vertex_texture(x2, y1, z2, -hR, 0);
+                        d3d_vertex_texture(x1, y2, z1, 0, vR);
+                        d3d_vertex_texture(x2, y2, z2, -hR, vR);
+                        d3d_vertex_texture(x2, y1, z2, -hR, 0);
                         d3d_primitive_end();
                     }
                     else
-                        draw_floor(x1,y1,z1,x2,y2,z2,tex,hR,vR);
+                        draw_floor(x1, y1, z1, x2, y2, z2, tex, hR, vR);
             }
         break
         //Wall
         case (1):
-            var x1=ds_list_find_value(object,3),y1=ds_list_find_value(object,4),
-                z1=ds_list_find_value(object,5),x2=ds_list_find_value(object,6),
-                y2=ds_list_find_value(object,7),z2=ds_list_find_value(object,8),
-                hR=point_distance(x1,y1,x2,y2)/tW,vR=(z2-z1)/tH;
+            var x1 = ds_list_find_value(object, 3), y1 = ds_list_find_value(object, 4), z1 = ds_list_find_value(object, 5), x2 = ds_list_find_value(object, 6), y2 = ds_list_find_value(object, 7), z2 = ds_list_find_value(object, 8), hR = point_distance(x1, y1, x2, y2) / tW, vR = (z2 - z1) / tH;
             switch (val)
             {
                 case (0):
-                    draw_wall(x1,y1,z2,x2,y2,z1,tex,hR,vR);
+                    draw_wall(x1, y1, z2, x2, y2, z1, tex, hR, vR);
                 break
                 case (1):
-                    d3d_primitive_begin_texture(pr_trianglelist,tex);
-                    d3d_vertex_texture(x1,y1,z2,0,0);
-                    d3d_vertex_texture(x2,y2,z1,hR,vR);
-                    d3d_vertex_texture(x1,y1,z1,0,vR);
+                    d3d_primitive_begin_texture(pr_trianglelist, tex);
+                    d3d_vertex_texture(x1, y1, z2, 0, 0);
+                    d3d_vertex_texture(x2, y2, z1, hR, vR);
+                    d3d_vertex_texture(x1, y1, z1, 0, vR);
                     d3d_primitive_end();
                 break
                 case (2):
-                    d3d_primitive_begin_texture(pr_trianglelist,tex);
-                    d3d_vertex_texture(x2,y2,z2,hR,0);
-                    d3d_vertex_texture(x2,y2,z1,hR,vR);
-                    d3d_vertex_texture(x1,y1,z1,0,vR);
+                    d3d_primitive_begin_texture(pr_trianglelist, tex);
+                    d3d_vertex_texture(x2, y2, z2, hR, 0);
+                    d3d_vertex_texture(x2, y2, z1, hR, vR);
+                    d3d_vertex_texture(x1, y1, z1, 0, vR);
                     d3d_primitive_end();
                 break
             }
@@ -401,29 +384,26 @@ texture_set_repeat(false);
 //Draw actors
 with (objActor)
 {
-    if (fVisible &amp;&amp; sprite!=-1)
+    if (fVisible &amp;&amp; sprite != -1)
     {
-        var w=scale*global.sSize[sprite,0]*0.5,h=scale*global.sSize[sprite,1],
-            realZ=z-height*0.5,cFrame;
+        var w = scale * global.sSize[sprite, 0] * 0.5, h = scale * global.sSize[sprite, 1], realZ = z - height * 0.5, cFrame, wSin = w * cSin, wCos = w * cCos;
         if (rotate)
         {
-            var dir=(round((point_direction(x,y,global.cX,global.cY)-faceDir)/90)) mod
-                    (4);
-            while (dir&lt;0)
-                dir+=4;
-            cFrame=min((global.sFrames[sprite,0]*dir)+frame,global.sFrames[sprite,1]);
+            var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4);
+            while (dir &lt; 0)
+                dir += 4;
+            cFrame = min((global.sFrames[sprite, 0] * dir) + frame, global.sFrames[sprite, 1]);
         }
         else
-            cFrame=frame;
-        draw_wall(x-w*cSin,y-w*cCos,realZ+h,x+w*cSin,y+w*cCos,realZ,
-                      global.spr[sprite,cFrame],1,1);
+            cFrame = frame;
+        draw_wall(x - wSin, y - wCos, realZ + h, x + wSin, y + wcCos, realZ, global.spr[sprite, cFrame], 1, 1);
     }
-    if (fShadow &amp;&amp; shadowZ!=-65536)
+    if (fShadow &amp;&amp; shadowZ != -65536)
     {
-        matrix_set(matrix_world,shadowMatrix);
-        var shadowSize=2*radius;
-        draw_background_stretched_ext(btShadow,-radius,-radius,shadowSize,shadowSize,c_white,0.51);
-        matrix_set(matrix_world,matrix_build(0,0,0,0,0,0,1,1,1));
+        matrix_set(matrix_world, shadowMatrix);
+        var shadowSize = 2 * radius;
+        draw_background_stretched_ext(btShadow, -radius, -radius, shadowSize, shadowSize, c_white, 0.51);
+        matrix_set(matrix_world, matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1));
     }
 }
 </string>

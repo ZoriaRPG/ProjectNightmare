@@ -27,53 +27,53 @@
             <kind>1</kind>
             <string>///Load game
 //Load in the textures. These will mostly be background graphics.
-texture_background_load(0,btSkybox);
-texture_background_load(1,btShadow);
-texture_background_load(2,btTile);
-texture_background_load(3,btGrass);
-texture_background_load(4,btStairs);
-texture_background_load(5,btStairs2);
-texture_background_load(6,btStairs3);
-texture_background_load(7,btStairs4);
-texture_background_load(8,btFence);
-texture_background_load(9,btCarpet);
+texture_background_load(0, btSkybox);
+texture_background_load(1, btShadow);
+texture_background_load(2, btTile);
+texture_background_load(3, btGrass);
+texture_background_load(4, btStairs);
+texture_background_load(5, btStairs2);
+texture_background_load(6, btStairs3);
+texture_background_load(7, btStairs4);
+texture_background_load(8, btFence);
+texture_background_load(9, btCarpet);
 //Load in sprites. These are a different type of textures and are animated.
-texture_sprite_load(0,stMario);
-texture_sprite_load(1,stMarioRun);
-texture_sprite_load(2,stMarioJump);
-texture_sprite_load(3,stMarioBlink);
-texture_sprite_load(4,stMarioWoah);
-texture_sprite_load(5,stGoomba);
-texture_sprite_load(6,stLink);
-texture_sprite_load(7,stLinkRun);
-texture_sprite_load(8,stLinkJump);
-texture_sprite_load(9,stLinkBlink);
-texture_sprite_load(10,stBomb);
+texture_sprite_load(0, stMario);
+texture_sprite_load(1, stMarioRun);
+texture_sprite_load(2, stMarioJump);
+texture_sprite_load(3, stMarioBlink);
+texture_sprite_load(4, stMarioWoah);
+texture_sprite_load(5, stGoomba);
+texture_sprite_load(6, stLink);
+texture_sprite_load(7, stLinkRun);
+texture_sprite_load(8, stLinkJump);
+texture_sprite_load(9, stLinkBlink);
+texture_sprite_load(10, stBomb);
 c_init();
-worldShape=-1;
-worldObject=-1;
-global.world=-1;
+worldShape = -1;
+worldObject = -1;
+global.world = -1;
 /*Geometry types are stored in global.worldModel. They will also contain a list with their position:
 0 - floor
 1 - wall*/
-global.worldModel=ds_list_create();
+global.worldModel = ds_list_create();
 audio_falloff_set_model(audio_falloff_exponent_distance);
 //Level properties
-for (var i=0;i&lt;2;i++)
-    global.levelMusic[i]=noone;
-global.musicVolume[0]=1; //Music slot 0 is the main level music. Set it to noone for silence.
-global.musicVolume[1]=0; //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
-global.battle=false; //Used for switching between normal and battle music. 
-global.paused=false;
-global.minZ=0; //The minimal Z of the level. Used for deleting actors below this position.
-global.messageFont=font_add_sprite(sprFont,ord("!"),true,1);
-global.deltaTime=60/1000000*delta_time;
-pauseBg=-1;
-pauseX=-463;
-lolfps=fps_real;
+for (var i = 0; i &lt; 2; i++)
+    global.levelMusic[i] = noone;
+global.musicVolume[0] = 1; //Music slot 0 is the main level music. Set it to noone for silence.
+global.musicVolume[1] = 0; //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
+global.battle = false; //Used for switching between normal and battle music. 
+global.paused = false;
+global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
+global.messageFont = font_add_sprite(sprFont, ord("!"), true, 1);
+global.deltaTime = 60 / 1000000 * delta_time;
+pauseBg = -1;
+pauseX = -463;
+lolfps = fps_real;
 timer_create();
-timer[0]=60;
-display_set_gui_size(960,540);
+timer[0] = 60;
+display_set_gui_size(960, 540);
 </string>
           </argument>
         </arguments>
@@ -100,22 +100,22 @@ display_set_gui_size(960,540);
 //Update FPS counter
 if (timer_tick(0))
 {
-    lolfps=fps_real;
-    timer[0]=60;
+    lolfps = fps_real;
+    timer[0] = 60;
 }
-global.deltaTime=60/1000000*delta_time;
+global.deltaTime = 60 / 1000000 * delta_time;
 //Music control. Sets volume of each track accordingly while the game is unpaused
 if !(global.paused)
 {
     if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
     {
-        global.musicVolume[global.battle]=1;
-        audio_sound_gain(global.levelMusic[global.battle],1,750);
+        global.musicVolume[global.battle] = 1;
+        audio_sound_gain(global.levelMusic[global.battle], 1, 750);
     }
     if (global.levelMusic[!global.battle] &amp;&amp; global.musicVolume[!global.battle])
     {
-        global.musicVolume[!global.battle]=0;
-        audio_sound_gain(global.levelMusic[!global.battle],0,750);
+        global.musicVolume[!global.battle] = 0;
+        audio_sound_gain(global.levelMusic[!global.battle], 0, 750);
     }
 }
 </string>
@@ -147,12 +147,12 @@ if (c_object_exists(worldObject))
     c_object_destroy(worldObject);
 if (c_shape_exists(worldShape))
     c_shape_destroy(worldShape);
-for (var i=0;i&lt;ds_list_size(global.worldModel);i++)
-    ds_list_destroy(ds_list_find_value(global.worldModel,i));
+for (var i = 0; i &lt; ds_list_size(global.worldModel); i++)
+    ds_list_destroy(ds_list_find_value(global.worldModel, i));
 ds_list_clear(global.worldModel);
 if (background_exists(pauseBg))
 {
-    global.paused=false;
+    global.paused = false;
     background_delete(pauseBg);
 }
 audio_stop_all();
@@ -181,148 +181,154 @@ audio_stop_all();
             <string>///Load map
 worldShape=c_shape_create();
 c_shape_begin_trimesh();
-globalvar worldFloor,worldWall;
+globalvar worldFloor, worldWall;
 with (objFloor)
 {
-    var x1=x,y1=y,z1,x2=x+sprite_width,y2=y+sprite_height,z2,x3=undefined,y3,z3,zH=z+height,
-        angled=object_index==objFloorAngled;
+    var x1 = x, y1 = y, z1, x2 = x + sprite_width, y2 = y + sprite_height, z2, x3 = undefined, y3, z3, zH = z+height, angled = object_index == objFloorAngled;
     //The floor is rendered based on its slope direction
     switch (dir)
     {
         case (0):
             if (angled)
             {
-                z1=z;
-                z2=zH;
-                z3=z;
+                z1 = z;
+                z2 = zH;
+                z3 = z;
             }
             else
             {
-                z1=z;
-                z2=zH;
+                z1 = z;
+                z2 = zH;
             }
         break
         case (1):
             if (angled)
             {
-                z1=zH;
-                z2=zH;
-                z3=z;
+                z1 = zH;
+                z2 = zH;
+                z3 = z;
             }
             else
             {
-                z1=z;
-                z2=zH;
+                z1 = z;
+                z2 = zH;
             }
         break
         case (2):
             if (angled)
             {
-                z1=zH;
-                z2=z;
-                z3=zH;
+                z1 = zH;
+                z2 = z;
+                z3 = zH;
             }
             else
             {
-                z1=zH;
-                z2=z;
+                z1 = zH;
+                z2 = z;
             }
         break
         case (3):
             if (angled)
             {
-                z1=z;
-                z2=z;
-                z3=zH;
+                z1 = z;
+                z2 = z;
+                z3 = zH;
             }
             else
             {
-                z1=zH;
-                z2=z;
+                z1 = zH;
+                z2 = z;
             }
         break
     }
     //Add geometry type header
-    worldFloor[id]=ds_list_create();
+    worldFloor[id] = ds_list_create();
     if (angled)
     {
-        x2=x+lengthdir_x(sprite_width,image_angle);
-        y2=y+lengthdir_y(sprite_width,image_angle);
-        x3=x+lengthdir_x(sprite_height,image_angle-90);
-        y3=y+lengthdir_y(sprite_height,image_angle-90);
-        dir=round(abs((dir*90)-point_direction(x2,y2,x,y))/90);
-        ds_list_add(worldFloor[id],0,tex,dir,ceiling,x1,y1,z1,x2,y2,z2,x3,y3,z3);
+        x2 = x + lengthdir_x(sprite_width, image_angle);
+        y2 = y + lengthdir_y(sprite_width, image_angle);
+        x3 = x + lengthdir_x(sprite_height, image_angle - 90);
+        y3 = y + lengthdir_y(sprite_height, image_angle - 90);
+        dir = round(abs((dir * 90) - point_direction(x2, y2, x, y)) / 90);
+        ds_list_add(worldFloor[id], 0, tex, dir, ceiling, x1, y1, z1, x2, y2, z2, x3, y3, z3);
     }
     else
-        ds_list_add(worldFloor[id],0,tex,dir,ceiling,x1,y1,z1,x2,y2,z2);
-    ds_list_add(global.worldModel,worldFloor[id]);
-    show_debug_message("Model wall "+string(id));
+        ds_list_add(worldFloor[id], 0, tex, dir, ceiling, x1, y1, z1, x2, y2, z2);
+    ds_list_add(global.worldModel, worldFloor[id]);
+    show_debug_message("Model wall " + string(id));
     if (is_undefined(x3))
-        global.minZ=min(global.minZ,z1,z2);
+        global.minZ = min(global.minZ, z1, z2);
     else
-        global.minZ=min(global.minZ,z1,z2,z3);
+        global.minZ = min(global.minZ, z1, z2, z3);
     if (angled)
-        c_shape_add_triangle(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+        c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
     else
-        if (dir==1 || dir==3)
+    {
+        var zz1 = z1, zz2 = z2;
+        if (dir == 3)
         {
-            c_shape_add_triangle(x1,y1,z1,x2,y1,z1,x1,y2,z2);
-            c_shape_add_triangle(x2,y1,z1,x2,y2,z2,x1,y2,z2);
+            zz1 = z2;
+            zz2 = z1;
+        }
+        if (dir == 1 || dir == 3)
+        {
+            c_shape_add_triangle(x1, y1, zz1, x2, y1, zz1, x1, y2, zz2);
+            c_shape_add_triangle(x2, y1, zz1, x2, y2, zz2, x1, y2, zz2);
         }
         else
         {
-            c_shape_add_triangle(x1,y1,z1,x2,y1,z2,x1,y2,z1);
-            c_shape_add_triangle(x2,y1,z2,x2,y2,z2,x1,y2,z1);
+            c_shape_add_triangle(x1, y1, zz1, x2, y1, zz2, x1, y2, zz1);
+            c_shape_add_triangle(x2, y1, zz2, x2, y2, zz2, x1, y2, zz1);
         }
-    show_debug_message("Collision floor "+string(id));
+    }
+    show_debug_message("Collision floor " + string(id));
     instance_destroy();
 }
 with (objWall)
 {
-    var x2=x+lengthdir_x(sprite_width,image_angle),
-        y2=y+lengthdir_y(sprite_width,image_angle),z2=z+height;
+    var x2 = x + lengthdir_x(sprite_width, image_angle), y2 = y + lengthdir_y(sprite_width, image_angle), z2 = z + height;
     //Add geometry type header
-    worldWall[id]=ds_list_create();
-    ds_list_add(worldWall[id],1,tex,slope,x,y,z,x2,y2,z2);
-    ds_list_add(global.worldModel,worldWall[id]);
-    show_debug_message("Model wall "+string(id));
+    worldWall[id] = ds_list_create();
+    ds_list_add(worldWall[id], 1, tex, slope, x, y, z, x2, y2, z2);
+    ds_list_add(global.worldModel, worldWall[id]);
+    show_debug_message("Model wall " + string(id));
     //The wall is rendered based on slope direction
     switch (slope)
     {
         case (0):
-            c_shape_add_triangle(x,y,z2,x2,y2,z,x,y,z);
-            c_shape_add_triangle(x,y,z2,x2,y2,z2,x2,y2,z);
-            show_debug_message("Collision wall "+string(id));
+            c_shape_add_triangle(x, y, z2, x2, y2, z, x, y, z);
+            c_shape_add_triangle(x, y, z2, x2, y2, z2, x2, y2, z);
+            show_debug_message("Collision wall " + string(id));
         break
         case (1):
-            c_shape_add_triangle(x,y,z2,x2,y2,z,x,y,z);
-            show_debug_message("Collision slope 1 wall "+string(id));
+            c_shape_add_triangle(x, y, z2, x2, y2, z, x, y, z);
+            show_debug_message("Collision slope 1 wall " + string(id));
         break
         case (2):
-            c_shape_add_triangle(x2,y2,z2,x2,y2,z,x,y,z);
-            show_debug_message("Collision slope 2 wall "+string(id));
+            c_shape_add_triangle(x2, y2, z2, x2, y2, z, x, y, z);
+            show_debug_message("Collision slope 2 wall " + string(id));
         break
     }
-    global.minZ=min(global.minZ,z,z2);
+    global.minZ = min(global.minZ, z, z2);
     instance_destroy();
 }
 c_shape_end_trimesh(worldShape);
-worldObject=c_object_create(worldShape,1,1);
-global.world=c_world_create();
+worldObject = c_object_create(worldShape, 1, 1);
+global.world = c_world_create();
 c_world_add_object(worldObject);
 show_debug_message("Done");
 //Reset in-game states
-for (var i=0;i&lt;2;i++)
+for (var i = 0; i &lt; 2; i++)
     if (global.levelMusic[i])
     {
-        global.musicVolume[i]=!i;
-        audio_sound_gain(global.levelMusic[i],global.musicVolume[i],0);
-        audio_play_sound(global.levelMusic[i],0,1);
+        global.musicVolume[i] = !i;
+        audio_sound_gain(global.levelMusic[i], global.musicVolume[i], 0);
+        audio_play_sound(global.levelMusic[i], 0, 1);
     }
-global.battle=false;
-if (room==rmTitle)
-    audio_sound_gain(global.levelMusic[0],1,0);
-room_speed=320;
+global.battle = false;
+if (room == rmTitle)
+    audio_sound_gain(global.levelMusic[0], 1, 0);
+room_speed = 320;
 </string>
           </argument>
         </arguments>
@@ -373,27 +379,25 @@ font_delete(global.messageFont);
             <string>///Draw pause GUI
 if (global.paused)
 {
-    draw_background(pauseBg,0,0);
+    draw_background(pauseBg, 0, 0);
     draw_set_alpha(0.51);
-    draw_rectangle_colour(0,0,960,540,c_black,c_black,c_black,c_black,false);
+    draw_rectangle_colour(0, 0, 960, 540, c_black, c_black, c_black, c_black, false);
     draw_set_alpha(1);
 }
-pauseX=lerp(pauseX,!global.paused*-463,0.25*global.deltaTime);
-var pX2=2*pauseX+(800*global.paused);
-var font=fntMario;
+pauseX=lerp(pauseX, !global.paused * -463, 0.25 * global.deltaTime);
+var pX2 = 2 * pauseX + (800 * global.paused),font = fntMario;
 if (global.link)
-    font=fntLink;
+    font = fntLink;
 draw_set_font(font);
 draw_set_halign(fa_right);
-draw_text_transformed(pX2+100,200,"Paused",2,2,0);
+draw_text_transformed(pX2 + 100, 200, "Paused", 2, 2, 0);
 draw_set_halign(fa_left);
 draw_set_font(-1);
-draw_background(bgPauseMario,pauseX,0);
-draw_sprite_ext(sprIntro,global.link,pX2,100,0.5,0.5,0,c_white,1);
-draw_text(8,8,string(round(lolfps))+" FPS#"+string(global.link)+"#"+
-          string(global.deltaTime));
-if (instance_exists(objPlayer) &amp;&amp; c_raycast_world(objPlayer.x,objPlayer.y,objPlayer.z,objPlayer.x,objPlayer.y,objPlayer.z-65536,1))
-    draw_text(8,64,string(c_hit_nx())+", "+string(c_hit_ny())+", "+string(c_hit_nz()));
+draw_background(bgPauseMario, pauseX, 0);
+draw_sprite_ext(sprIntro, global.link, pX2, 100, 0.5, 0.5, 0, c_white, 1);
+draw_text(8, 8, string(round(lolfps)) + " FPS#" + string(global.link) + "#" + string(global.deltaTime));
+if (instance_exists(objPlayer) &amp;&amp; c_raycast_world(objPlayer.x, objPlayer.y, objPlayer.z, objPlayer.x, objPlayer.y, objPlayer.z - 65536, 1))
+    draw_text(8, 64, string(c_hit_nx()) + ", " + string(c_hit_ny()) + ", " + string(c_hit_nz()));
 </string>
           </argument>
         </arguments>
@@ -416,7 +420,7 @@ if (instance_exists(objPlayer) &amp;&amp; c_raycast_world(objPlayer.x,objPlayer.
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.link=!global.link;
+            <string>global.link = !global.link;
 </string>
           </argument>
         </arguments>
@@ -443,7 +447,7 @@ if (instance_exists(objPlayer) &amp;&amp; c_raycast_world(objPlayer.x,objPlayer.
 if (instance_exists(objPlayer))
 {
     room_goto(rmTitle);
-    global.paused=false;
+    global.paused = false;
 }
 </string>
           </argument>
@@ -470,13 +474,13 @@ if (instance_exists(objPlayer))
             <string>///Toggle pause
 if (((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(sndPause))
 {
-    audio_play_sound(sndPause,0,false);
-    global.paused=!global.paused;
-    audio_sound_gain(global.levelMusic[global.battle],1/(1+4*global.paused),100);
+    audio_play_sound(sndPause, 0, false);
+    global.paused = !global.paused;
+    audio_sound_gain(global.levelMusic[global.battle], 1 / (1 + 4 * global.paused), 100);
     if (global.paused)
     {
-        pauseX=1000;
-        pauseBg=background_create_from_surface(application_surface,0,0,view_wview[0],view_hview[0],false,false);
+        pauseX = 1000;
+        pauseBg = background_create_from_surface(application_surface, 0, 0, view_wview[0], view_hview[0], false, false);
         instance_deactivate_all(true);
     }
     else
