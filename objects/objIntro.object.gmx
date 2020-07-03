@@ -26,10 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>///Intro variables
-wobble=0;
-state=0;
-image_xscale=0;
-image_alpha=0;
+wobble = 0;
+state = 0;
+image_xscale = 0;
+image_alpha = 0;
 timer_create();
 </string>
           </argument>
@@ -58,53 +58,52 @@ switch (state)
 {
     case (0):
         //Set our timer to begin
-        timer[0]=30;
-        state=1;
+        timer[0] = 30;
+        state = 1;
     break
     case (1):
         //Tick down the timer before the logo appears.
         if (timer_tick(0))
         {
             //Play sound based on random intro variety
-            var snd=sndIntroCoin;
+            var snd = sndIntroCoin;
             if (global.link)
-                snd=sndIntroRupee;
-            audio_play_sound(snd,1,false);
-            state=2;
+                snd = sndIntroRupee;
+            audio_play_sound(snd, 1, false);
+            state = 2;
         }
     break
     case (2):
-        //grow the logo
+        //Grow the logo
         if (image_xscale)
         {
-            wobble=1;
-            state=3;
+            wobble = 1;
+            state = 3;
         }
         else
-            image_xscale+=0.05*global.deltaTime;
+            image_xscale += 0.05 * global.deltaTime;
     break
     case (3):
-        //dewobble the logo
-        if (wobble&gt;0)
-            wobble-=0.05*global.deltaTime;
+        //Dewobble the logo
+        if (wobble &gt; 0)
+            wobble -= 0.05 * global.deltaTime;
         else
         {
-            wobble=0;
-            timer[0]=30;
-            state=4;
+            wobble = 0;
+            timer[0] = 30;
+            state = 4;
         }
     break
     case (4):
         if (timer_tick(0))
         {
-            //It's-a me, Mario!
-            var snd=sndIntroMario;
-            //HIYAH
+            //Play voice line based on logo frame
+            var snd = sndIntroMario;
             if (global.link)
-                snd=sndIntroLink;
-            audio_play_sound(snd,1,false);
-            timer[0]=30;
-            state=5;
+                snd = sndIntroLink;
+            audio_play_sound(snd, 1, false);
+            timer[0] = 30;
+            state = 5;
         }
     break
     case (5):
@@ -112,25 +111,25 @@ switch (state)
         if !(timer[0])
             if (image_alpha)
             {
-                timer[0]=80;
-                state=6;
+                timer[0] = 80;
+                state = 6;
             }
             else
-                image_alpha+=0.05*global.deltaTime;
+                image_alpha += 0.05 * global.deltaTime;
     break
     case (6):
         timer_tick(0);
         if !(timer[0])
-            if (image_alpha&gt;0)
-                image_alpha-=0.05*global.deltaTime;
+            if (image_alpha &gt; 0)
+                image_alpha -= 0.05 * global.deltaTime;
             else
-                if (image_xscale&gt;0)
-                    image_xscale-=0.05*global.deltaTime;
+                if (image_xscale &gt; 0)
+                    image_xscale -= 0.05 * global.deltaTime;
                 else
                 {
-                    image_xscale=0;
-                    timer[0]=40;
-                    state=7;
+                    image_xscale = 0;
+                    timer[0] = 40;
+                    state = 7;
                 }
     break
     case (7):
@@ -138,7 +137,7 @@ switch (state)
             room_goto_next();
     break
 }
-//debug
+//Debug
 if (keyboard_check_pressed(ord("R")))
     room_restart();
 if (keyboard_check_pressed(vk_space))
@@ -166,17 +165,16 @@ if (keyboard_check_pressed(vk_space))
           <argument>
             <kind>1</kind>
             <string>///Draw intro
-var vw=view_wview[0]*0.5,vh=view_hview[0]*0.5,dir=get_timer()/900,w=wobble*0.04;
-if (image_xscale&gt;0)
-    draw_sprite_ext(sprIntro,global.link,vw,vh,2*(image_xscale+lengthdir_x(w,dir)),
-                    2*(image_xscale+lengthdir_y(w,dir)),0,c_white,1);
+var vw = view_wview[0] * 0.5, vh = view_hview[0] * 0.5, dir = get_timer() / 900, w = wobble * 0.04;
+if (image_xscale &gt; 0)
+    draw_sprite_ext(sprIntro, global.link, vw, vh, 2 * (image_xscale + lengthdir_x(w, dir)), 2 * (image_xscale + lengthdir_y(w, dir)), 0, c_white, 1);
 draw_set_halign(fa_center);
 draw_set_font(fntMario);
 draw_set_alpha(image_alpha);
 draw_set_color(c_white);
-draw_text(vw,vh+128,"Mario (c) Nintendo");
+draw_text(vw, vh + 128, "Mario (c) Nintendo");
 draw_set_font(fntLink);
-draw_text(vw,vh+160,"Link (c) Nintendo");
+draw_text(vw, vh + 160, "Link (c) Nintendo");
 draw_set_font(-1);
 draw_set_alpha(1);
 draw_set_halign(fa_left);

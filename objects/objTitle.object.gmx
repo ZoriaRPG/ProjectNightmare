@@ -27,15 +27,15 @@
             <kind>1</kind>
             <string>///Title variables
 event_inherited();
-currentMenu=0;
-currentOption=0;
-canContinue=false;
-transition=true;
-toMenu=0;
-transY=220;
+currentMenu = 0;
+currentOption = 0;
+canContinue = false;
+transition = true;
+toMenu = 0;
+transY = 220;
 //Debug menu
-menu[1]=ds_list_create();
-ds_list_add(menu[1],"Hyrule Field","Butt-Blasting Grounds","Exit");
+menu[1] = ds_list_create();
+ds_list_add(menu[1], "Hyrule Field", "Debug Map", "Exit");
 /*Main menu
 menu[1,0]="Start Game";
 menu[1,1]="Options";
@@ -58,7 +58,7 @@ menu[4,2]="Master Volume ";
 menu[4,3]="Music Volume ";
 menu[4,4]="Sound Volume ";
 menu[4,5]="Back";*/
-audio_play_sound(musTitle,1,true);
+audio_play_sound(musTitle, 1, true);
 </string>
           </argument>
         </arguments>
@@ -84,48 +84,49 @@ audio_play_sound(musTitle,1,true);
             <string>///Menu control
 if (timer_tick(0))
 {
-    toMenu=1;
-    transition=true;
+    toMenu = 1;
+    transition = true;
 }
+//Intro animation on room start
 switch (state)
 {
     case (0):
-        //grow the logo
+        //Grow the logo
         if (image_xscale)
         {
-            image_xscale=1;
-            wobble=1;
-            state=1;
+            image_xscale = 1;
+            wobble = 1;
+            state = 1;
         }
         else
-            image_xscale+=0.05*global.deltaTime;
+            image_xscale += 0.05 * global.deltaTime;
     break
     case (1):
         //dewobble the logo
-        if (wobble&gt;0)
-            wobble-=0.05*global.deltaTime;
+        if (wobble &gt; 0)
+            wobble -= 0.05 * global.deltaTime;
         else
         {
-            wobble=0;
-            state=2;
+            wobble = 0;
+            state = 2;
         }
     break
 }
 //Transition to other menus
 if (transition)
-    if (transY&lt;240)
-        transY+=30*global.deltaTime;
+    if (transY &lt; 240)
+        transY += 30 * global.deltaTime;
     else
     {
-        transY=240;
-        transition=false;
-        currentMenu=toMenu;
+        transY = 240;
+        transition = false;
+        currentMenu = toMenu;
     }
 else
-    if (transY&gt;0)
-        transY-=30*global.deltaTime;
+    if (transY &gt; 0)
+        transY -= 30 * global.deltaTime;
     else
-        transY=0;
+        transY = 0;
 </string>
           </argument>
         </arguments>
@@ -149,35 +150,29 @@ else
           <argument>
             <kind>1</kind>
             <string>///Draw menus
-//Now we need to prepare a lot of variables for recycling. Optimization is important, of
-//course.
-var vw=view_wview[0]*0.5,vh=view_hview[0]*0.5,dir=get_timer()/900,
-    s=(image_xscale+lengthdir_x(wobble*0.5,dir))*230,w=wobble*0.04,
-    blink=merge_color(make_color_rgb(248,248,248),make_color_rgb(251,231,0),
-          abs(lengthdir_x(1,get_timer()/4500))),wx=image_xscale+lengthdir_x(w,dir),
-    wy=image_xscale+lengthdir_y(w,dir),tvh=vh+transY,wx2=2*wx,wy2=2*wy;
+//Now we need to prepare a lot of variables for recycling. Optimization is important.
+var vw = view_wview[0] * 0.5, vh = view_hview[0] * 0.5, dir = get_timer() / 900, s = (image_xscale + lengthdir_x(wobble * 0.5, dir)) * 230, w = wobble * 0.04, blink = merge_color(make_color_rgb(248, 248, 248), make_color_rgb(251, 231, 0), abs(lengthdir_x(1, get_timer() / 4500))), wx = image_xscale + lengthdir_x(w, dir), wy = image_xscale + lengthdir_y(w, dir), tvh = vh + transY, wx2 = 2*wx, wy2 = 2*wy;
 draw_set_alpha(0.51);
-draw_rectangle_color(vw-s,0,vw+s,view_hview[0],c_black,c_black,c_black,c_black,false);
+draw_rectangle_color(vw - s, 0, vw + s, view_hview[0], c_black, c_black, c_black, c_black, false);
 draw_set_alpha(1);
-draw_sprite_ext(sprIntro,global.link,vw,vh-132,wx,wy,0,c_white,1);
+draw_sprite_ext(sprIntro, global.link, vw, vh - 132, wx, wy, 0, c_white, 1);
 draw_set_halign(fa_center);
 //For some reason it won't upscale to 2x, so let's use wx2 and wy2
 switch (currentMenu)
 {
     case (0):
-        draw_text_transformed_colour(vw,tvh,"Press Enter to play",wx2,wy2,0,blink,blink,
-                                     blink,blink,1);
+        draw_text_transformed_colour(vw, tvh, "Press Enter to play", wx2, wy2, 0, blink, blink, blink, blink, 1);
     break
     default:
-        for (var i=0;i&lt;ds_list_size(menu[currentMenu]);i++)
+        for (var i = 0; i &lt; ds_list_size(menu[currentMenu]); i++)
         {
-            var tc=c_white,ts=ds_list_find_value(menu[currentMenu],i),ts2=ts;
-            if (i==currentOption)
+            var tc = c_white, ts = ds_list_find_value(menu[currentMenu], i), ts2 = ts;
+            if (i == currentOption)
             {
-                tc=blink;
-                ts2="&gt;"+ts+"&lt;";
+                tc = blink;
+                ts2 = "&gt;" + ts + "&lt;";
             }
-            draw_text_transformed_colour(vw,tvh+i*32,ts2,wx2,wy2,0,tc,tc,tc,tc,1);
+            draw_text_transformed_colour(vw, tvh + i * 32, ts2, wx2, wy2, 0, tc, tc, tc, tc, 1);
         }
 }
 draw_set_halign(fa_left);
@@ -203,11 +198,11 @@ draw_set_halign(fa_left);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>wobble=0;
-state=0;
-image_xscale=0;
-transition=true;
-transY=220;
+            <string>wobble = 0;
+state = 0;
+image_xscale = 0;
+transition = true;
+transY = 220;
 </string>
           </argument>
         </arguments>
@@ -276,27 +271,30 @@ transY=220;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (timer[0]==-65536)
+            <string>if (timer[0] == -65536)
     switch (currentMenu)
     {
+        //Press Enter to begin Menu
         case (0):
-            audio_play_sound(sndBegin,1,false);
-            timer[0]=60;
+            audio_play_sound(sndBegin, 1, false);
+            timer[0] = 60;
         break
+        //Main Menu
         case (1):
             if !(instance_exists(objTransition))
             {
-                audio_play_sound(sndEnter,1,false);
+                audio_play_sound(sndEnter, 1, false);
                 switch (currentOption)
                 {
                     case (0):
-                        transition_create(rmHyrule,c_white);
+                        transition_create(rmHyrule, c_white);
                     break
                     case (1):
-                        transition_create(rmMain,c_white);
+                        transition_create(rmMain, c_white);
                     break
                     case (2):
-                        transition_create(noone,c_black);
+                        //noone exits the game
+                        transition_create(noone, c_black);
                     break
                 }
             }
