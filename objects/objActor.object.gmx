@@ -55,8 +55,7 @@ hitboxShape=-1;
 hitbox=-1;
 //Animation
 shadowZ=-9;
-shadowDir=0;
-shadowPitch=0;
+shadowMatrix=matrix_build(0,0,0,0,0,0,1,1,1);
 sprite=-1;
 frame=0; //Similar to image_index.
 frameSpd=0; //Similar to image_speed.
@@ -120,7 +119,10 @@ actor_sprite_update();
 //The shadowZ will always be at -65536 if no floor is detected.
 if (fShadow)
     if (c_raycast_world(x,y,z,x,y,z-65536,1))
+    {
         shadowZ=c_hit_z()+0.1;
+        shadowMatrix=world_matrix_from_normal(c_hit_nx(),c_hit_ny(),c_hit_nz(),x,y,shadowZ,1);
+    }
     else
         shadowZ=-65536;
 /*Physics

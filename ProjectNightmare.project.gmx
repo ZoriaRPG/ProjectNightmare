@@ -192,6 +192,7 @@
       <script>scripts\angle_normalize.gml</script>
       <script>scripts\mouse_look.gml</script>
       <script>scripts\turn_to_angle.gml</script>
+      <script>scripts\world_matrix_from_normal.gml</script>
     </scripts>
     <scripts name="Cutscenes">
       <script>scripts\cutscene_create.gml</script>
