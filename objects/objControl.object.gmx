@@ -265,13 +265,10 @@ with (objFloor)
     else
     {
         var zz1 = z1, zz2 = z2;
-        if (dir == 3)
+        if (dir == 1 || dir == 3)
         {
             zz1 = z2;
             zz2 = z1;
-        }
-        if (dir == 1 || dir == 3)
-        {
             c_shape_add_triangle(x1, y1, zz1, x2, y1, zz1, x1, y2, zz2);
             c_shape_add_triangle(x2, y1, zz1, x2, y2, zz2, x1, y2, zz2);
         }

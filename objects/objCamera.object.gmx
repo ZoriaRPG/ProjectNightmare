@@ -114,9 +114,9 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
     {
         var tZS = target.zSpeed, tSZ = target.shadowZ, tD = target.faceDir;
         tZ = previousZ;
-        if (tSZ != -65536)
+        if (target.fOnGround &amp;&amp; tSZ != -65536)
             previousZ = tSZ;
-        if (tZS &lt; -4 || tZS &gt; 4 || tRZ &gt; previousZ + 40)
+        if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
             tZ = tRZ;
         //Toggle freelook
         if (mouse_check_button_pressed(mb_left))
@@ -173,13 +173,14 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
                 audio_play_sound(sndCameraSpin, 1, false);
             }
         //Set the increments of the camera to zoom out for 3rd person
-        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), tIncZ = tRZ + 10, tToZ = tZ + 32;
+        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), tIncZ = tRZ + 10, tToZ = tZ + 32, obstructed = false;
         //If there is a block behind...
         if (c_raycast_world(tX, tY, tIncZ, tX - incX, tY - incY, tIncZ, 1))
         {
             var dist = point_distance(global.cX, global.cY, c_hit_x(), c_hit_y());
             incX = lengthdir_x(dist, faceDir);
             incY = lengthdir_y(dist, faceDir);
+            obstructed = true;
         }
         //smooth turning
         global.cX = lerp_delta(global.cX, tX - incX, lerpAmount);
@@ -188,7 +189,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         x = global.cX;
         y = global.cY;
         z = global.cZ;
-        pitch = clamp(pitch + turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tZ + 24), 1 + cutscene_exists(), pitch), -89.5, 89.5);
+        pitch = clamp(pitch + turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tZ + 24), 1 + (cutscene_exists() || obstructed), pitch), -89.5, 89.5);
     }
 }
 </string>

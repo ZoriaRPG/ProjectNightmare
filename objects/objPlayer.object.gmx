@@ -144,8 +144,13 @@ if (onGround)
 {
     if (keyboard_check_pressed(vk_space))
     {
-        zSpeed=jumpSpd-0.1;
-        z+=jumpSpd;
+        zSpeed = jumpSpd;
+        //Push the player up, so they will jump successfully on slopes
+        if !(c_overlap_world_position(hitbox, x, y, z + 2))
+        {
+            zSpeed -= 0.1;
+            z += jumpSpd;
+        }
         if (jumpSnd[0])
             d3d_sound_play(jumpSnd[max(0,irandom(array_length_1d(jumpSnd)-1))],false,1);
         d3d_sound_play(sndJump,false,1);
