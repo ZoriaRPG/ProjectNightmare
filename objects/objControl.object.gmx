@@ -63,7 +63,8 @@ for (var i = 0; i &lt; 2; i++)
     global.levelMusic[i] = noone;
 global.musicVolume[0] = 1; //Music slot 0 is the main level music. Set it to noone for silence.
 global.musicVolume[1] = 0; //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
-global.battle = false; //Used for switching between normal and battle music. 
+global.battle = false; //Used for switching between normal and battle music.
+global.dawn = false; //Used to play musDawn on level start. 
 global.paused = false;
 global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
 global.messageFont = font_add_sprite(sprFont, ord("!"), true, 1);
@@ -105,19 +106,28 @@ if (timer_tick(0))
 }
 global.deltaTime = 60 / 1000000 * delta_time;
 //Music control. Sets volume of each track accordingly while the game is unpaused
-if !(global.paused)
+if (global.dawn)
 {
-    if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
+    if !(audio_is_playing(musDawn))
     {
-        global.musicVolume[global.battle] = 1;
-        audio_sound_gain(global.levelMusic[global.battle], 1, 750);
-    }
-    if (global.levelMusic[!global.battle] &amp;&amp; global.musicVolume[!global.battle])
-    {
-        global.musicVolume[!global.battle] = 0;
-        audio_sound_gain(global.levelMusic[!global.battle], 0, 750);
+        music_start();
+        global.dawn = false;
     }
 }
+else
+    if !(global.paused)
+    {
+        if (global.levelMusic[global.battle] &amp;&amp; !global.musicVolume[global.battle])
+        {
+            global.musicVolume[global.battle] = 1;
+            audio_sound_gain(global.levelMusic[global.battle], 1, 750);
+        }
+        if (global.levelMusic[!global.battle] &amp;&amp; global.musicVolume[!global.battle])
+        {
+            global.musicVolume[!global.battle] = 0;
+            audio_sound_gain(global.levelMusic[!global.battle], 0, 750);
+        }
+    }
 </string>
           </argument>
         </arguments>
@@ -156,6 +166,7 @@ if (background_exists(pauseBg))
     background_delete(pauseBg);
 }
 audio_stop_all();
+global.dawn = false;
 </string>
           </argument>
         </arguments>
@@ -315,13 +326,10 @@ global.world = c_world_create();
 c_world_add_object(worldObject);
 show_debug_message("Done");
 //Reset in-game states
-for (var i = 0; i &lt; 2; i++)
-    if (global.levelMusic[i])
-    {
-        global.musicVolume[i] = !i;
-        audio_sound_gain(global.levelMusic[i], global.musicVolume[i], 0);
-        audio_play_sound(global.levelMusic[i], 0, 1);
-    }
+if (global.dawn)
+    audio_play_sound(musDawn,1,false);
+else
+    music_start();
 global.battle = false;
 if (room == rmTitle)
     audio_sound_gain(global.levelMusic[0], 1, 0);

@@ -26,6 +26,7 @@
   <sounds name="sound">
     <sounds name="Music">
       <sound>sound\musTitle</sound>
+      <sound>sound\musDawn</sound>
       <sound>sound\musHyrule</sound>
       <sound>sound\musBattle</sound>
       <sound>sound\musLose</sound>
@@ -208,6 +209,7 @@
     </scripts>
     <script>scripts\timer_create.gml</script>
     <script>scripts\timer_tick.gml</script>
+    <script>scripts\music_start.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
