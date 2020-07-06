@@ -49,6 +49,7 @@ zSpeed=0;
 spd=0;
 bounciness=1; //Bounciness is calculated by spd divided by bounciness. Less is more.
 faceDir=0;
+floorAngle=0; //Used for checking steep slopes.
 sliding=false; //Used for sliding off of steep slopes.
 //Collision
 hitboxShape=-1;
@@ -112,7 +113,7 @@ actor_clear();
             <kind>1</kind>
             <string>///Animation &amp; physics
 //Keep the facing direction in range.
-faceDir=angle_normalize(faceDir);
+faceDir = angle_normalize(faceDir);
 //Update sprite
 actor_sprite_update();
 //Shadow position
@@ -120,11 +121,16 @@ actor_sprite_update();
 if (fShadow)
     if (c_raycast_world(x,y,z,x,y,z-65536,1))
     {
-        shadowZ=c_hit_z()+0.1;
-        shadowMatrix=world_matrix_from_normal(c_hit_nx(),c_hit_ny(),c_hit_nz(),x,y,shadowZ,1);
+        shadowZ = c_hit_z() + 0.1;
+        var normalZ = c_hit_nz();
+        shadowMatrix = world_matrix_from_normal(c_hit_nx(), c_hit_ny(), normalZ, x, y, shadowZ, 1);
+        floorAngle = abs(radtodeg(arccos(-normalZ)) - 180);
     }
     else
-        shadowZ=-65536;
+    {
+        shadowZ = -65536;
+        floorAngle = 0;
+    }
 /*Physics
 spd is a shortcut for setting hSpeed and vSpeed based on faceDir. You have to 
 manually reset hSpeed and vSpeed if you want to stop the actor from moving.*/
