@@ -406,6 +406,7 @@ if (instance_exists(objPlayer))
     for (var i = 0; i &lt; array_length_1d(objPlayer.shadowMatrix); i++)
         draw_text(8, 64 + i * 10, string(objPlayer.shadowMatrix[i]));
     draw_text(64, 64, string(objPlayer.floorAngle));
+    draw_text(64, 74, string(objPlayer.floorPitch));
 }
 </string>
           </argument>

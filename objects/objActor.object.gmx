@@ -49,7 +49,8 @@ zSpeed=0;
 spd=0;
 bounciness=1; //Bounciness is calculated by spd divided by bounciness. Less is more.
 faceDir=0;
-floorAngle=0; //Used for checking steep slopes.
+floorAngle=0; //Used for checking the direction of slopes.
+floorPitch=0; //Used for checking the vertical angle of slopes and detecting steep surfaces.
 sliding=false; //Used for sliding off of steep slopes.
 //Collision
 hitboxShape=-1;
@@ -122,14 +123,15 @@ if (fShadow)
     if (c_raycast_world(x,y,z,x,y,z-65536,1))
     {
         shadowZ = c_hit_z() + 0.1;
-        var normalZ = c_hit_nz();
+        var normalX = c_hit_nx(), normalY = c_hit_ny(), normalZ = c_hit_nz();
         shadowMatrix = world_matrix_from_normal(c_hit_nx(), c_hit_ny(), normalZ, x, y, shadowZ, 1);
-        floorAngle = abs(radtodeg(arccos(-normalZ)) - 180);
+        floorAngle = abs(radtodeg(arctan2(normalY, normalX)) - 180)
+        floorPitch = abs(radtodeg(arccos(-normalZ)) - 180);
     }
     else
     {
         shadowZ = -65536;
-        floorAngle = 0;
+        floorPitch = 0;
     }
 /*Physics
 spd is a shortcut for setting hSpeed and vSpeed based on faceDir. You have to 
@@ -161,14 +163,14 @@ var hFinal=hSpeed*global.deltaTime,vFinal=vSpeed*global.deltaTime,
 if !(fGhost)
 {
     //Step collision
-    var half=height*0.5,bottom=z-half,bottom2=bottom+4;
+    var half=height*0.5,bottom=z-half,speedLength=point_distance(0,0,hSpeed,vSpeed),bottom2=bottom+4;
     //If I'm on the ground...
     if (zSpeed&lt;=0)
     {
         //Check for steps and slopes by raycasting from all edges
         var xRad,yRad;
         if (zSpeed&lt;0)
-            bottom2=bottom-point_distance(0,0,hSpeed,vSpeed);
+            bottom2=bottom-speedLength;
         for (var i=0;i&lt;4;i++)
         {
             switch (i)
