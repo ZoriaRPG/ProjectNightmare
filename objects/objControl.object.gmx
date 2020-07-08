@@ -451,7 +451,7 @@ if (instance_exists(objPlayer))
     draw_text(64, 64, string(objPlayer.floorAngle));
     draw_text(64, 74, string(objPlayer.floorPitch));
 }
-draw_sprite(stBomb,0,x+32,32);
+draw_sprite(stBomb,0,lerp(xprevious,x,global.deltaTime)+32,32);
 </string>
           </argument>
         </arguments>
