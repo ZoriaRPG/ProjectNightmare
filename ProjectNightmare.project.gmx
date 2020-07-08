@@ -211,6 +211,7 @@
     <script>scripts\timer_create.gml</script>
     <script>scripts\timer_tick.gml</script>
     <script>scripts\music_start.gml</script>
+    <script>scripts\framerate_set.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>

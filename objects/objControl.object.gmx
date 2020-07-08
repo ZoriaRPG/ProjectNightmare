@@ -74,6 +74,14 @@ pauseX = -463;
 lolfps = fps_real;
 timer_create();
 timer[0] = 60;
+setFramerate = 6; /*Sets the maximum framerate. The values are as follows:
+0 - 30
+1 - 60
+2 - 120
+3 - 144
+4 - 200
+5 - 240
+6 - 320*/
 display_set_gui_size(960, 540);
 </string>
           </argument>
@@ -327,13 +335,13 @@ c_world_add_object(worldObject);
 show_debug_message("Done");
 //Reset in-game states
 if (global.dawn)
-    audio_play_sound(musDawn,1,false);
+    audio_play_sound(musDawn, 1, false);
 else
     music_start();
 global.battle = false;
 if (room == rmTitle)
     audio_sound_gain(global.levelMusic[0], 1, 0);
-room_speed = 320;
+framerate_set();
 </string>
           </argument>
         </arguments>
@@ -434,6 +442,31 @@ if (instance_exists(objPlayer))
           <argument>
             <kind>1</kind>
             <string>global.link = !global.link;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="70">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var next = setFramerate + 1;
+setFramerate = (next + (next &lt; 0) * 7) mod (7);
+framerate_set();
 </string>
           </argument>
         </arguments>
