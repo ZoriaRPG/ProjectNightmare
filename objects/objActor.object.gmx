@@ -163,14 +163,14 @@ var hFinal=hSpeed*global.deltaTime,vFinal=vSpeed*global.deltaTime,
 if !(fGhost)
 {
     //Step collision
-    var half=height*0.5,bottom=z-half,speedLength=point_distance(0,0,hSpeed,vSpeed),bottom2=bottom+4;
+    var half=height*0.5,bottom=z-half,bottom2=bottom+4;
     //If I'm on the ground...
     if (zSpeed&lt;=0)
     {
         //Check for steps and slopes by raycasting from all edges
         var xRad,yRad;
         if (zSpeed&lt;0)
-            bottom2=bottom-speedLength;
+            bottom2=bottom-point_distance(0,0,hSpeed,vSpeed);
         for (var i=0;i&lt;4;i++)
         {
             switch (i)
