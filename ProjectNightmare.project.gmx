@@ -103,6 +103,7 @@
   </sprites>
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
+    <background>background\bgPauseLink</background>
     <backgrounds name="Textures">
       <background>background\btSkybox</background>
       <background>background\btShadow</background>
