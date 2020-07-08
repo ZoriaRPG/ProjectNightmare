@@ -74,15 +74,14 @@ pauseX = -463;
 lolfps = fps_real;
 timer_create();
 timer[0] = 60;
-setFramerate = 6; /*Sets the maximum framerate. The values are as follows:
-0 - 30
-1 - 60
-2 - 120
-3 - 144
-4 - 200
-5 - 240
-6 - 320*/
+setFramerate = 0; /*Sets the maximum framerate. The values are as follows:
+0 - 144
+1 - 200
+2 - 240
+3 - 320*/
 display_set_gui_size(960, 540);
+hS = 2;
+gameLoop = 0;
 </string>
           </argument>
         </arguments>
@@ -136,6 +135,39 @@ else
             audio_sound_gain(global.levelMusic[!global.battle], 0, 750);
         }
     }
+gameLoop += global.deltaTime;
+while (gameLoop)
+{
+    event_user(0);
+    gameLoop--;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (x &lt; 0)
+    hS = 2;
+if (x &gt; 320)
+    hS = -2;
+x += hS;
 </string>
           </argument>
         </arguments>
@@ -411,7 +443,7 @@ draw_set_halign(fa_left);
 draw_set_font(-1);
 draw_background(character, pauseX, 0);
 draw_sprite_ext(sprIntro, global.link, pX2, 100, 0.5, 0.5, 0, c_white, 1);
-draw_text(8, 8, string(round(lolfps)) + " FPS#" + string(global.link) + "#" + string(global.deltaTime));
+draw_text(8, 8, string(round(lolfps)) + " FPS#" + string(global.link) + "#" + string(global.deltaTime) + "#" + string(setFramerate));
 if (instance_exists(objPlayer))
 {
     for (var i = 0; i &lt; array_length_1d(objPlayer.shadowMatrix); i++)
@@ -419,6 +451,7 @@ if (instance_exists(objPlayer))
     draw_text(64, 64, string(objPlayer.floorAngle));
     draw_text(64, 74, string(objPlayer.floorPitch));
 }
+draw_sprite(stBomb,0,x+32,32);
 </string>
           </argument>
         </arguments>
@@ -465,7 +498,7 @@ if (instance_exists(objPlayer))
           <argument>
             <kind>1</kind>
             <string>var next = setFramerate + 1;
-setFramerate = (next + (next &lt; 0) * 7) mod (7);
+setFramerate = (next + (next &lt; 0) * 4) mod (4);
 framerate_set();
 </string>
           </argument>
