@@ -22,9 +22,7 @@
       <filename>Collisions.dll</filename>
     </datafile>
   </datafiles>
-  <NewExtensions>
-    <extension index="0">extensions\Easing and Tweening</extension>
-  </NewExtensions>
+  <NewExtensions/>
   <sounds name="sound">
     <sounds name="Music">
       <sound>sound\musTitle</sound>
