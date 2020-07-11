@@ -27,16 +27,17 @@
             <kind>1</kind>
             <string>//Made by Hello.
 //This allows you to make cutscenes using cutscene_* scripts in the creation code.
-wait=1;
-cId=0;
-data=0;
-data2=0;
-z=0;
-pitch=0;
-lerpAmount=1;
-global.follow=false;
+wait = 1;
+cId = 0;
+data = 0;
+data2 = 0;
+z = 0;
+pitch = 0;
+global.follow = false;
 timer_create();
-timer[0]=1;
+timer[0] = 1;
+for (var i = 0; i &lt; 6; i++)
+    startPos[i] = 0;
 </string>
           </argument>
         </arguments>
@@ -63,50 +64,64 @@ timer[0]=1;
 //Execute current action in cutscene
 if (timer_tick(0))
 {
-    wait=1;
+    wait = 1;
     if (ds_list_empty(list))
         exit
     switch (cutscene_get_value())
     {
+        //cutscene_camera
         case (0):
-            x=cutscene_get_value();
-            y=cutscene_get_value();
-            z=cutscene_get_value();
-            direction=cutscene_get_value();
-            pitch=cutscene_get_value();
-            lerpAmount=cutscene_get_value();
+            x = cutscene_get_value();
+            startPos[0] = global.cX;
+            y = cutscene_get_value();
+            startPos[1] = global.cY;
+            z = cutscene_get_value();
+            startPos[2] = global.cZ;
+            direction = cutscene_get_value();
+            startPos[3] = global.cD;
+            pitch = cutscene_get_value();
+            startPos[4] = global.cP;
+            timer[1] = cutscene_get_value();
+            startPos[5] = timer[1];
         break
+        //cutscene_wait
         case (1):
-            wait=cutscene_get_value();
+            wait = cutscene_get_value();
         break
+        //cutscene_end
         case (2):
             cutscene_destroy();
         break
+        //cutscene_message
         case (3):
-            var strings=cutscene_get_value();
+            var strings = cutscene_get_value();
             with (instance_create(0,0,objMessage))
-                for (var i=0;i&lt;ds_list_size(strings);i++)
-                    message[1+i]=ds_list_find_value(strings,i);
+                for (var i = 0; i &lt; ds_list_size(strings); i++)
+                    message[1 + i] = ds_list_find_value(strings, i);
             ds_list_destroy(strings);
         break
+        //cutscene_wait_message
         case (4):
-            wait=-65536;
+            wait = -65536;
         break
     }
-    timer[0]=wait;
+    timer[0] = wait;
 }
 if (instance_exists(objCamera) &amp;&amp; !global.follow)
 {
-    global.cX=lerp(global.cX,x,lerpAmount);
-    global.cY=lerp(global.cY,y,lerpAmount);
-    global.cZ=lerp(global.cZ,z,lerpAmount);
-    objCamera.faceDir=lerp(objCamera.faceDir,direction,lerpAmount);
-    objCamera.pitch=lerp(objCamera.pitch,pitch,lerpAmount);
+    var step = smoothstep(0, startPos[5], timer[1]);
+    global.cX = lerp(x, startPos[0], step);
+    global.cY = lerp(y, startPos[1], step);
+    global.cZ = lerp(z, startPos[2], step);
+    objCamera.faceDir = lerp(direction, startPos[3], step);
+    objCamera.pitch = lerp(pitch, startPos[4], step);
+    timer_tick(1);
 }
-if (wait==-65536 &amp;&amp; !instance_exists(objMessage))
+//cutscene_wait_message function. This pauses the cutscene until the player closes the message.
+if (wait == -65536 &amp;&amp; !instance_exists(objMessage))
 {
-    timer[0]=1;
-    wait=1;
+    timer[0] = 1;
+    wait = 1;
 }
 </string>
           </argument>

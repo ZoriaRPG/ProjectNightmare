@@ -21,42 +21,10 @@
       </ConfigOptions>
       <filename>Collisions.dll</filename>
     </datafile>
-    <datafile>
-      <name>no.col</name>
-      <exists>-1</exists>
-      <size>9962</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>no.col</filename>
-    </datafile>
-    <datafile>
-      <name>collision.col</name>
-      <exists>-1</exists>
-      <size>42846</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>collision.col</filename>
-    </datafile>
   </datafiles>
-  <NewExtensions/>
+  <NewExtensions>
+    <extension index="0">extensions\Easing and Tweening</extension>
+  </NewExtensions>
   <sounds name="sound">
     <sounds name="Music">
       <sound>sound\musTitle</sound>
@@ -247,6 +215,7 @@
     <script>scripts\timer_tick.gml</script>
     <script>scripts\music_start.gml</script>
     <script>scripts\framerate_set.gml</script>
+    <script>scripts\smoothstep.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
