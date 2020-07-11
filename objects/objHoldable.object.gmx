@@ -26,14 +26,14 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-fBounce=true;
-bounciness=3;
+fBounce = true;
+bounciness = 3;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="2">
+    <event eventtype="7" enumb="25">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -53,16 +53,16 @@ bounciness=3;
             <string>///Move to holder's position
 if (target)
 {
-    fShadow=false;
-    faceDir=target.faceDir;
-    x=target.x;
-    y=target.y;
-    z=target.z+(target.height*0.5)+(height*0.5);
+    fShadow = false;
+    faceDir = target.faceDir;
+    x = target.x;
+    y = target.y;
+    z = target.top + half;
     actor_sprite_update();
 }
 else
 {
-    fShadow=true;
+    fShadow = true;
     event_inherited();
 }
 </string>

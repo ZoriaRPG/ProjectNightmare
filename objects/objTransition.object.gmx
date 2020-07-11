@@ -25,15 +25,15 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_alpha=0;
-image_blend=c_black;
-next=noone;
+            <string>image_alpha = 0;
+image_blend = c_black;
+next = noone;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -50,10 +50,10 @@ next=noone;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (image_alpha&lt;1)
-    image_alpha+=0.01*global.deltaTime;
+            <string>if (image_alpha &lt; 1)
+    image_alpha += 0.01;
 else
-    if (next!=noone)
+    if (next != noone)
         room_goto(next);
     else
         game_end();
@@ -79,8 +79,7 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_circle_colour(view_wview[0]*0.5,view_hview[0]*0.5,image_alpha*view_wview[0],
-                   image_blend,image_blend,false);
+            <string>draw_circle_colour(view_wview[0] * 0.5, view_hview[0] * 0.5, image_alpha * view_wview[0], image_blend, image_blend, false);
 </string>
           </argument>
         </arguments>

@@ -26,11 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-fEnemy=true;
-fSolid=true;
-alert=false;
-target=objPlayer;
-lostTarget=false;
+fEnemy = true;
+fSolid = true;
+alert = false;
+target = objPlayer;
+lostTarget = false;
 </string>
           </argument>
         </arguments>

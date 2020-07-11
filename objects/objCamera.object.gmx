@@ -56,7 +56,7 @@ audio_emitter_free(emitter);
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="2">
+    <event eventtype="7" enumb="25">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -82,7 +82,7 @@ global.cP = pitch;
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -103,7 +103,7 @@ global.cP = pitch;
 if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow)))
 {
     //Ready up target coordinates
-    var tX = target.x, tY = target.y, tRZ = target.z - target.height * 0.5, tZ = tRZ;
+    var tX = target.x, tY = target.y, tRZ = target.bottom, tZ = tRZ;
     if (cutscene_exists())
     {
         free = false;
@@ -152,7 +152,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
     {
         global.cX = tX;
         global.cY = tY;
-        global.cZ = tRZ + target.height - 4;
+        global.cZ = target.top - 4;
         //Mouselook
         mouse_look(true);
         target.faceDir = global.cD;
@@ -185,7 +185,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         //smooth turning
         global.cX = lerp_delta(global.cX, tX - incX, lerpAmount);
         global.cY = lerp_delta(global.cY, tY - incY, lerpAmount);
-        global.cZ = max(global.minZ, lerp_delta(global.cZ, tToZ, 0.1));
+        global.cZ = max(global.minZ, lerp(global.cZ, tToZ, 0.1));
         x = global.cX;
         y = global.cY;
         z = global.cZ;

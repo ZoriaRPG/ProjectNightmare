@@ -27,26 +27,26 @@
             <kind>1</kind>
             <string>///Set actor properties
 event_inherited();
-sprite=0;
-rotate=true;
-frameSpd=0.01;
-fSolid=true;
-fPushable=true;
-onGround=true;
-spdDis=0;
-jumpSpd=2.5;
-holding=noone;
+sprite = 0;
+rotate = true;
+frameSpd = 0.01;
+fSolid = true;
+fPushable = true;
+onGround = true;
+spdDis = 0;
+jumpSpd = 2.5;
+holding = noone;
 //Variables with the postfix "Snd" have arrays that can be extended. Use this to assign
 //multiple sounds to one variable.
-jumpSnd[0]=noone;
-fallSnd[0]=noone;
-timer[0]=irandom_range(60,300);
+jumpSnd[0] = noone;
+fallSnd[0] = noone;
+timer[0] = irandom_range(60, 300);
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="1">
+    <event eventtype="7" enumb="24">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -63,14 +63,14 @@ timer[0]=irandom_range(60,300);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Update audio
-audio_emitter_position(emitter,x,y,z);
+            <string>///Update audio &amp; position
+actor_update();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -88,118 +88,103 @@ audio_emitter_position(emitter,x,y,z);
           <argument>
             <kind>1</kind>
             <string>///Move test
-if (!instance_exists(objTransition) &amp;&amp; z&lt;global.minZ-300)
+if (!instance_exists(objTransition) &amp;&amp; z &lt; global.minZ - 300)
 {
     if (global.link)
-        audio_play_sound(sndRespawn,1,false);
-    transition_create(room,c_black);
+        audio_play_sound(sndRespawn, 1, false);
+    transition_create(room, c_black);
 }
 if (cutscene_exists())
     exit
 if (keyboard_check_pressed(ord("R")))
 {
-    x=xstart;
-    y=ystart;
-    z=256;
-    hSpeed=0;
-    vSpeed=0;
-    zSpeed=0;
+    x = xstart;
+    y = ystart;
+    z = 256;
+    hSpeed = 0;
+    vSpeed = 0;
+    zSpeed = 0;
 }
 //Code by YAL
-var keyX=(keyboard_check(ord("W"))-keyboard_check(ord("S"))),
-    keyY=keyboard_check(ord("D"))-keyboard_check(ord("A")),
-    keyL,camD=0;
-onGround=(c_overlap_world_position(hitbox,x,y,z-2) || fOnGround) &amp;&amp; !sliding;
-spdDis=point_distance(0,0,hSpeed,vSpeed);
-//length of moving vector:
-keyL=point_distance(0,0,keyX,keyY)*!sliding;
+var keyX = (keyboard_check(ord("W")) - keyboard_check(ord("S"))), keyY = keyboard_check(ord("D")) - keyboard_check(ord("A")), keyL, camD = 0;
+onGround = c_raycast_world(x, y, z, x, y, bottom - 2, 1) || fOnGround;
+spdDis = point_distance(0, 0, hSpeed, vSpeed);
+keyL = point_distance(0, 0, keyX, keyY) * !sliding; //length of moving vector
 //if needed, normalize vector to prevent faster diagonal movement:
-if (keyL&gt;1)
+if (keyL &gt; 1)
 {
-    keyX/=keyL;
-    keyY/=keyL;
-    keyL=1;
+    keyX /= keyL;
+    keyY /= keyL;
+    keyL = 1;
 }
 if (instance_exists(objCamera))
 {
     if (abs(keyY) &amp;&amp; fVisible &amp;&amp; !objCamera.free)
-        objCamera.faceDir-=(keyY*spdDis)*global.deltaTime;
-    camD=objCamera.faceDir;
+        objCamera.faceDir -= (keyY * spdDis);
+    camD = objCamera.faceDir;
 }
 //actually move around, if needed:
-if (keyL&gt;0)
+if (keyL &gt; 0)
 {
-    faceDir=point_direction(0,0,keyX,keyY)+global.cD;
-    var acc=1+6*!onGround,cDD=global.cD-90,lX=lengthdir_x(keyX,global.cD)+
-                                              lengthdir_x(keyY,cDD),
-        lY=lengthdir_y(keyX,global.cD)+lengthdir_y(keyY,cDD),vector=point_distance(0,0,lX,
-                                                                    lY),
-        lX2=abs(lengthdir_x(vector,faceDir))*2,
-        lY2=abs(lengthdir_y(vector,faceDir))*2,acc2=0.75;
-    hSpeed=clamp(hSpeed+((lX*acc2)/acc)*global.deltaTime,-lX2,lX2);
-    vSpeed=clamp(vSpeed+((lY*acc2)/acc)*global.deltaTime,-lY2,lY2);
+    faceDir = point_direction(0,0,keyX,keyY) + global.cD;
+    var acc = 1 + 6 * !onGround, cDD = global.cD - 90, lX = lengthdir_x(keyX, global.cD) + lengthdir_x(keyY,cDD), lY = lengthdir_y(keyX, global.cD) + lengthdir_y(keyY, cDD), vector = point_distance(0, 0, lX, lY), lX2 = abs(lengthdir_x(vector, faceDir)) * 2, lY2 = abs(lengthdir_y(vector, faceDir)) * 2, acc2 = 0.75;
+    hSpeed = clamp(hSpeed + ((lX * acc2) / acc), -lX2, lX2);
+    vSpeed = clamp(vSpeed + ((lY * acc2) / acc), -lY2, lY2);
 }
 //jump when on the ground
 if (onGround)
 {
     if (keyboard_check_pressed(vk_space))
     {
-        zSpeed = jumpSpd;
-        //Push the player up, so they will jump successfully on slopes
-        if !(c_overlap_world_position(hitbox, x, y, z + 2))
-        {
-            zSpeed -= 0.1;
+        if !(c_raycast_world(x, y, z, x, y, top + jumpSpd, 1))
             z += jumpSpd;
-        }
+        zSpeed = jumpSpd - 0.1;
         if (jumpSnd[0])
-            d3d_sound_play(jumpSnd[max(0,irandom(array_length_1d(jumpSnd)-1))],false,1);
-        d3d_sound_play(sndJump,false,1);
+            d3d_sound_play(jumpSnd[max(0, irandom(array_length_1d(jumpSnd) - 1))], false, 1);
+        d3d_sound_play(sndJump, false, 1);
     }
-    var fric=0.2*global.deltaTime;
-    hSpeed=lerp(hSpeed,0,fric);
-    vSpeed=lerp(vSpeed,0,fric);
+    var fric = 0.2;
+    hSpeed = lerp(hSpeed, 0, fric);
+    vSpeed = lerp(vSpeed, 0, fric);
 }
 //Get nearest enemy
-var near=instance_nearest(x,y,objEnemy);
+var near = instance_nearest(x, y, objEnemy);
 //If nearest enemy is within the range of the player, crank up that battle music.
 if (near)
-    global.battle=point_distance_3d(x,y,z,near.x,near.y,near.z)&lt;100;
+    global.battle = point_distance_3d(x, y, z, near.x, near.y, near.z) &lt; 100;
 else
-    global.battle=false;
+    global.battle = false;
 //Holding mechanic
 if (keyboard_check_pressed(ord("E")))
     if (holding)
-        player_drop_holdable(other.hSpeed+lengthdir_x(1.5,faceDir),
-                             other.vSpeed+lengthdir_y(1.5,faceDir),other.zSpeed+1.5);
+        player_drop_holdable(hSpeed + lengthdir_x(1.5, faceDir), vSpeed + lengthdir_y(1.5, faceDir), zSpeed + 1.5);
     else
     {
-        near=instance_nearest(x,y,objHoldable);
-        if (near &amp;&amp; point_distance_3d(x,y,z,near.x,near.y,near.z)&lt;3*near.radius)
+        near = instance_nearest(x, y, objHoldable);
+        if (near &amp;&amp; point_distance_3d(x, y, z, near.x, near.y, near.z) &lt; 3 * near.radius)
         {
-            near.target=other;
-            holding=near;
+            near.target = self;
+            holding = near;
         }
     }
 //Bottomless pit detection
-if (z&lt;global.minZ)
+if (z &lt; global.minZ)
 {
     if (global.link)
-        for (var i=0;i&lt;2;i++)
-        {
-            if (global.levelMusic[i])
-                audio_sound_gain(global.levelMusic[i],0,750);
-        }
+        for (var i = 0; i &lt; 2; i++)
+            {if (global.levelMusic[i])
+                audio_sound_gain(global.levelMusic[i], 0, 750);}
     else
     {
         audio_stop_all();
-        audio_play_sound(musLose,1,false);
+        audio_play_sound(musLose, 1, false);
     }
     if (fallSnd[0])
-        d3d_sound_play(fallSnd[max(0,irandom(array_length_1d(fallSnd)-1))],false,1);
-    player_drop_holdable(0,0,1);
-    with (instance_create(0,0,objCutscene))
+        d3d_sound_play(fallSnd[max(0, irandom(array_length_1d(fallSnd) - 1))], false, 1);
+    player_drop_holdable(0, 0, 1);
+    with (instance_create(0, 0, objCutscene))
     {
-        global.follow=true;
+        global.follow = true;
         cutscene_create();
     }
 }

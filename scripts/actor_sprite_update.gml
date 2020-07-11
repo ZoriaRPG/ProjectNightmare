@@ -8,5 +8,5 @@ if (sprite != -1)
     else
         nums = global.sFrames[sprite, 1];
     if (nums != 0)
-        frame = (frame + (frameSpd * global.deltaTime)) mod (nums);
+        frame = (frame + (frameSpd)) mod (nums);
 }

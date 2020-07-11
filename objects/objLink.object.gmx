@@ -26,23 +26,23 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-sprite=6;
-jumpSnd[0]=sndLinkJump;
-jumpSnd[1]=sndLinkJump2;
-jumpSnd[2]=sndLinkJump3;
-jumpSnd[3]=sndLinkJump4;
-jumpSnd[4]=sndLinkJump5;
-fallSnd[0]=sndLinkFall;
-fallSnd[1]=sndLinkFall2;
-jumpSpd=2;
-height=18;
+sprite = 6;
+jumpSnd[0] = sndLinkJump;
+jumpSnd[1] = sndLinkJump2;
+jumpSnd[2] = sndLinkJump3;
+jumpSnd[3] = sndLinkJump4;
+jumpSnd[4] = sndLinkJump5;
+fallSnd[0] = sndLinkFall;
+fallSnd[1] = sndLinkFall2;
+jumpSpd = 2;
+height = 18;
 hitbox_create();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -62,18 +62,18 @@ hitbox_create();
             <string>///Link's animation &amp; move test
 if (timer_tick(0))
 {
-    if (sprite==6)
+    if (sprite == 6)
     {
-        sprite=9;
-        frameSpd=0.2;
+        sprite = 9;
+        frameSpd = 0.2;
     }
-    timer[0]=irandom_range(60,300);
+    timer[0] = irandom_range(60, 300);
 }
-if (sprite==9)
-    if (frame&gt;=2.5)
+if (sprite == 9)
+    if (frame &gt;= 2.5)
     {
-        sprite=6;
-        frameSpd=0.01;
+        sprite = 6;
+        frameSpd = 0.01;
     }
 event_inherited();
 //Animation control
@@ -81,27 +81,30 @@ if (onGround)
 {
     if (spdDis)
     {
-        sprite=7;
-        frameSpd=spdDis*0.15;
+        sprite = 7;
+        frameSpd = spdDis * 0.15;
     }
     else
-        if (sprite!=9)
+        if (sprite != 9)
         {
-            sprite=6;
-            frameSpd=0.01;
+            sprite = 6;
+            frameSpd = 0.01;
         }
 }
 else
 {
     //Animation control (in mid-air)
-    if (sprite!=8)
+    if (sprite != 8)
     {
-        sprite=8;
-        frame=0.5;
+        sprite = 8;
+        if (zSpeed &lt;= 0)
+            frame = 2;
+        else
+            frame = 0.5;
     }
-    frameSpd=((zSpeed&gt;1 &amp;&amp; frame&lt;=1) || (zSpeed&lt;1 &amp;&amp; frame&lt;=3))*0.15;
-    if (frame&gt;=3 &amp;&amp; zSpeed&gt;0)
-        frame=0.5;
+    frameSpd = ((zSpeed &gt; 1 &amp;&amp; frame &lt;= 1) || (zSpeed &lt; 1 &amp;&amp; frame &lt;= 3)) * 0.15;
+    if (frame &gt;= 3 &amp;&amp; zSpeed &gt; 0)
+        frame = 0.5;
 }
 </string>
           </argument>

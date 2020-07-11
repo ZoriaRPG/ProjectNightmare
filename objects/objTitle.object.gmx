@@ -64,7 +64,7 @@ audio_play_sound(musTitle, 1, true);
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -99,12 +99,12 @@ switch (state)
             state = 1;
         }
         else
-            image_xscale += 0.05 * global.deltaTime;
+            image_xscale += 0.05;
     break
     case (1):
         //dewobble the logo
         if (wobble &gt; 0)
-            wobble -= 0.05 * global.deltaTime;
+            wobble -= 0.05;
         else
         {
             wobble = 0;
@@ -115,7 +115,7 @@ switch (state)
 //Transition to other menus
 if (transition)
     if (transY &lt; 240)
-        transY += 30 * global.deltaTime;
+        transY += 30;
     else
     {
         transY = 240;
@@ -124,7 +124,7 @@ if (transition)
     }
 else
     if (transY &gt; 0)
-        transY -= 30 * global.deltaTime;
+        transY -= 30;
     else
         transY = 0;
 </string>
@@ -150,7 +150,7 @@ else
           <argument>
             <kind>1</kind>
             <string>///Draw menus
-//Now we need to prepare a lot of variables for recycling. Optimization is important.
+//Prepare a lot of variables for recycling. Optimization is important.
 var vw = view_wview[0] * 0.5, vh = view_hview[0] * 0.5, dir = get_timer() / 900, s = (image_xscale + lengthdir_x(wobble * 0.5, dir)) * 230, w = wobble * 0.04, blink = merge_color(make_color_rgb(248, 248, 248), make_color_rgb(251, 231, 0), abs(lengthdir_x(1, get_timer() / 4500))), wx = image_xscale + lengthdir_x(w, dir), wy = image_xscale + lengthdir_y(w, dir), tvh = vh + transY, wx2 = 2*wx, wy2 = 2*wy;
 draw_set_alpha(0.51);
 draw_rectangle_color(vw - s, 0, vw + s, view_hview[0], c_black, c_black, c_black, c_black, false);

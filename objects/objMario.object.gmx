@@ -26,20 +26,20 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-jumpSnd[0]=sndMarioJump;
-jumpSnd[1]=sndMarioJump2;
-jumpSnd[2]=sndMarioJump3;
-jumpSnd[3]=sndMarioJump4;
-jumpSnd[4]=sndMarioJump5;
-fallSnd[0]=sndMarioFall;
-fallSnd[1]=sndMarioFall2;
+jumpSnd[0] = sndMarioJump;
+jumpSnd[1] = sndMarioJump2;
+jumpSnd[2] = sndMarioJump3;
+jumpSnd[3] = sndMarioJump4;
+jumpSnd[4] = sndMarioJump5;
+fallSnd[0] = sndMarioFall;
+fallSnd[1] = sndMarioFall2;
 hitbox_create();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -62,45 +62,45 @@ if (timer_tick(0))
 {
     if !(sprite)
     {
-        sprite=3;
-        frameSpd=0.2;
+        sprite = 3;
+        frameSpd = 0.2;
     }
-    timer[0]=irandom_range(60,300);
+    timer[0] = irandom_range(60, 300);
 }
-if (sprite==3)
-    if (frame&gt;=2.5)
+if (sprite == 3)
+    if (frame &gt;= 2.5)
     {
-        sprite=0;
-        frameSpd=0.01;
+        sprite = 0;
+        frameSpd = 0.01;
     }
 event_inherited();
 //Animation control
-if (z&lt;global.minZ)
+if (z &lt; global.minZ)
 {
-    sprite=4;
-    frameSpd=0.3;
+    sprite = 4;
+    frameSpd = 0.3;
     exit
 }
 if (onGround)
 {
     if (spdDis)
     {
-        sprite=1;
-        frameSpd=spdDis*0.15;
+        sprite = 1;
+        frameSpd = spdDis * 0.15;
     }
     else
-        if (sprite!=3)
+        if (sprite != 3)
         {
-            sprite=0;
-            frameSpd=0.01;
+            sprite = 0;
+            frameSpd = 0.01;
         }
 }
 else
 {
     //Animation control (in mid-air)
-    sprite=2;
-    frameSpd=0;
-    frame=zSpeed&lt;=0;
+    sprite = 2;
+    frameSpd = 0;
+    frame = zSpeed &lt;= 0;
 }
 </string>
           </argument>

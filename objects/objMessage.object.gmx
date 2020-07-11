@@ -26,20 +26,20 @@
           <argument>
             <kind>1</kind>
             <string>timer_create();
-timer[0]=10;
-timer[1]=5;
-timer[2]=1;
-alarmToggle=false;
-show=false;
-message[0]="";
-currentMessage=1;
-audio_play_sound(sndMessageOpen,1,false);
+timer[0] = 10;
+timer[1] = 5;
+timer[2] = 1;
+alarmToggle = false;
+show = false;
+message[0] = "";
+currentMessage = 1;
+audio_play_sound(sndMessageOpen, 1, false);
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -61,43 +61,43 @@ audio_play_sound(sndMessageOpen,1,false);
         instance_destroy();
     else
     {
-        alarmToggle=true;
-        show=true;
+        alarmToggle = true;
+        show = true;
     }
 if (timer_tick(1))
 {
-    if (message[0]!=message[currentMessage])
-        audio_play_sound(sndMessage,1,false);
-    timer[1]=5;
+    if (message[0] != message[currentMessage])
+        audio_play_sound(sndMessage, 1, false);
+    timer[1] = 5;
 }
-if (alarmToggle &amp;&amp; timer[0]==-65536)
+if (alarmToggle &amp;&amp; timer[0] == -65536)
 {
-    if (message[0]!=message[currentMessage])
+    if (message[0] != message[currentMessage])
     {
         if (timer_tick(2))
         {
-            message[0]=string_copy(message[currentMessage],1,string_length(message[0])+1);
-            timer[2]=1;
+            message[0] = string_copy(message[currentMessage], 1, string_length(message[0]) + 1);
+            timer[2] = 1;
         }
         if (keyboard_check_pressed(vk_space))
         {
-            message[0]=message[currentMessage];
-            timer[2]=-65536;
+            message[0] = message[currentMessage];
+            timer[2] = -65536;
             exit
         }
     }
     if (keyboard_check_pressed(vk_space))
-        if (currentMessage&lt;array_length_1d(message)-1)
+        if (currentMessage &lt; array_length_1d(message) - 1)
         {
-            message[0]="";
-            timer[2]=1;
+            message[0] = "";
+            timer[2] = 1;
             currentMessage++;
         }
         else
         {
-            audio_play_sound(sndMessageClose,1,false);
-            timer[0]=10;
-            show=false;
+            audio_play_sound(sndMessageClose, 1, false);
+            timer[0] = 10;
+            show = false;
         }
 }
 </string>
@@ -123,20 +123,20 @@ if (alarmToggle &amp;&amp; timer[0]==-65536)
           <argument>
             <kind>1</kind>
             <string>if (show)
-    scale=10;
+    scale = 10;
 else
     if (alarmToggle)
-        scale=timer[0];
+        scale = timer[0];
     else
-        scale=(10-timer[0]);
-scale*=0.1;
+        scale = (10 - timer[0]);
+scale *= 0.1;
 draw_set_color(c_black);
 draw_set_alpha(0.51);
-draw_rectangle(16,view_hview[0]-(144*scale),view_wview[0]-16,view_hview[0]-(16*scale),false);
+draw_rectangle(16, view_hview[0] - (144 * scale), view_wview[0] - 16, view_hview[0] - (16 * scale), false);
 draw_set_alpha(1);
 draw_set_color(c_white);
 draw_set_font(global.messageFont);
-draw_text_ext_transformed(20,view_hview[0]-(140*scale),message[0],-1,(view_wview[0]*0.5)-20,2,2*scale,0);
+draw_text_ext_transformed(20, view_hview[0] - (140 * scale), message[0], -1, (view_wview[0] * 0.5) - 20, 2, 2 * scale, 0);
 draw_set_font(-1);
 </string>
           </argument>
