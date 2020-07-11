@@ -171,6 +171,8 @@ for (i = -radius; i &lt;= radius; i += radius)
             hSpeed /= -bounciness;
         else
             hSpeed = 0;
+        if (fEnemy)
+            faceDir = irandom(360);
     }
 }
 //Vertical wall collision
@@ -186,6 +188,8 @@ for (i = -radius; i &lt;= radius; i += radius)
             vSpeed /= -bounciness;
         else
             vSpeed = 0;
+        if (fEnemy)
+            faceDir = irandom(360);
     }
 }
 //Floor collision
