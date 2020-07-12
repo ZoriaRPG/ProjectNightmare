@@ -40,12 +40,12 @@ fSolid = false;
 fPushable = false; //Turn on if you want the actor to get pushed back when touching other actors.
 fBounce = false; //Turn on if you want the actor to bounce from walls and floors. You can also change the bounciness value.
 //Physics
-z = 9;
+z = 8;
 radius = 4; //The radius is the actor's width split in half, i.e. 8 = 4.
 height = 16;
 half = 8; //The center point of the actor's height.
-top = 17; //The bottom of the actor's z position.
-bottom = 1; //The top of the z position.
+top = 16; //The bottom of the actor's z position.
+bottom = 0; //The top of the z position.
 hSpeed = 0;
 vSpeed = 0;
 zSpeed = 0;
@@ -55,9 +55,6 @@ faceDir = 0;
 floorAngle = 0; //Used for checking the direction of slopes.
 floorPitch = 0; //Used for checking the vertical angle of slopes and detecting steep surfaces.
 sliding = false; //Used for sliding off of steep slopes.
-//Collision
-hitboxShape = -1;
-hitbox = -1;
 //Animation
 shadowZ = -9;
 shadowMatrix = matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1);
