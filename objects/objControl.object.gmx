@@ -63,6 +63,7 @@ for (var i = 0; i &lt; 2; i++)
     global.levelMusic[i] = noone;
 global.musicVolume[0] = 1; //Music slot 0 is the main level music. Set it to noone for silence.
 global.musicVolume[1] = 0; //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
+global.skybox = 0; //The texture ID of the skybox.
 global.battle = false; //Used for switching between normal and battle music.
 global.dawn = false; //Used to play musDawn on level start. 
 global.paused = false;

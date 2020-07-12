@@ -273,9 +273,12 @@ d3d_set_projection_ext(global.cX, global.cY, global.cZ, xTo, yTo, zTo, 0, 0, 1, 
 audio_listener_position(global.cX, global.cY, global.cZ);
 audio_listener_orientation(-cCos, cSin, cTan, 0, 0, 1);
 //Draw the skybox
-d3d_set_zwriteenable(false);
-d3d_draw_ellipsoid(global.cX + 128, global.cY + 128, global.cZ + 256, global.cX - 128, global.cY - 128, global.cZ - 256, global.tex[0], 1, -1, 32);
-d3d_set_zwriteenable(true);
+if (global.skybox != -1)
+{
+    d3d_set_zwriteenable(false);
+    d3d_draw_ellipsoid(global.cX + 128, global.cY + 128, global.cZ + 256, global.cX - 128, global.cY - 128, global.cZ - 256, global.tex[global.skybox], 1, -1, 32);
+    d3d_set_zwriteenable(true);
+}
 //Draw world model
 texture_set_repeat(true);
 for (var i = 0; i &lt; ds_list_size(global.worldModel); i++)
