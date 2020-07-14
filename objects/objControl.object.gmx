@@ -37,7 +37,7 @@ texture_background_load(6, btStairs3);
 texture_background_load(7, btStairs4);
 texture_background_load(8, btFence);
 texture_background_load(9, btCarpet);
-//Load in sprites. These are a different type of textures and are animated.
+//Load in sprites. These are different types of textures and are animated. You can also assign them to level geometry.
 texture_sprite_load(0, stMario);
 texture_sprite_load(1, stMarioRun);
 texture_sprite_load(2, stMarioJump);
@@ -49,6 +49,8 @@ texture_sprite_load(7, stLinkRun);
 texture_sprite_load(8, stLinkJump);
 texture_sprite_load(9, stLinkBlink);
 texture_sprite_load(10, stBomb);
+texture_sprite_load(11, stMarioSlideStart);
+texture_sprite_load(12, stMarioSlide);
 c_init();
 worldShape = -1;
 worldObject = -1;
@@ -209,6 +211,7 @@ if (background_exists(pauseBg))
 }
 audio_stop_all();
 global.dawn = false;
+global.skybox = 0;
 </string>
           </argument>
         </arguments>

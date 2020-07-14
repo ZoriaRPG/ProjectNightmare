@@ -29,6 +29,7 @@
       <sound>sound\musDawn</sound>
       <sound>sound\musHyrule</sound>
       <sound>sound\musBattle</sound>
+      <sound>sound\musDaemon</sound>
       <sound>sound\musLose</sound>
     </sounds>
     <sounds name="Intro">
@@ -84,6 +85,8 @@
         <sprite>sprites\stMarioJump</sprite>
         <sprite>sprites\stMarioBlink</sprite>
         <sprite>sprites\stMarioWoah</sprite>
+        <sprite>sprites\stMarioSlideStart</sprite>
+        <sprite>sprites\stMarioSlide</sprite>
       </sprites>
       <sprites name="Link">
         <sprite>sprites\stLink</sprite>
@@ -262,6 +265,7 @@
     <rooms name="Levels">
       <room>rooms\rmHyrule</room>
       <room>rooms\rmMain</room>
+      <room>rooms\rmWarzone</room>
     </rooms>
   </rooms>
   <help>
