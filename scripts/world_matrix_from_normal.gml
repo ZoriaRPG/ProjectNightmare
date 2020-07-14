@@ -1,4 +1,5 @@
 ///world_matrix_from_normal(nx,ny,nz,px,py,pz,scale)
+//Made by Snidr
 var nx = argument0, ny = argument1, nz = argument2, px = argument3, py = argument4, pz = argument5, scale = argument6;
 //Normalize the input normal
 var l = nx * nx + ny * ny + nz * nz;

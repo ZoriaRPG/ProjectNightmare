@@ -125,13 +125,15 @@ if (fShadow)
     {
         shadowZ = c_hit_z() + 0.1;
         var normalX = c_hit_nx(), normalY = c_hit_ny(), normalZ = c_hit_nz();
+        //Change the shadow's rotation using a matrix based off of the hit triangle's normals.
         shadowMatrix = world_matrix_from_normal(c_hit_nx(), c_hit_ny(), normalZ, x, y, shadowZ, 1);
+        //Get the angle of the hit triangle from the normals.
         floorAngle = abs(radtodeg(arctan2(normalY, normalX)) - 180)
         floorPitch = abs(radtodeg(arccos(-normalZ)) - 180);
     }
     else
     {
-        shadowZ = -65536;
+        shadowZ = -65536; //-65536 disables shadow rendering
         floorPitch = 0;
     }
 //Physics
@@ -147,21 +149,27 @@ if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable &amp;&amp; bott
 }
 //Sliding on steep slopes
 if (sliding)
+{
+    //Raycast below to see if we are still under a slope, also check if our floor is actually a slope
     if (c_raycast_world(x, y, z, x, y, bottom - 8, 1) &amp;&amp; floorPitch)
     {
+        //Stick onto the slope
         z = c_hit_z() + half;
+        //Move down the slope
         var oppositeAngle = abs(floorAngle - 180);
         hSpeed = lengthdir_x(min(abs(hSpeed) + 0.1, abs(lengthdir_x(3, floorPitch))), oppositeAngle);
         vSpeed = lengthdir_y(min(abs(vSpeed) + 0.1, abs(lengthdir_y(3, floorPitch))), oppositeAngle);
     }
     else
         sliding = false;
+}
 else
 {
     //spd is a shortcut for setting hSpeed and vSpeed based on faceDir. You have to 
     //manually reset hSpeed and vSpeed if you want to stop the actor from moving.
     if (spd != 0)
     {
+        //The real speed is calculated based on the angle of the slope that the actor is standing on.
         var realSpeed = spd;
         if (onGround &amp;&amp; floorPitch)
             realSpeed = lengthdir_x(spd, floorPitch);
@@ -170,8 +178,10 @@ else
     }
     if (fOnGround)
     {
+        //If the floor we are standing on is more than 60 degrees upwards...
         if (floorPitch &gt; 60)
         {
+            //Reset speed and start sliding
             hSpeed = 0;
             vSpeed = 0;
             zSpeed = 0;
@@ -186,6 +196,7 @@ else
 if !(fGhost)
 {
     //Floor collision
+    //The actor will not move down regular slopes if it is bouncy.
     if (c_raycast_world(x, y, z, x + hSpeed, y + vSpeed, bottom + zSpeed, 1) || (!fBounce &amp;&amp; zSpeed &lt;= 0 &amp;&amp; c_raycast_world(x, y, z, x, y, bottom - (4 + zSpeed), 1)))
     {
         z = c_hit_z() + half;
@@ -230,9 +241,9 @@ if !(fGhost)
         }
     }
     //Ceiling collision
+    //The ceiling always prevents the player from overlapping at all, similarly to SM64.
     if (c_raycast_world(x, y, z, x + hSpeed, y + vSpeed, top + zSpeed, 1))
     {
-        var dir = point_direction(x, y, c_hit_x(), c_hit_y());
         x = xprevious;
         y = yprevious;
         z = c_hit_z() - half;
