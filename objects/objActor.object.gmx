@@ -171,7 +171,7 @@ else
     {
         //The real speed is calculated based on the angle of the slope that the actor is standing on.
         var realSpeed = spd;
-        if (onGround &amp;&amp; floorPitch)
+        if (fOnGround &amp;&amp; floorPitch)
             realSpeed = lengthdir_x(spd, floorPitch);
         hSpeed = lengthdir_x(realSpeed, faceDir);
         vSpeed = lengthdir_y(realSpeed, faceDir);
