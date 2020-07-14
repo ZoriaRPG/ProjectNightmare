@@ -12,7 +12,8 @@
   <showcolour>-1</showcolour>
   <code>global.levelMusic[0] = musHyrule;
 global.levelMusic[1] = musBattle;
-global.dawn = true;</code>
+global.dawn = true;
+global.roomName = "Hyrule Field";</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>

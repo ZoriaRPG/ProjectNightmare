@@ -69,6 +69,7 @@ global.skybox = 0; //The texture ID of the skybox.
 global.battle = false; //Used for switching between normal and battle music.
 global.dawn = false; //Used to play musDawn on level start. 
 global.paused = false;
+global.roomName = "Loading"; //Used for Discord Rich Presence
 global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
 global.messageFont = font_add_sprite(sprFont, ord("!"), true, 1);
 global.deltaTime = 60 / 1000000 * delta_time;
@@ -81,7 +82,6 @@ setFramerate = true; /*Sets the maximum framerate. The values are as follows:
 false - 30
 true - 60*/
 display_set_gui_size(960, 540);
-hS = 2;
 gameLoop = 0;
 </string>
           </argument>
@@ -379,6 +379,7 @@ global.battle = false;
 if (room == rmTitle)
     audio_sound_gain(global.levelMusic[0], 1, 0);
 framerate_set();
+discord_update_presence(global.roomName, "", "smallicon", "largeicon");
 </string>
           </argument>
         </arguments>
@@ -404,6 +405,8 @@ framerate_set();
             <string>///Unload game
 ds_list_destroy(global.worldModel);
 font_delete(global.messageFont);
+discord_free_app();
+discord_free_dll();
 </string>
           </argument>
         </arguments>
