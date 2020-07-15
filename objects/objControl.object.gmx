@@ -70,6 +70,7 @@ global.battle = false; //Used for switching between normal and battle music.
 global.dawn = false; //Used to play musDawn on level start. 
 global.paused = false;
 global.roomName = "Loading"; //Used for Discord Rich Presence
+global.roomIcon = 0; //Also for RPC. The number corresponds to which large icon key should be used.
 global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
 global.messageFont = font_add_sprite(sprFont, ord("!"), true, 1);
 global.deltaTime = 60 / 1000000 * delta_time;
@@ -379,7 +380,7 @@ global.battle = false;
 if (room == rmTitle)
     audio_sound_gain(global.levelMusic[0], 1, 0);
 framerate_set();
-discord_update_presence(global.roomName, "", "smallicon", "largeicon");
+discord_update_presence("0 backups collected", global.roomName, "largeicon" + string(global.roomIcon), "smallicon");
 </string>
           </argument>
         </arguments>
