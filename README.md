@@ -7,7 +7,11 @@ Original: https://adriendittrick.itch.io/9-10-do-nightmare
 Deluxe Edition: https://fazana.itch.io/910-nightmare-dx
 
 # CREDITS
+### [TEAM NIGHTMARE]
+
 **Furret78, Jeansowaty, JUE13, LooPeR231, ReflexGURU** - beta testing
+
+### [THIRD-PARTIES]
 
 **Aouab** - Discord Rich Presence for GameMaker
 
