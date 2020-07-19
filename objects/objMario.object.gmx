@@ -67,7 +67,6 @@ if (timer_tick(0))
     }
     timer[0] = irandom_range(60, 300);
 }
-event_inherited();
 //Animation control
 if (z &lt; global.minZ)
 {
@@ -144,6 +143,7 @@ else
                         frameSpd = 0.22;
                     }
     }
+event_inherited();
 </string>
           </argument>
         </arguments>

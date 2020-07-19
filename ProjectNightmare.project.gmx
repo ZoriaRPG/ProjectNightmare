@@ -156,8 +156,6 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\change_option.gml</script>
-    <script>scripts\transition_create.gml</script>
     <scripts name="Actors">
       <script>scripts\hitbox_create.gml</script>
       <script>scripts\actor_update.gml</script>
@@ -246,11 +244,6 @@
       <script>scripts\cutscene_message.gml</script>
       <script>scripts\cutscene_wait_message.gml</script>
     </scripts>
-    <script>scripts\timer_create.gml</script>
-    <script>scripts\timer_tick.gml</script>
-    <script>scripts\music_start.gml</script>
-    <script>scripts\framerate_set.gml</script>
-    <script>scripts\smoothstep.gml</script>
     <scripts name="Rich Presence">
       <script>scripts\discord_init_dll.gml</script>
       <script>scripts\discord_init_app.gml</script>
@@ -258,6 +251,13 @@
       <script>scripts\discord_free_app.gml</script>
       <script>scripts\discord_free_dll.gml</script>
     </scripts>
+    <script>scripts\change_option.gml</script>
+    <script>scripts\transition_create.gml</script>
+    <script>scripts\timer_create.gml</script>
+    <script>scripts\timer_tick.gml</script>
+    <script>scripts\music_start.gml</script>
+    <script>scripts\framerate_set.gml</script>
+    <script>scripts\smoothstep.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
@@ -280,6 +280,7 @@
       <object>objects\objPlayerSpawn</object>
       <object>objects\objGoomba</object>
       <object>objects\objBomb</object>
+      <object>objects\objNPC</object>
     </objects>
     <objects name="Special">
       <objects name="Parents">

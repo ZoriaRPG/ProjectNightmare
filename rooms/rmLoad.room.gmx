@@ -17,7 +17,7 @@ d3d_set_perspective(true);
 d3d_set_culling(true);
 d3d_set_hidden(true);
 draw_set_alpha_test(true);
-draw_set_alpha_test_ref_value(128);
+draw_set_alpha_test_ref_value(0);
 audio_group_load(audiogroup_sounds);
 //Set logo to either Mario's or Zelda's. This will carry on throughout the whole game.
 randomize();
