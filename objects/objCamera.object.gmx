@@ -173,7 +173,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
                 audio_play_sound(sndCameraSpin, 1, false);
             }
         //Set the increments of the camera to zoom out for 3rd person
-        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), tIncZ = tRZ + 10, tToZ = tZ + 32, obstructed = false;
+        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), tIncZ = tRZ + 20, tToZ = tZ + 32, obstructed = false;
         //If there is a block behind...
         if (c_raycast_world(tX, tY, tIncZ, tX - incX, tY - incY, tIncZ, 1))
         {
