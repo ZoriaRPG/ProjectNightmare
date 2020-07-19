@@ -5,5 +5,6 @@ with (holding)
     vSpeed = argument1;
     zSpeed = argument2;
     target = noone;
+    timer[0] = 3;
 }
 holding = noone;

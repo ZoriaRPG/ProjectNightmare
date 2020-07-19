@@ -51,7 +51,10 @@ bounciness = 3;
           <argument>
             <kind>1</kind>
             <string>///Move to holder's position
-fPushable = abs(hSpeed) &gt; 0.1 || abs(vSpeed) &gt; 0.1 || abs(zSpeed) &gt; 0.1;
+if (timer[0] == -65536)
+    fPushable = abs(hSpeed) &gt; 0.1 || abs(vSpeed) &gt; 0.1 || abs(zSpeed) &gt; 0.1;
+else
+    timer_tick(0);
 if (target)
 {
     fShadow = false;
