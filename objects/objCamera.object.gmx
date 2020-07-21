@@ -100,6 +100,10 @@ global.cP = pitch;
           <argument>
             <kind>1</kind>
             <string>///Attach camera to target
+var cursor = cr_default;
+if (free || look)
+    cursor = cr_none;
+window_set_cursor(cursor);
 if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow)))
 {
     //Ready up target coordinates
@@ -163,7 +167,7 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         //Freelook
         if (free)
         {
-            mouse_look(false);
+            mouse_look(true);
             lerpAmount = 0.5;
         }
         else
@@ -173,23 +177,40 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
                 audio_play_sound(sndCameraSpin, 1, false);
             }
         //Set the increments of the camera to zoom out for 3rd person
-        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), tIncZ = tRZ + 20, tToZ = tZ + 32, obstructed = false;
-        //If there is a block behind...
-        if (c_raycast_world(tX, tY, tIncZ, tX - incX, tY - incY, tIncZ, 1))
+        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), incZ = 0, obstructed = false, tBlockZ = tRZ + 24, tBlockZ2 = tZ + 24, tToX = tX - incX, tToY = tY - incY, tToZ = tBlockZ2;
+        if (free)
         {
-            var dist = point_distance(global.cX, global.cY, c_hit_x(), c_hit_y());
-            incX = lengthdir_x(dist, faceDir);
-            incY = lengthdir_y(dist, faceDir);
+            incX = lengthdir_x(lengthdir_x(range, faceDir), pitch);
+            incY = lengthdir_x(lengthdir_y(range, faceDir), pitch);
+            incZ = lengthdir_y(range, pitch);
+            tToX = tX - incX;
+            tToY = tY - incY;
+            tToZ = tBlockZ2 + incZ;
+        }
+        //If there is a block behind...
+        if (c_raycast_world(tX, tY, tBlockZ, tX - incX, tY - incY, tBlockZ + incZ, 1))
+        {
+            tToX = c_hit_x();
+            tToY = c_hit_y();
+            tToZ = c_hit_z();
             obstructed = true;
         }
+        if (obstructed)
+        {
+            tBlockZ2 = tZ + 10;
+            if (free)
+                tToZ = tBlockZ2 + incZ;
+        }
         //smooth turning
-        global.cX = lerp_delta(global.cX, tX - incX, lerpAmount);
-        global.cY = lerp_delta(global.cY, tY - incY, lerpAmount);
+        global.cX = lerp(global.cX, tToX, lerpAmount);
+        global.cY = lerp(global.cY, tToY, lerpAmount);
         global.cZ = max(global.minZ, lerp(global.cZ, tToZ, 0.1));
         x = global.cX;
         y = global.cY;
         z = global.cZ;
-        pitch = clamp(pitch + turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tZ + 24), 1 + (cutscene_exists() || obstructed), pitch), -89.5, 89.5);
+        if !(free)
+            pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2), 2, pitch);
+        pitch = clamp(pitch, -89.5, !free * 89.5);
     }
 }
 </string>

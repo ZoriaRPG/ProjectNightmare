@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-radius=5;
+radius=8;
 height=5;
 hitbox_create();
 faceDir=irandom(360);
@@ -89,7 +89,7 @@ if (shadowZ!=-65536 &amp;&amp; !c_raycast_world(x,y,shadowZ+1,x+hSpeed,y+vSpeed,
 if (timer_tick(0))
 {
     alert=false;
-    spd=0.4;
+    spd=0.2;
     lostTarget=false;
 }
 if (cutscene_exists())
@@ -102,16 +102,16 @@ if (cutscene_exists())
 else
     if !(spd)
         if (alert)
-            spd=1;
+            spd=0.5;
         else
-            spd=0.4;
+            spd=0.2;
 if (instance_exists(target))
     {if (!alert &amp;&amp; target.z&gt;z-8 &amp;&amp; target.z&lt;z+8 &amp;&amp; point_distance_3d(x,y,z,target.x,target.y,target.z)&lt;100 &amp;&amp; !c_raycast_world(x,y,z,target.x,target.y,target.z,1))
     {
         d3d_sound_play(sndGoomba,false,1);
         timer[0]=600;
         alert=true;
-        spd=1;
+        spd=0.5;
         zSpeed=1;
     }}
 else

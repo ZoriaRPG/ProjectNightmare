@@ -7,5 +7,5 @@ for (var i = 0; i < 2; i++)
             battleBool = i;
         global.musicVolume[i] = battleBool;
         audio_sound_gain(global.levelMusic[i], global.musicVolume[i], 0);
-        audio_play_sound(global.levelMusic[i], 0, 1);
+        audio_play_sound(global.levelMusic[i], 1, true);
     }

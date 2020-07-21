@@ -131,6 +131,13 @@ else
             audio_sound_gain(global.levelMusic[!global.battle], 0, 750);
         }
     }
+if (keyboard_check(vk_numpad0) &amp;&amp; keyboard_check_pressed(vk_numpad1) &amp;&amp; !audio_is_playing(musMosa))
+{
+    audio_stop_sound(musDawn);
+    audio_stop_sound(global.levelMusic[0]);
+    audio_stop_sound(global.levelMusic[1]);
+    audio_play_sound(musMosa, 1, true);
+}
 /*The game logic system. This synchronizes the game logic with delta time, allowing you
 to play at any framerate. Instead of using step events, all objects use the according
 User Defined events as their steps.*/
