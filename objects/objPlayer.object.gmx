@@ -182,6 +182,39 @@ if (keyboard_check_pressed(ord("E")))
             near.target = self;
             holding = near;
         }
+        else
+        {
+            //If there's nothing to be held, then the player might be talking to an NPC
+            near = instance_nearest(x, y, objNPC);
+            if (near &amp;&amp; fOnGround)
+            {
+                var distance = point_distance_3d(near.x, near.y, near.z, x, y, z), dir = point_direction(near.x, near.y, x, y);
+                if (distance &lt; near.radius + 16 &amp;&amp; abs(angle_difference(dir, near.faceDir)) &lt; 60)
+                {
+                    faceDir = point_direction(x, y, near.x, near.y);
+                    var distanceDir = faceDir - 90, distanceHalf = distance * 0.5, xx = near.x + lengthdir_x(distanceHalf, dir) + lengthdir_x(32, distanceDir), yy = near.y + lengthdir_y(distanceHalf, dir) + lengthdir_y(32, distanceDir);
+                    near.working = true;
+                    with (instance_create(objCamera.x, objCamera.y, objCutscene))
+                    {
+                        z = objCamera.z;
+                        direction = objCamera.faceDir;
+                        pitch = objCamera.pitch;
+                        cutscene_create();
+                        cutscene_camera(xx, yy, near.z - 4, point_direction(xx, yy, near.x, near.y), 0, 60)
+                        cutscene_wait(20);
+                        //Add messages manually, because cutscene_message only allows string inputs.
+                        ds_list_add(list, 3);
+                        var strings = ds_list_create();
+                        for (var i = 0; i &lt; array_length_1d(near.message); i++)
+                            ds_list_add(strings, near.message[i]);
+                        ds_list_add(list, strings);
+                        cutscene_wait_message();
+                        cutscene_wait(10);
+                        cutscene_end();
+                    }
+                }
+            }
+        }
     }
 //Bottomless pit detection
 if (z &lt; global.minZ)

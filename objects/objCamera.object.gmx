@@ -104,52 +104,48 @@ var cursor = cr_default;
 if (free || look)
     cursor = cr_none;
 window_set_cursor(cursor);
+if (cutscene_exists())
+{
+    free = false;
+    look = false;
+    target.fVisible = true;
+}
 if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow)))
 {
     //Ready up target coordinates
-    var tX = target.x, tY = target.y, tRZ = target.bottom, tZ = tRZ;
-    if (cutscene_exists())
+    var tX = target.x, tY = target.y, tRZ = target.bottom, tZ = tRZ, tZS = target.zSpeed, tSZ = target.shadowZ, tD = target.faceDir;
+    tZ = previousZ;
+    if (target.fOnGround &amp;&amp; tSZ != -65536)
+        previousZ = tSZ;
+    if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
+        tZ = tRZ;
+    //Toggle freelook
+    if (mouse_check_button_pressed(mb_left))
     {
-        free = false;
-        look = false;
+        free = !free;
         target.fVisible = true;
+        look = false;
+        var zoom = sndCameraOut;
+        if (free)
+            zoom = sndCameraIn;
+        audio_play_sound(zoom, 1, false);
     }
-    else
+    //Toggle aiming
+    if (mouse_check_button_pressed(mb_right))
     {
-        var tZS = target.zSpeed, tSZ = target.shadowZ, tD = target.faceDir;
-        tZ = previousZ;
-        if (target.fOnGround &amp;&amp; tSZ != -65536)
-            previousZ = tSZ;
-        if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
-            tZ = tRZ;
-        //Toggle freelook
-        if (mouse_check_button_pressed(mb_left))
+        look = !look;
+        target.fVisible = !look;
+        free = false;
+        pitch = 0;
+        var zoom = sndCameraOut;
+        if (look)
         {
-            free = !free;
-            target.fVisible = true;
-            look = false;
-            var zoom = sndCameraOut;
-            if (free)
-                zoom = sndCameraIn;
-            audio_play_sound(zoom, 1, false);
+            zoom = sndCameraIn;
+            faceDir = tD;
         }
-        //Toggle aiming
-        if (mouse_check_button_pressed(mb_right))
-        {
-            look = !look;
-            target.fVisible = !look;
-            free = false;
-            pitch = 0;
-            var zoom = sndCameraOut;
-            if (look)
-            {
-                zoom = sndCameraIn;
-                faceDir = tD;
-            }
-            else
-                target.faceDir = faceDir;
-            audio_play_sound(zoom, 1, false);
-        }
+        else
+            target.faceDir = faceDir;
+        audio_play_sound(zoom, 1, false);
     }
     //Camera mechanics
     if (look)

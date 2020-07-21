@@ -101,34 +101,6 @@ else
     faceDir += turn_to_angle(startDir, 1, faceDir);
     sprite = idleSprite;
     frameSpd = 0.05;
-    if (instance_exists(objPlayer) &amp;&amp; objPlayer.fOnGround &amp;&amp; keyboard_check_pressed(ord("E")))
-    {
-        var distance = point_distance_3d(x, y, z, objPlayer.x, objPlayer.y, objPlayer.z), dir = point_direction(x, y, objPlayer.x, objPlayer.y);
-        if (distance &lt; radius + 16 &amp;&amp; abs(angle_difference(dir, faceDir)) &lt; 60)
-        {
-            objPlayer.faceDir = point_direction(objPlayer.x, objPlayer.y, x, y);
-            var distanceDir = objPlayer.faceDir - 90, distanceHalf = distance * 0.5, xx = x + lengthdir_x(distanceHalf, dir) + lengthdir_x(32, distanceDir), yy = y + lengthdir_y(distanceHalf, dir) + lengthdir_y(32, distanceDir);
-            working = true;
-            with (instance_create(objCamera.x, objCamera.y, objCutscene))
-            {
-                z = objCamera.z;
-                direction = objCamera.faceDir;
-                pitch = objCamera.pitch;
-                cutscene_create();
-                cutscene_camera(xx, yy, other.z - 4, point_direction(xx, yy, other.x, other.y), 0, 60)
-                cutscene_wait(20);
-                //Add messages manually, because cutscene_message only allows string inputs.
-                ds_list_add(list, 3);
-                var strings = ds_list_create();
-                for (var i = 0; i &lt; array_length_1d(other.message); i++)
-                    ds_list_add(strings, other.message[i]);
-                ds_list_add(list, strings);
-                cutscene_wait_message();
-                cutscene_wait(10);
-                cutscene_end();
-            }
-        }
-    }
 }
 </string>
           </argument>
