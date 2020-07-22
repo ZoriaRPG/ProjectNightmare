@@ -119,33 +119,41 @@ if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists()
         previousZ = tSZ;
     if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
         tZ = tRZ;
-    //Toggle freelook
-    if (mouse_check_button_pressed(mb_left))
+    if (target.hp)
     {
-        free = !free;
-        target.fVisible = true;
-        look = false;
-        var zoom = sndCameraOut;
-        if (free)
-            zoom = sndCameraIn;
-        audio_play_sound(zoom, 1, false);
-    }
-    //Toggle aiming
-    if (mouse_check_button_pressed(mb_right))
-    {
-        look = !look;
-        target.fVisible = !look;
-        free = false;
-        pitch = 0;
-        var zoom = sndCameraOut;
-        if (look)
+        //Toggle freelook
+        if (mouse_check_button_pressed(mb_left))
         {
-            zoom = sndCameraIn;
-            faceDir = tD;
+            free = !free;
+            target.fVisible = true;
+            look = false;
+            var zoom = sndCameraOut;
+            if (free)
+                zoom = sndCameraIn;
+            audio_play_sound(zoom, 1, false);
         }
-        else
-            target.faceDir = faceDir;
-        audio_play_sound(zoom, 1, false);
+        //Toggle aiming
+        if (mouse_check_button_pressed(mb_right))
+        {
+            look = !look;
+            target.fVisible = !look;
+            free = false;
+            pitch = 0;
+            var zoom = sndCameraOut;
+            if (look)
+            {
+                zoom = sndCameraIn;
+                faceDir = tD;
+            }
+            else
+                target.faceDir = faceDir;
+            audio_play_sound(zoom, 1, false);
+        }
+    }
+    else
+    {
+        free = false;
+        look = false;
     }
     //Camera mechanics
     if (look)

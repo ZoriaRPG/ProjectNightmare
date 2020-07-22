@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>///Set actor properties
 event_inherited();
+hp = 8;
 sprite = 0;
 rotate = true;
 frameSpd = 0.01;
@@ -41,6 +42,7 @@ holding = noone;
 //multiple sounds to one variable.
 jumpSnd[0] = noone;
 fallSnd[0] = noone;
+deadSnd[0] = noone;
 timer[0] = irandom_range(60, 300);
 </string>
           </argument>
@@ -89,21 +91,56 @@ actor_update();
           <argument>
             <kind>1</kind>
             <string>///Move test
-if (!instance_exists(objTransition) &amp;&amp; z &lt; global.minZ - 300)
+if (!instance_exists(objTransition) &amp;&amp; (z &lt; global.minZ - 300 || timer_tick(2)))
 {
     if (global.link)
         audio_play_sound(sndRespawn, 1, false);
     transition_create(room, c_black);
 }
-//Friction
-if (onGround &amp;&amp; !sliding)
+if (instance_exists(objCamera))
+    if (timer_tick(1))
+        fVisible = !objCamera.look;
+    else
+        if (timer[1] &amp;&amp; !objCamera.look)
+            fVisible = !fVisible;
+if (onGround)
 {
-    hSpeed = lerp(hSpeed, 0, fric);
-    vSpeed = lerp(vSpeed, 0, fric);
+    //Friction
+    if !(sliding)
+    {
+        hSpeed = lerp(hSpeed, 0, fric);
+        vSpeed = lerp(vSpeed, 0, fric);
+    }
+    //Death cutscene
+    if (!hp &amp;&amp; !cutscene_exists())
+    {
+        timer[1] = -65536;
+        timer[2] = 60;
+        if (global.link)
+            for (var i = 0; i &lt; 2; i++)
+                {if (global.levelMusic[i])
+                    audio_sound_gain(global.levelMusic[i], 0, 750);}
+        else
+        {
+            audio_stop_all();
+            audio_play_sound(musLose, 1, false);
+        }
+        player_drop_holdable(0, 0, 0);
+        player_sound_play(deadSnd);
+        with (instance_create(objCamera.x, objCamera.y, objCutscene))
+        {
+            direction = objCamera.faceDir;
+            pitch = objCamera.pitch;
+            z = objCamera.z;
+            cutscene_create();
+            var xx = other.x + lengthdir_x(32, other.faceDir), yy = other.y + lengthdir_y(32, other.faceDir);
+            cutscene_camera(xx, yy, other.z, point_direction(xx, yy, other.x, other.y), 0, 30);
+        }
+    }
 }
 onGround = c_raycast_world(x, y, z, x, y, bottom - 2, 1) || fOnGround;
 spdDis = point_distance(0, 0, hSpeed, vSpeed);
-if (cutscene_exists())
+if (!hp || cutscene_exists())
     exit
 if (keyboard_check_pressed(ord("R")))
 {
@@ -159,8 +196,7 @@ if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; keyboa
         z += jumpSpd;
     zSpeed = jumpSpd - 0.1;
     fric = 0.2;
-    if (jumpSnd[0])
-        d3d_sound_play(jumpSnd[max(0, irandom(array_length_1d(jumpSnd) - 1))], false, 1);
+    player_sound_play(jumpSnd);
     d3d_sound_play(sndJump, false, 1);
 }
 //Get nearest enemy
@@ -216,6 +252,9 @@ if (keyboard_check_pressed(ord("E")))
             }
         }
     }
+//Hurt test
+if (keyboard_check_pressed(ord("Z")))
+    event_user(0);
 //Bottomless pit detection
 if (z &lt; global.minZ)
 {
@@ -228,14 +267,40 @@ if (z &lt; global.minZ)
         audio_stop_all();
         audio_play_sound(musLose, 1, false);
     }
-    if (fallSnd[0])
-        d3d_sound_play(fallSnd[max(0, irandom(array_length_1d(fallSnd) - 1))], false, 1);
+    player_sound_play(fallSnd);
     player_drop_holdable(0, 0, 1);
     with (instance_create(0, 0, objCutscene))
     {
         global.follow = true;
         cutscene_create();
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (hp)
+{
+    hp--;
+    timer[1] = 120;
 }
 </string>
           </argument>

@@ -97,6 +97,7 @@
       <sound>sound\sndMarioJump5</sound>
       <sound>sound\sndMarioFall</sound>
       <sound>sound\sndMarioFall2</sound>
+      <sound>sound\sndMarioDead</sound>
     </sounds>
     <sounds name="Link">
       <sound>sound\sndLinkJump</sound>
@@ -138,6 +139,7 @@
       <sprite>sprites\sprWall</sprite>
       <sprite>sprites\sprActor</sprite>
     </sprites>
+    <sprite>sprites\sprHealth</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
@@ -243,6 +245,7 @@
       <script>scripts\cutscene_destroy.gml</script>
       <script>scripts\cutscene_message.gml</script>
       <script>scripts\cutscene_wait_message.gml</script>
+      <script>scripts\cutscene_transition.gml</script>
     </scripts>
     <scripts name="Rich Presence">
       <script>scripts\discord_init_dll.gml</script>
@@ -259,6 +262,7 @@
     <script>scripts\music_start.gml</script>
     <script>scripts\framerate_set.gml</script>
     <script>scripts\smoothstep.gml</script>
+    <script>scripts\player_sound_play.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>

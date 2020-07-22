@@ -76,6 +76,7 @@ global.messageFont = font_add_sprite(sprFont, ord("!"), true, 1);
 global.deltaTime = 60 / 1000000 * delta_time;
 pauseBg = -1;
 pauseX = -463;
+healthY = -46;
 lolfps = fps_real;
 timer_create();
 timer[0] = 60;
@@ -180,6 +181,7 @@ if (timer_tick(0))
     lolfps = fps_real;
     timer[0] = 60;
 }
+healthY = lerp(healthY, -46 + 2 * (instance_exists(objPlayer) &amp;&amp; objPlayer.hp &lt; 8) * 46, 0.1)
 </string>
           </argument>
         </arguments>
@@ -442,7 +444,7 @@ if (global.paused)
 {
     draw_background(pauseBg, 0, 0);
     draw_set_alpha(0.51);
-    draw_rectangle_colour(0, 0, 960, 540, c_black, c_black, c_black, c_black, false);
+    draw_rectangle_colour(0, 0, view_wview[0], view_hview[0], c_black, c_black, c_black, c_black, false);
     draw_set_alpha(1);
 }
 pauseX = lerp_delta(pauseX, !global.paused * -463, 0.25);
@@ -466,6 +468,7 @@ if (instance_exists(objPlayer))
         draw_text(8, 64 + i * 10, string(objPlayer.shadowMatrix[i]));
     draw_text(64, 64, string(objPlayer.floorAngle));
     draw_text(64, 74, string(objPlayer.floorPitch));
+    draw_sprite_ext(sprHealth, objPlayer.hp, view_wview[0] * 0.5, healthY, 2, 2, 0, c_white, 1);
 }
 </string>
           </argument>

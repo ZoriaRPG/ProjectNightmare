@@ -104,6 +104,10 @@ if (timer_tick(0))
         case (4):
             wait = -65536;
         break
+        //cutscene_transition
+        case (5):
+            transition_create(cutscene_get_value(), cutscene_get_value());
+        break
     }
     timer[0] = wait;
 }
