@@ -33,6 +33,11 @@ jumpSnd[3] = sndMarioJump4;
 jumpSnd[4] = sndMarioJump5;
 fallSnd[0] = sndMarioFall;
 fallSnd[1] = sndMarioFall2;
+hurtSnd[0] = sndMarioHurt;
+hurtSnd[1] = sndMarioHurt2;
+hurtSnd[2] = sndMarioHurt3;
+hurtSnd[3] = sndMarioHurt4;
+hurtSnd[4] = sndMarioHurt5;
 deadSnd[0] = sndMarioDead;
 hitbox_create();
 </string>

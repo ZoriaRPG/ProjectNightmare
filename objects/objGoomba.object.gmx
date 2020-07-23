@@ -26,13 +26,14 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-radius=8;
-height=5;
+fPushable = true;
+radius = 7;
+height = 5;
 hitbox_create();
-faceDir=irandom(360);
-spd=0.4;
-sprite=5;
-scale=0.1875;
+faceDir = irandom(360);
+spd = 0.4;
+sprite = 5;
+scale = 0.1875;
 </string>
           </argument>
         </arguments>
@@ -57,11 +58,11 @@ scale=0.1875;
             <kind>1</kind>
             <string>///Turn around on ledges
 event_inherited();
-if (shadowZ!=-65536 &amp;&amp; !c_raycast_world(x,y,shadowZ+1,x+hSpeed,y+vSpeed,shadowZ-5,1))
+if (shadowZ != -65536 &amp;&amp; !c_raycast_world(x, y, shadowZ + 1, x + hSpeed, y + vSpeed, shadowZ - 5, 1))
 {
-    x=xprevious;
-    y=yprevious;
-    faceDir=irandom(360);
+    x = xprevious;
+    y = yprevious;
+    faceDir = irandom(360);
 }
 </string>
           </argument>
@@ -88,61 +89,61 @@ if (shadowZ!=-65536 &amp;&amp; !c_raycast_world(x,y,shadowZ+1,x+hSpeed,y+vSpeed,
             <string>///Goomba AI
 if (timer_tick(0))
 {
-    alert=false;
-    spd=0.2;
-    lostTarget=false;
+    alert = false;
+    spd = 0.2;
+    lostTarget = false;
 }
 if (cutscene_exists())
 {
-    spd=0;
-    hSpeed=0;
-    vSpeed=0;
+    spd = 0;
+    hSpeed = 0;
+    vSpeed = 0;
     exit
 }
 else
     if !(spd)
         if (alert)
-            spd=0.5;
+            spd = 0.5;
         else
-            spd=0.2;
+            spd = 0.2;
 if (instance_exists(target))
-    {if (!alert &amp;&amp; target.z&gt;z-8 &amp;&amp; target.z&lt;z+8 &amp;&amp; point_distance_3d(x,y,z,target.x,target.y,target.z)&lt;100 &amp;&amp; !c_raycast_world(x,y,z,target.x,target.y,target.z,1))
-    {
-        d3d_sound_play(sndGoomba,false,1);
-        timer[0]=600;
-        alert=true;
-        spd=0.5;
-        zSpeed=1;
-    }}
-else
-    alert=false;
-if (alert)
 {
-    faceDir+=turn_to_angle(point_direction(x,y,target.x,target.y),5,faceDir);
-    if (!lostTarget &amp;&amp; (point_distance_3d(x,y,z,target.x,target.y,target.z)&gt;=100 || c_raycast_world(x,y,z,target.x,target.y,target.z,1)))
+    if (!alert &amp;&amp; target.z &gt; z - 8 &amp;&amp; target.z &lt; z + 8 &amp;&amp; point_distance_3d(x, y, z, target.x, target.y, target.z) &lt; 100 &amp;&amp; !c_raycast_world(x, y, z, target.x, target.y, target.z, 1))
     {
-        lostTarget=true;
-        timer[0]=60;
+        d3d_sound_play(sndGoomba, false, 1);
+        timer[0] = 600;
+        alert = true;
+        spd = 0.5;
+        zSpeed = 1;
     }
 }
-var player=instance_place(x,y,objPlayer);
-if (player)
+else
+    alert = false;
+if (alert)
 {
-    var h=height*0.5,playerH=player.height*0.5,playerTop=player.z+playerH,
-        playerBottom=player.z-playerH;
-    if (z-h&lt;playerTop &amp;&amp; z+h&gt;playerBottom)
-        if (player.zSpeed&lt;0 &amp;&amp; playerBottom&gt;z)
-        {
-            with (player)
-            {
-                zSpeed=2;
-                d3d_sound_play(sndGoombaDead,false,1);
-            }
-            instance_destroy();
-        }
-        else
-            {/*Hurt player code*/}
+    faceDir += turn_to_angle(point_direction(x, y, target.x, target.y), 5, faceDir);
+    if (!lostTarget &amp;&amp; (point_distance_3d(x, y, z, target.x, target.y, target.z) &gt;= 100 || c_raycast_world(x, y, z, target.x, target.y, target.z, 1)))
+    {
+        lostTarget = true;
+        timer[0] = 60;
+    }
 }
+var player = collision_rectangle(x - radius - 1, y - radius - 1, x + radius + 1, y + radius + 1, objPlayer, false, false);
+if (player &amp;&amp; bottom &lt; player.top &amp;&amp; top &gt; player.bottom)
+    if (player.zSpeed &lt; 0 &amp;&amp; player.bottom &gt; z + 1)
+    {
+        with (player)
+        {
+            z = other.top + half + 1;
+            zSpeed = 2;
+            d3d_sound_play(sndGoombaDead, false, 1);
+        }
+        fSolid = false;
+        instance_destroy();
+    }
+    else
+        with (player)
+            event_user(0);
 </string>
           </argument>
         </arguments>

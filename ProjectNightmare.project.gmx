@@ -97,6 +97,11 @@
       <sound>sound\sndMarioJump5</sound>
       <sound>sound\sndMarioFall</sound>
       <sound>sound\sndMarioFall2</sound>
+      <sound>sound\sndMarioHurt</sound>
+      <sound>sound\sndMarioHurt2</sound>
+      <sound>sound\sndMarioHurt3</sound>
+      <sound>sound\sndMarioHurt4</sound>
+      <sound>sound\sndMarioHurt5</sound>
       <sound>sound\sndMarioDead</sound>
     </sounds>
     <sounds name="Link">
@@ -107,6 +112,10 @@
       <sound>sound\sndLinkJump5</sound>
       <sound>sound\sndLinkFall</sound>
       <sound>sound\sndLinkFall2</sound>
+      <sound>sound\sndLinkHurt</sound>
+      <sound>sound\sndLinkHurt2</sound>
+      <sound>sound\sndLinkHurt3</sound>
+      <sound>sound\sndLinkHurt4</sound>
     </sounds>
     <sound>sound\sndJump</sound>
     <sound>sound\sndRespawn</sound>

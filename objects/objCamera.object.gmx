@@ -28,8 +28,7 @@
             <string>///Set up camera
 event_inherited();
 d3d_start();
-//Target must be objActor child
-target = objPlayer;
+target = objPlayer; //Target must be objActor child
 range = 80;
 pitch = 0;
 radius = 1;
@@ -104,117 +103,120 @@ var cursor = cr_default;
 if (free || look)
     cursor = cr_none;
 window_set_cursor(cursor);
-if (cutscene_exists())
+if (target &amp;&amp; instance_exists(target))
 {
-    free = false;
-    look = false;
-    target.fVisible = true;
-}
-if (instance_exists(target) &amp;&amp; (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow)))
-{
-    //Ready up target coordinates
-    var tX = target.x, tY = target.y, tRZ = target.bottom, tZ = tRZ, tZS = target.zSpeed, tSZ = target.shadowZ, tD = target.faceDir;
-    tZ = previousZ;
-    if (target.fOnGround &amp;&amp; tSZ != -65536)
-        previousZ = tSZ;
-    if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
-        tZ = tRZ;
-    if (target.hp)
-    {
-        //Toggle freelook
-        if (mouse_check_button_pressed(mb_left))
-        {
-            free = !free;
-            target.fVisible = true;
-            look = false;
-            var zoom = sndCameraOut;
-            if (free)
-                zoom = sndCameraIn;
-            audio_play_sound(zoom, 1, false);
-        }
-        //Toggle aiming
-        if (mouse_check_button_pressed(mb_right))
-        {
-            look = !look;
-            target.fVisible = !look;
-            free = false;
-            pitch = 0;
-            var zoom = sndCameraOut;
-            if (look)
-            {
-                zoom = sndCameraIn;
-                faceDir = tD;
-            }
-            else
-                target.faceDir = faceDir;
-            audio_play_sound(zoom, 1, false);
-        }
-    }
-    else
+    if (cutscene_exists())
     {
         free = false;
         look = false;
+        target.fVisible = true;
     }
-    //Camera mechanics
-    if (look)
+    if (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow))
     {
-        global.cX = tX;
-        global.cY = tY;
-        global.cZ = target.top - 4;
-        //Mouselook
-        mouse_look(true);
-        target.faceDir = global.cD;
-    }
-    else
-    {
-        var lerpAmount = 0.18;
-        //Freelook
-        if (free)
+        //Ready up target coordinates
+        var tX = target.x, tY = target.y, tRZ = target.bottom, tZ = tRZ, tZS = target.zSpeed, tSZ = target.shadowZ, tD = target.faceDir;
+        tZ = previousZ;
+        if (target.fOnGround &amp;&amp; tSZ != -65536)
+            previousZ = tSZ;
+        if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
+            tZ = tRZ;
+        if (target.hp)
         {
-            mouse_look(true);
-            lerpAmount = 0.5;
+            //Toggle freelook
+            if (mouse_check_button_pressed(mb_left))
+            {
+                free = !free;
+                target.fVisible = true;
+                look = false;
+                var zoom = sndCameraOut;
+                if (free)
+                    zoom = sndCameraIn;
+                audio_play_sound(zoom, 1, false);
+            }
+            //Toggle aiming
+            if (mouse_check_button_pressed(mb_right))
+            {
+                look = !look;
+                target.fVisible = !look;
+                free = false;
+                pitch = 0;
+                var zoom = sndCameraOut;
+                if (look)
+                {
+                    zoom = sndCameraIn;
+                    faceDir = tD;
+                }
+                else
+                    target.faceDir = faceDir;
+                audio_play_sound(zoom, 1, false);
+            }
         }
         else
-            if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir != tD)
-            {
-                faceDir = tD;
-                audio_play_sound(sndCameraSpin, 1, false);
-            }
-        //Set the increments of the camera to zoom out for 3rd person
-        var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), incZ = 0, obstructed = false, tBlockZ = tRZ + 24, tBlockZ2 = tZ + 24, tToX = tX - incX, tToY = tY - incY, tToZ = tBlockZ2;
-        if (free)
         {
-            incX = lengthdir_x(lengthdir_x(range, faceDir), pitch);
-            incY = lengthdir_x(lengthdir_y(range, faceDir), pitch);
-            incZ = lengthdir_y(range, pitch);
-            tToX = tX - incX;
-            tToY = tY - incY;
-            tToZ = tBlockZ2 + incZ;
+            free = false;
+            look = false;
         }
-        //If there is a block behind...
-        if (c_raycast_world(tX, tY, tBlockZ, tX - incX, tY - incY, tBlockZ + incZ, 1))
+        //Camera mechanics
+        if (look)
         {
-            tToX = c_hit_x();
-            tToY = c_hit_y();
-            tToZ = c_hit_z();
-            obstructed = true;
+            global.cX = tX;
+            global.cY = tY;
+            global.cZ = target.top - 4;
+            //Mouselook
+            mouse_look(true);
+            target.faceDir = global.cD;
         }
-        if (obstructed)
+        else
         {
-            tBlockZ2 = tZ + 10;
+            var lerpAmount = 0.18;
+            //Freelook
             if (free)
+            {
+                mouse_look(true);
+                lerpAmount = 0.5;
+            }
+            else
+                if (keyboard_check_pressed(ord("Q")) &amp;&amp; faceDir != tD)
+                {
+                    faceDir = tD;
+                    audio_play_sound(sndCameraSpin, 1, false);
+                }
+            //Set the increments of the camera to zoom out for 3rd person
+            var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), incZ = 0, obstructed = false, tBlockZ = tRZ + 24, tBlockZ2 = tZ + 24, tToX = tX - incX, tToY = tY - incY, tToZ = tBlockZ2;
+            if (free)
+            {
+                incX = lengthdir_x(lengthdir_x(range, faceDir), pitch);
+                incY = lengthdir_x(lengthdir_y(range, faceDir), pitch);
+                incZ = lengthdir_y(range, pitch);
+                tToX = tX - incX;
+                tToY = tY - incY;
                 tToZ = tBlockZ2 + incZ;
+            }
+            //If there is a block behind...
+            if (c_raycast_world(tX, tY, tBlockZ, tX - incX, tY - incY, tBlockZ + incZ, 1))
+            {
+                tToX = c_hit_x();
+                tToY = c_hit_y();
+                tToZ = c_hit_z();
+                obstructed = true;
+            }
+            if (obstructed)
+            {
+                tBlockZ2 = tZ + 10;
+                if (free)
+                    tToZ = tBlockZ2 + incZ;
+            }
+            //smooth turning
+            global.cX = lerp(global.cX, tToX, lerpAmount);
+            global.cY = lerp(global.cY, tToY, lerpAmount);
+            global.cZ = max(global.minZ, lerp(global.cZ, tToZ, 0.1));
+            x = global.cX;
+            y = global.cY;
+            z = global.cZ;
+            if !(free)
+                pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2), 2, pitch);
+            pitch = clamp(pitch, -89.5, !free * 89.5);
         }
-        //smooth turning
-        global.cX = lerp(global.cX, tToX, lerpAmount);
-        global.cY = lerp(global.cY, tToY, lerpAmount);
-        global.cZ = max(global.minZ, lerp(global.cZ, tToZ, 0.1));
-        x = global.cX;
-        y = global.cY;
-        z = global.cZ;
-        if !(free)
-            pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2), 2, pitch);
-        pitch = clamp(pitch, -89.5, !free * 89.5);
     }
 }
 </string>

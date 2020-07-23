@@ -42,6 +42,7 @@ holding = noone;
 //multiple sounds to one variable.
 jumpSnd[0] = noone;
 fallSnd[0] = noone;
+hurtSnd[0] = noone;
 deadSnd[0] = noone;
 timer[0] = irandom_range(60, 300);
 </string>
@@ -297,8 +298,9 @@ if (z &lt; global.minZ)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (hp)
+            <string>if (!timer[1] &amp;&amp; hp)
 {
+    player_sound_play(hurtSnd);
     hp--;
     timer[1] = 120;
 }
