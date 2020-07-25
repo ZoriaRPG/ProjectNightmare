@@ -5,6 +5,8 @@ Basically: make the game less janky and give it the facelift it deserves.
 Original: https://adriendittrick.itch.io/9-10-do-nightmare
 
 Deluxe Edition: https://fazana.itch.io/910-nightmare-dx
+# 
+If you are interested in checking out our development progress, hop on over to our Discord server! https://discord.gg/yCHyuBF
 
 # CREDITS
 ### [TEAM NIGHTMARE]
