@@ -69,6 +69,46 @@ if (shadowZ != -65536 &amp;&amp; !c_raycast_world(x, y, shadowZ + 1, x + hSpeed,
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="24">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Check for target collision
+event_inherited();
+var player = collision_rectangle(x - radius - 1, y - radius - 1, x + radius + 1, y + radius + 1, target, false, true);
+if (player &amp;&amp; bottom &lt; player.top &amp;&amp; top + 4 &gt; player.bottom)
+    if (player.zSpeed &lt; 0 &amp;&amp; player.bottom &gt; z + 4)
+    {
+        with (player)
+        {
+            z = other.z + half;
+            zSpeed = 2;
+            d3d_sound_play(sndGoombaDead, false, 1);
+        }
+        fSolid = false;
+        instance_destroy();
+    }
+    else
+        with (player)
+            event_user(0);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="23">
       <action>
         <libid>1</libid>
@@ -128,22 +168,6 @@ if (alert)
         timer[0] = 60;
     }
 }
-var player = collision_rectangle(x - radius - 1, y - radius - 1, x + radius + 1, y + radius + 1, objPlayer, false, false);
-if (player &amp;&amp; bottom &lt; player.top &amp;&amp; top &gt; player.bottom)
-    if (player.zSpeed &lt; 0 &amp;&amp; player.bottom &gt; z + 1)
-    {
-        with (player)
-        {
-            z = other.top + half + 1;
-            zSpeed = 2;
-            d3d_sound_play(sndGoombaDead, false, 1);
-        }
-        fSolid = false;
-        instance_destroy();
-    }
-    else
-        with (player)
-            event_user(0);
 </string>
           </argument>
         </arguments>

@@ -3,8 +3,8 @@
   <caption></caption>
   <width>960</width>
   <height>540</height>
-  <vsnap>16</vsnap>
-  <hsnap>16</hsnap>
+  <vsnap>8</vsnap>
+  <hsnap>8</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
   <persistent>0</persistent>
@@ -140,7 +140,6 @@ global.roomIcon = 1;</code>
     <instance objName="objWall" x="416" y="32" name="inst_BAD6E8F4" locked="0" code="height=16;&#xA;slope=1;&#xA;" scaleX="12.7299995422363" scaleY="1" colour="4294967295" rotation="315"/>
     <instance objName="objWall" x="560" y="176" name="inst_9ECF4205" locked="0" code="height=16;&#xA;slope=2;&#xA;" scaleX="11.3999996185303" scaleY="1" colour="4294967295" rotation="52.1300010681152"/>
     <instance objName="objCutscene" x="48" y="48" name="inst_80AFE8C0" locked="0" code="//The ultimate debug cutscene&#xA;cutscene_create();&#xA;//Camera position test&#xA;cutscene_camera(784, 400, 100, 140, -12, 300);&#xA;//Waiting test&#xA;cutscene_wait(120);&#xA;//Multiple messages test&#xA;cutscene_message(&quot;badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass badklass&quot;, &quot;message 2&quot;, &quot;i love crutches&quot;);&#xA;//Waiting for that message to close test&#xA;cutscene_wait_message();&#xA;cutscene_camera(80, 224, 74, 180, 0, 0);&#xA;//Changing the message string based on the character test&#xA;var name = &quot;mario&quot;, job = &quot;plumber&quot;;&#xA;if (global.link)&#xA;{&#xA;    name = &quot;link&quot;;&#xA;    job = &quot;warrior&quot;;&#xA;}&#xA;cutscene_message(&quot;this is the guy you play as, he's called &quot; + name + &quot; and he's a really cool &quot; + job + &quot;, can you believe it?&quot;);&#xA;cutscene_wait_message();&#xA;//The ultimate stress test&#xA;cutscene_camera(352, 32, 90, 0, -10, 0);&#xA;cutscene_camera(352, 320, 90, 45, -10, 240);&#xA;cutscene_wait(60);&#xA;cutscene_message(&quot;Goombas!!! WATCH OUT!&quot;);&#xA;cutscene_wait(180);&#xA;cutscene_wait_message();&#xA;cutscene_end();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objPlayerSpawn" x="56" y="232" name="inst_F42C4B6C" locked="0" code="z=79;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="256" y="384" name="inst_60A231F3" locked="0" code="z=12;&#xA;" scaleX="7" scaleY="4" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="368" y="384" name="inst_49A40F78" locked="0" code="z=12;&#xA;height=12;&#xA;tex=4;&#xA;" scaleX="27" scaleY="4" colour="4294967295" rotation="0"/>
     <instance objName="objFloor" x="800" y="384" name="inst_15A2724A" locked="0" code="z=24;&#xA;" scaleX="6" scaleY="4" colour="4294967295" rotation="0"/>
@@ -165,6 +164,7 @@ global.roomIcon = 1;</code>
     <instance objName="objGoomba" x="464" y="288" name="inst_C2E2FBEA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objGoomba" x="560" y="192" name="inst_23B7E8D1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objGoomba" x="656" y="224" name="inst_9CEEA50D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objPlayerSpawn" x="56" y="232" name="inst_1AC904F0" locked="0" code="z = 79;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
