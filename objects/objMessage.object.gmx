@@ -94,11 +94,12 @@ if (alarmToggle &amp;&amp; timer[0] == -65536)
             currentMessage++;
         }
         else
-        {
-            audio_play_sound(sndMessageClose, 1, false);
-            timer[0] = 10;
-            show = false;
-        }
+            if (show)
+            {
+                audio_play_sound(sndMessageClose, 1, false);
+                timer[0] = 10;
+                show = false;
+            }
 }
 </string>
           </argument>

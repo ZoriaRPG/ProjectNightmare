@@ -35,7 +35,7 @@ toMenu = 0;
 transY = 220;
 //Debug menu
 menu[1] = ds_list_create();
-ds_list_add(menu[1], "Hyrule Field", "Debug Map", "Warzone", "Exit");
+ds_list_add(menu[1], "Debug Map", "Exit");
 /*Main menu
 menu[1,0]="Start Game";
 menu[1,1]="Options";
@@ -287,15 +287,9 @@ transY = 220;
                 switch (currentOption)
                 {
                     case (0):
-                        transition_create(rmHyrule, c_white);
-                    break
-                    case (1):
                         transition_create(rmMain, c_white);
                     break
-                    case (2):
-                        transition_create(rmWarzone, c_white);
-                    break
-                    case (3):
+                    case (1):
                         //noone exits the game
                         transition_create(noone, c_black);
                     break

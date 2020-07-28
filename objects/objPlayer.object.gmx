@@ -166,7 +166,7 @@ if (keyL &gt; 1)
 }
 if (instance_exists(objCamera))
 {
-    if (abs(keyY) &amp;&amp; fVisible &amp;&amp; !objCamera.free)
+    if (abs(keyY) &amp;&amp; !objCamera.look &amp;&amp; !objCamera.free)
         objCamera.faceDir -= (keyY * spdDis);
     camD = objCamera.faceDir;
 }

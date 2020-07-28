@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="12" name="datafiles">
+  <datafiles number="14" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -54,6 +54,23 @@
         </Config>
       </ConfigOptions>
       <filename>Collisions.dll</filename>
+    </datafile>
+    <datafile>
+      <name>test.pnl</name>
+      <exists>-1</exists>
+      <size>888</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>test.pnl</filename>
     </datafile>
   </datafiles>
   <NewExtensions/>
@@ -272,6 +289,7 @@
     <script>scripts\framerate_set.gml</script>
     <script>scripts\smoothstep.gml</script>
     <script>scripts\player_sound_play.gml</script>
+    <script>scripts\level_get_vertex_data.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
@@ -319,9 +337,7 @@
     <room>rooms\rmIntro</room>
     <room>rooms\rmTitle</room>
     <rooms name="Levels">
-      <room>rooms\rmHyrule</room>
       <room>rooms\rmMain</room>
-      <room>rooms\rmWarzone</room>
     </rooms>
   </rooms>
   <help>

@@ -14,7 +14,6 @@
 discord_init_app("732560402873057320");
 draw_set_circle_precision(64);
 d3d_set_perspective(true);
-d3d_set_culling(true);
 d3d_set_hidden(true);
 draw_set_alpha_test(true);
 draw_set_alpha_test_ref_value(0);

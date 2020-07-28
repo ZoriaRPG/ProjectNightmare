@@ -58,7 +58,7 @@ global.world = -1;
 /*Geometry types are stored in global.worldModel. They will also contain a list with their position:
 0 - floor
 1 - wall*/
-global.worldModel = ds_list_create();
+global.worldModel = d3d_model_create();
 audio_falloff_set_model(audio_falloff_exponent_distance);
 //Level properties
 for (var i = 0; i &lt; 2; i++)
@@ -211,9 +211,7 @@ if (c_object_exists(worldObject))
     c_object_destroy(worldObject);
 if (c_shape_exists(worldShape))
     c_shape_destroy(worldShape);
-for (var i = 0; i &lt; ds_list_size(global.worldModel); i++)
-    ds_list_destroy(ds_list_find_value(global.worldModel, i));
-ds_list_clear(global.worldModel);
+d3d_model_clear(global.worldModel);
 if (background_exists(pauseBg))
 {
     global.paused = false;
@@ -245,136 +243,24 @@ global.skybox = 0;
           <argument>
             <kind>1</kind>
             <string>///Load map
-worldShape=c_shape_create();
+worldShape = c_shape_create();
 c_shape_begin_trimesh();
-globalvar worldFloor, worldWall;
-with (objFloor)
+d3d_model_primitive_begin(global.worldModel, pr_trianglelist);
+var file = file_text_open_read("test.pnl");
+while (true)
 {
-    var x1 = x, y1 = y, z1, x2 = x + sprite_width, y2 = y + sprite_height, z2, x3 = undefined, y3, z3, zH = z+height, angled = object_index == objFloorAngled;
-    //The floor is rendered based on its slope direction
-    switch (dir)
-    {
-        case (0):
-            if (angled)
-            {
-                z1 = z;
-                z2 = zH;
-                z3 = z;
-            }
-            else
-            {
-                z1 = z;
-                z2 = zH;
-            }
-        break
-        case (1):
-            if (angled)
-            {
-                z1 = zH;
-                z2 = zH;
-                z3 = z;
-            }
-            else
-            {
-                z1 = z;
-                z2 = zH;
-            }
-        break
-        case (2):
-            if (angled)
-            {
-                z1 = zH;
-                z2 = z;
-                z3 = zH;
-            }
-            else
-            {
-                z1 = zH;
-                z2 = z;
-            }
-        break
-        case (3):
-            if (angled)
-            {
-                z1 = z;
-                z2 = z;
-                z3 = zH;
-            }
-            else
-            {
-                z1 = zH;
-                z2 = z;
-            }
-        break
-    }
-    //Add geometry type header
-    worldFloor[id] = ds_list_create();
-    if (angled)
-    {
-        x2 = x + lengthdir_x(sprite_width, image_angle);
-        y2 = y + lengthdir_y(sprite_width, image_angle);
-        x3 = x + lengthdir_x(sprite_height, image_angle - 90);
-        y3 = y + lengthdir_y(sprite_height, image_angle - 90);
-        dir = round(abs((dir * 90) - point_direction(x2, y2, x, y)) / 90);
-        ds_list_add(worldFloor[id], 0, tex, dir, ceiling, x1, y1, z1, x2, y2, z2, x3, y3, z3);
-    }
-    else
-        ds_list_add(worldFloor[id], 0, tex, dir, ceiling, x1, y1, z1, x2, y2, z2);
-    ds_list_add(global.worldModel, worldFloor[id]);
-    show_debug_message("Model wall " + string(id));
-    if (is_undefined(x3))
-        global.minZ = min(global.minZ, z1, z2);
-    else
-        global.minZ = min(global.minZ, z1, z2, z3);
-    if (angled)
-        c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
-    else
-    {
-        var zz1 = z1, zz2 = z2;
-        if (dir == 1 || dir == 3)
-        {
-            zz1 = z2;
-            zz2 = z1;
-            c_shape_add_triangle(x1, y1, zz1, x2, y1, zz1, x1, y2, zz2);
-            c_shape_add_triangle(x2, y1, zz1, x2, y2, zz2, x1, y2, zz2);
-        }
-        else
-        {
-            c_shape_add_triangle(x1, y1, zz1, x2, y1, zz2, x1, y2, zz1);
-            c_shape_add_triangle(x2, y1, zz2, x2, y2, zz2, x1, y2, zz1);
-        }
-    }
-    show_debug_message("Collision floor " + string(id));
-    instance_destroy();
+    var str = file_text_read_string(file);
+    if (str == "") break //End of file
+    var x1 = real(str);
+    file_text_readln(file);
+    var y1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file);
+    d3d_model_vertex_texture(global.worldModel, x1, y1, 0, x1 / 16, y1 / 16);
+    d3d_model_vertex_texture(global.worldModel, x2, y2, 0, x2 / 16, y2 / 16);
+    d3d_model_vertex_texture(global.worldModel, x3, y3, 0, x3 / 16, y3 / 16);
+    c_shape_add_triangle(x1, y1, 0, x2, y2, 0, x3, y3, 0);
 }
-with (objWall)
-{
-    var x2 = x + lengthdir_x(sprite_width, image_angle), y2 = y + lengthdir_y(sprite_width, image_angle), z2 = z + height;
-    //Add geometry type header
-    worldWall[id] = ds_list_create();
-    ds_list_add(worldWall[id], 1, tex, slope, x, y, z, x2, y2, z2);
-    ds_list_add(global.worldModel, worldWall[id]);
-    show_debug_message("Model wall " + string(id));
-    //The wall is rendered based on slope direction
-    switch (slope)
-    {
-        case (0):
-            c_shape_add_triangle(x, y, z2, x2, y2, z, x, y, z);
-            c_shape_add_triangle(x, y, z2, x2, y2, z2, x2, y2, z);
-            show_debug_message("Collision wall " + string(id));
-        break
-        case (1):
-            c_shape_add_triangle(x, y, z2, x2, y2, z, x, y, z);
-            show_debug_message("Collision slope 1 wall " + string(id));
-        break
-        case (2):
-            c_shape_add_triangle(x2, y2, z2, x2, y2, z, x, y, z);
-            show_debug_message("Collision slope 2 wall " + string(id));
-        break
-    }
-    global.minZ = min(global.minZ, z, z2);
-    instance_destroy();
-}
+file_text_close(file);
+d3d_model_primitive_end(global.worldModel);
 c_shape_end_trimesh(worldShape);
 worldObject = c_object_create(worldShape, 1, 1);
 global.world = c_world_create();
@@ -413,7 +299,7 @@ discord_update_presence("0 backups collected", global.roomName, "largeicon" + st
           <argument>
             <kind>1</kind>
             <string>///Unload game
-ds_list_destroy(global.worldModel);
+d3d_model_destroy(global.worldModel);
 font_delete(global.messageFont);
 discord_free_app();
 discord_free_dll();
