@@ -59,7 +59,6 @@ global.world = -1;
 0 - floor
 1 - wall*/
 global.worldModel = d3d_model_create();
-audio_falloff_set_model(audio_falloff_exponent_distance);
 //Level properties
 for (var i = 0; i &lt; 2; i++)
     global.levelMusic[i] = noone;

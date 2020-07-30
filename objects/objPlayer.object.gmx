@@ -298,7 +298,8 @@ if (z &lt; global.minZ)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!timer[1] &amp;&amp; hp)
+            <string>///Hurt player
+if (!timer[1] &amp;&amp; hp)
 {
     player_sound_play(hurtSnd);
     hp--;

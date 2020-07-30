@@ -298,7 +298,7 @@ draw_set_color(c_white);
 var dir = degtorad(global.cD), cSin = sin(dir), cCos = cos(dir), cTan = tan(degtorad(pitch)), xTo = global.cX + cCos, yTo = global.cY - cSin, zTo = global.cZ + cTan;
 d3d_set_projection_ext(global.cX, global.cY, global.cZ, xTo, yTo, zTo, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
 audio_listener_position(global.cX, global.cY, global.cZ);
-audio_listener_orientation(-cCos, cSin, cTan, 0, 0, 1);
+audio_listener_orientation(cCos, -cSin, cTan, 0, 0, 1);
 //Draw the skybox
 if (global.skybox != -1)
 {

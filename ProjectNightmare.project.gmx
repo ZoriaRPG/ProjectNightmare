@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="14" name="datafiles">
+  <datafiles number="15" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -58,7 +58,7 @@
     <datafile>
       <name>test.pnl</name>
       <exists>-1</exists>
-      <size>888</size>
+      <size>2334</size>
       <exportAction>2</exportAction>
       <exportDir></exportDir>
       <overwrite>0</overwrite>
