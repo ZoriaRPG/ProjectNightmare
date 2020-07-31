@@ -252,11 +252,11 @@ while (true)
     if (str == "") break //End of file
     var x1 = real(str);
     file_text_readln(file);
-    var y1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file);
-    d3d_model_vertex_texture(global.worldModel, x1, y1, 0, x1 / 16, y1 / 16);
-    d3d_model_vertex_texture(global.worldModel, x2, y2, 0, x2 / 16, y2 / 16);
-    d3d_model_vertex_texture(global.worldModel, x3, y3, 0, x3 / 16, y3 / 16);
-    c_shape_add_triangle(x1, y1, 0, x2, y2, 0, x3, y3, 0);
+    var y1 = level_get_vertex_data(file), z1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), z2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file), z3 = level_get_vertex_data(file);
+    d3d_model_vertex_texture(global.worldModel, x1, y1, z1, x1 / 16, y1 / 16);
+    d3d_model_vertex_texture(global.worldModel, x2, y2, z2, x2 / 16, y2 / 16);
+    d3d_model_vertex_texture(global.worldModel, x3, y3, z3, x3 / 16, y3 / 16);
+    c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
 }
 file_text_close(file);
 d3d_model_primitive_end(global.worldModel);
