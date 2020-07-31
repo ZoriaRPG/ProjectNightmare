@@ -315,24 +315,28 @@ with (objActor)
 {
     if (fVisible &amp;&amp; sprite != -1)
     {
-        var w = scale * global.sSize[sprite, 0] * 0.5, h = scale * global.sSize[sprite, 1], realZ = z - height * 0.5, cFrame, wSin = w * cSin, wCos = w * cCos;
         if (rotate)
         {
             var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4);
             while (dir &lt; 0)
                 dir += 4;
-            cFrame = min((global.sFrames[sprite, 0] * dir) + frame, global.sFrames[sprite, 1]);
+            cFrame = min(((sprite_get_number(sprite) * 0.25) * dir) + frame, sprite_get_number(sprite) - 1);
         }
         else
             cFrame = frame;
-        draw_wall(x - wSin, y - wCos, realZ + h, x + wSin, y + wCos, realZ, global.spr[sprite, cFrame], 1, 1);
+        shader_set(shBillboard);
+        matrix_set(matrix_world, matrix_build(x, y, bottom, 0, 0, 0, 1, 1, 1));
+        var size = scale * 0.5;
+        draw_sprite_ext(sprite, cFrame, 0, 0, size, -size, 0, c_white, 1);
+        shader_reset();
+        matrix_world_reset();
     }
     if (fShadow &amp;&amp; shadowZ != -65536)
     {
         matrix_set(matrix_world, shadowMatrix);
         var shadowSize = 2 * radius;
         draw_background_stretched_ext(btShadow, -radius, -radius, shadowSize, shadowSize, c_white, 0.51);
-        matrix_set(matrix_world, matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1));
+        matrix_world_reset();
     }
 }
 </string>

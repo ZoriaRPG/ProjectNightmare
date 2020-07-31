@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>///Load game
-//Load in the textures. These will mostly be background graphics.
+//Load textures. These will mostly be backgrounds.
 texture_background_load(0, btSkybox);
 texture_background_load(1, btShadow);
 texture_background_load(2, btTile);
@@ -37,20 +37,6 @@ texture_background_load(6, btStairs3);
 texture_background_load(7, btStairs4);
 texture_background_load(8, btFence);
 texture_background_load(9, btCarpet);
-//Load in sprites. These are different types of textures and are animated. You can also assign them to level geometry.
-texture_sprite_load(0, stMario);
-texture_sprite_load(1, stMarioRun);
-texture_sprite_load(2, stMarioJump);
-texture_sprite_load(3, stMarioBlink);
-texture_sprite_load(4, stMarioWoah);
-texture_sprite_load(5, stGoomba);
-texture_sprite_load(6, stLink);
-texture_sprite_load(7, stLinkRun);
-texture_sprite_load(8, stLinkJump);
-texture_sprite_load(9, stLinkBlink);
-texture_sprite_load(10, stBomb);
-texture_sprite_load(11, stMarioSlideStart);
-texture_sprite_load(12, stMarioSlide);
 c_init();
 worldShape = -1;
 worldObject = -1;
@@ -257,6 +243,7 @@ while (true)
     d3d_model_vertex_texture(global.worldModel, x2, y2, z2, x2 / 16, y2 / 16);
     d3d_model_vertex_texture(global.worldModel, x3, y3, z3, x3 / 16, y3 / 16);
     c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+    global.minZ = min(global.minZ, z1, z2, z3);
 }
 file_text_close(file);
 d3d_model_primitive_end(global.worldModel);

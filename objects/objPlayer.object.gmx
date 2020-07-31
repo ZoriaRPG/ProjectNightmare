@@ -28,7 +28,7 @@
             <string>///Set actor properties
 event_inherited();
 hp = 8;
-sprite = 0;
+sprite = sprMario;
 rotate = true;
 frameSpd = 0.01;
 fSolid = true;

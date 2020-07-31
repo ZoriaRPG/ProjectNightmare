@@ -63,12 +63,12 @@ hitbox_create();
           <argument>
             <kind>1</kind>
             <string>///Mario's animation &amp; move test
-//Blink
+/*//Blink
 if (timer_tick(0))
 {
-    if !(sprite)
+    if (sprite == sprMario)
     {
-        sprite = 3;
+        sprite = sprMarioBlink;
         frameSpd = 0.2;
     }
     timer[0] = irandom_range(60, 300);
@@ -76,78 +76,124 @@ if (timer_tick(0))
 //Animation control
 if (z &lt; global.minZ)
 {
-    sprite = 4;
+    sprite = sprMarioWoah;
     frameSpd = 0.3;
 }
 else
     switch (sprite)
     {
-        //stMarioBlink
+        //sprMarioBlink
         case (3):
             if (frame &gt;= 2.5)
             {
-                sprite = 0;
+                sprite = sprMario;
                 frameSpd = 0.01;
             }
         break
-        //stMarioWoah
+        //sprMarioWoah
         case (4):
             if !(floorPitch)
-                sprite = 0;
+                sprite = sprMario;
         break
-        //stMarioSlideStart
+        //sprMarioSlideStart
         case (11):
             if (frame &gt;= 2.5)
             {
-                sprite = 12;
+                sprite = sprMarioSlide;
                 frame = 0;
             }
         break
-        //stMarioSlide
+        //sprMarioSlide
         case (12):
             frameSpd = max(0.1, spdDis * 0.2);
             if (fric == 0.2)
-                sprite = 0;
+                sprite = sprMario;
         break
         //Other animations
         default:
-            if (onGround)
-            {
-                if (spdDis)
-                {
-                    sprite = 1;
-                    frameSpd = spdDis * 0.15;
-                }
-                else
-                    if (sprite != 3)
-                    {
-                        sprite = 0;
-                        frameSpd = 0.01;
-                    }
-            }
-            else
-            {
-                //Animation control (in mid-air)
-                sprite = 2;
-                frameSpd = 0;
-                frame = zSpeed &lt;= 0;
-            }
             if (sliding)
                 if (floorPitch &gt; 72)
                 {
-                    if (sprite != 4)
+                    if (sprite != sprMarioWoah)
                     {
-                        sprite = 4;
+                        sprite = sprMarioWoah;
                         frameSpd = 0.3;
                     }
                 }
                 else
-                    if (sprite != 11)
+                {
+                    if (sprite != sprMarioSlideStart)
                     {
-                        sprite = 11;
+                        sprite = sprMarioSlideStart;
                         frame = 0;
                         frameSpd = 0.22;
                     }
+                }
+            else
+                if (onGround)
+                {
+                    if (spdDis)
+                    {
+                        sprite = sprMarioRun;
+                        frameSpd = spdDis * 0.15;
+                    }
+                    else
+                        if (sprite != sprMarioBlink)
+                        {
+                            sprite = sprMario;
+                            frameSpd = 0.01;
+                        }
+                }
+                else
+                {
+                    //Animation control (in mid-air)
+                    sprite = sprMarioJump;
+                    frameSpd = 0;
+                    frame = zSpeed &lt;= 0;
+                }
+    }*/
+if (timer_tick(0))
+{
+    if (sprite == sprMario)
+    {
+        sprite = sprMarioBlink;
+        frameSpd = 0.2;
+    }
+    timer[0] = irandom_range(60, 300);
+}
+if (sprite == sprMarioBlink)
+    if (frame &gt;= 2.5)
+    {
+        sprite = sprMario;
+        frameSpd = 0.01;
+    }
+//Animation control
+if (z &lt; global.minZ)
+{
+    sprite = sprMarioWoah;
+    frameSpd = 0.3;
+}
+else
+    if (onGround)
+    {
+        if (spdDis)
+        {
+            sprite = sprMarioRun;
+            frameSpd = spdDis * 0.15;
+        }
+        else
+            if (sprite != sprMarioBlink)
+            {
+                sprite = sprMario;
+                frameSpd = 0.01;
+            }
+    }
+    else
+    {
+        //Animation control (in mid-air)
+        sprite = sprMarioJump;
+        frameSpd = 0;
+        frame = zSpeed &lt;= 0;
     }
 event_inherited();
 </string>

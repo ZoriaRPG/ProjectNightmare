@@ -32,8 +32,8 @@ fSolid = true;
 rotate = true;
 //NPC data
 message[0] = "...";
-idleSprite = 0;
-talkSprite = 4;
+idleSprite = sprMario;
+talkSprite = sprMarioWoah;
 working = false;
 startDir = 0; //I don't get why this doesn't work.
 //Create the hitbox based on the NPC's sprite boundaries
@@ -61,8 +61,8 @@ alarm[0] = 1;
           <argument>
             <kind>1</kind>
             <string>///Post-initialize variables
-radius = (global.sSize[idleSprite, 0] * 0.5) * scale;
-height = global.sSize[idleSprite, 1] * scale;
+radius = (sprite_get_width(idleSprite) * 0.5) * scale;
+height = sprite_get_height(idleSprite) * scale;
 hitbox_create();
 faceDir = startDir;
 </string>

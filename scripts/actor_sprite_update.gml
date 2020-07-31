@@ -4,9 +4,9 @@ if (sprite != -1)
 {
     var nums;
     if (rotate)
-        nums = global.sFrames[sprite, 0];
+        nums = sprite_get_number(sprite) * 0.25;
     else
-        nums = global.sFrames[sprite, 1];
+        nums = sprite_get_number(sprite) - 1;
     if (nums != 0)
-        frame = (frame + (frameSpd)) mod (nums);
+        frame = (frame + frameSpd) mod (nums);
 }

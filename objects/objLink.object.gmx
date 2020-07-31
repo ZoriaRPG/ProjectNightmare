@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-sprite = 6;
+sprite = sprLink;
 jumpSnd[0] = sndLinkJump;
 jumpSnd[1] = sndLinkJump2;
 jumpSnd[2] = sndLinkJump3;
@@ -66,17 +66,17 @@ hitbox_create();
             <string>///Link's animation &amp; move test
 if (timer_tick(0))
 {
-    if (sprite == 6)
+    if (sprite == sprLink)
     {
-        sprite = 9;
+        sprite = sprLinkBlink;
         frameSpd = 0.2;
     }
     timer[0] = irandom_range(60, 300);
 }
-if (sprite == 9)
+if (sprite == sprLinkBlink)
     if (frame &gt;= 2.5)
     {
-        sprite = 6;
+        sprite = sprLink;
         frameSpd = 0.01;
     }
 //Animation control
@@ -84,22 +84,22 @@ if (onGround)
 {
     if (spdDis)
     {
-        sprite = 7;
+        sprite = sprLinkRun;
         frameSpd = spdDis * 0.15;
     }
     else
-        if (sprite != 9)
+        if (sprite != sprLinkBlink)
         {
-            sprite = 6;
+            sprite = sprLink;
             frameSpd = 0.01;
         }
 }
 else
 {
     //Animation control (in mid-air)
-    if (sprite != 8)
+    if (sprite != sprLinkJump)
     {
-        sprite = 8;
+        sprite = sprLinkJump;
         if (zSpeed &lt;= 0)
             frame = 2;
         else

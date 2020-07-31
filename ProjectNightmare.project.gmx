@@ -140,31 +140,24 @@
   <sprites name="sprites">
     <sprite>sprites\sprIntro</sprite>
     <sprite>sprites\sprFont</sprite>
-    <sprites name="Textures">
-      <sprites name="Mario">
-        <sprite>sprites\stMario</sprite>
-        <sprite>sprites\stMarioRun</sprite>
-        <sprite>sprites\stMarioJump</sprite>
-        <sprite>sprites\stMarioBlink</sprite>
-        <sprite>sprites\stMarioWoah</sprite>
-        <sprite>sprites\stMarioSlideStart</sprite>
-        <sprite>sprites\stMarioSlide</sprite>
-      </sprites>
-      <sprites name="Link">
-        <sprite>sprites\stLink</sprite>
-        <sprite>sprites\stLinkRun</sprite>
-        <sprite>sprites\stLinkJump</sprite>
-        <sprite>sprites\stLinkBlink</sprite>
-      </sprites>
-      <sprite>sprites\stGoomba</sprite>
-      <sprite>sprites\stBomb</sprite>
+    <sprites name="Mario">
+      <sprite>sprites\sprMario</sprite>
+      <sprite>sprites\sprMarioRun</sprite>
+      <sprite>sprites\sprMarioJump</sprite>
+      <sprite>sprites\sprMarioBlink</sprite>
+      <sprite>sprites\sprMarioWoah</sprite>
+      <sprite>sprites\sprMarioSlideStart</sprite>
+      <sprite>sprites\sprMarioSlide</sprite>
     </sprites>
-    <sprites name="Level">
-      <sprite>sprites\sprFloor</sprite>
-      <sprite>sprites\sprFloorAngled</sprite>
-      <sprite>sprites\sprWall</sprite>
-      <sprite>sprites\sprActor</sprite>
+    <sprites name="Link">
+      <sprite>sprites\sprLink</sprite>
+      <sprite>sprites\sprLinkRun</sprite>
+      <sprite>sprites\sprLinkJump</sprite>
+      <sprite>sprites\sprLinkBlink</sprite>
     </sprites>
+    <sprite>sprites\sprGoomba</sprite>
+    <sprite>sprites\sprBomb</sprite>
+    <sprite>sprites\sprActor</sprite>
     <sprite>sprites\sprHealth</sprite>
   </sprites>
   <backgrounds name="background">
@@ -250,10 +243,6 @@
       <script>scripts\draw_wall.gml</script>
       <script>scripts\draw_floor.gml</script>
     </scripts>
-    <scripts name="Textures">
-      <script>scripts\texture_sprite_load.gml</script>
-      <script>scripts\texture_background_load.gml</script>
-    </scripts>
     <scripts name="Geometry">
       <script>scripts\point_pitch.gml</script>
       <script>scripts\angle_normalize.gml</script>
@@ -290,7 +279,12 @@
     <script>scripts\smoothstep.gml</script>
     <script>scripts\player_sound_play.gml</script>
     <script>scripts\level_get_vertex_data.gml</script>
+    <script>scripts\matrix_world_reset.gml</script>
+    <script>scripts\texture_background_load.gml</script>
   </scripts>
+  <shaders name="shaders">
+    <shader type="GLSLES">shaders\shBillboard.shader</shader>
+  </shaders>
   <fonts name="fonts">
     <font>fonts\fntMario</font>
     <font>fonts\fntLink</font>
@@ -298,15 +292,10 @@
   <objects name="objects">
     <object>objects\objControl</object>
     <object>objects\objCamera</object>
+    <object>objects\objCutscene</object>
     <objects name="GUI">
       <object>objects\objIntro</object>
       <object>objects\objTitle</object>
-    </objects>
-    <objects name="Map">
-      <object>objects\objFloor</object>
-      <object>objects\objFloorAngled</object>
-      <object>objects\objWall</object>
-      <object>objects\objCutscene</object>
     </objects>
     <objects name="Actors">
       <object>objects\objPlayerSpawn</object>
@@ -326,7 +315,6 @@
           <object>objects\objEnemy</object>
           <object>objects\objHoldable</object>
         </objects>
-        <object>objects\objSolid</object>
       </objects>
       <object>objects\objTransition</object>
       <object>objects\objMessage</object>
