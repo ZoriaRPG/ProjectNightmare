@@ -17,6 +17,8 @@ If you are interested in checking out our development progress, hop on over to o
 
 **Aouab** - Discord Rich Presence for GameMaker
 
+**DragoniteSpam** - billboard shader
+
 **GMLScripts.com** - scripts
 
 **Snidr** - world_matrix_from_normal script
