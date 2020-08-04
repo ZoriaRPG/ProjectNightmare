@@ -231,7 +231,7 @@ global.skybox = 0;
 worldShape = c_shape_create();
 c_shape_begin_trimesh();
 d3d_model_primitive_begin(global.worldModel, pr_trianglelist);
-var file = file_text_open_read("test.pnl");
+var file = file_text_open_read("level.pnl");
 while (true)
 {
     var str = file_text_read_string(file);

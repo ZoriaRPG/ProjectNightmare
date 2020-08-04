@@ -331,7 +331,7 @@ with (objActor)
         shader_reset();
         matrix_world_reset();
     }
-    if (fShadow &amp;&amp; shadowZ != -65536)
+    if (fShadow &amp;&amp; shadowZ != -65536 &amp;&amp; global.cZ &gt; shadowZ)
     {
         matrix_set(matrix_world, shadowMatrix);
         var shadowSize = 2 * radius;

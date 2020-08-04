@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="17" name="datafiles">
+  <datafiles number="18" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -56,9 +56,9 @@
       <filename>Collisions.dll</filename>
     </datafile>
     <datafile>
-      <name>test.pnl</name>
+      <name>level.pnl</name>
       <exists>-1</exists>
-      <size>899</size>
+      <size>2385</size>
       <exportAction>2</exportAction>
       <exportDir></exportDir>
       <overwrite>0</overwrite>
@@ -70,7 +70,7 @@
           <CopyToMask>9223372036854775807</CopyToMask>
         </Config>
       </ConfigOptions>
-      <filename>test.pnl</filename>
+      <filename>level.pnl</filename>
     </datafile>
   </datafiles>
   <NewExtensions/>
