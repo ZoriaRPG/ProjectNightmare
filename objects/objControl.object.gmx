@@ -44,7 +44,7 @@ global.world = -1;
 /*Geometry types are stored in global.worldModel. They will also contain a list with their position:
 0 - floor
 1 - wall*/
-global.worldModel = d3d_model_create();
+global.worldModel = ds_list_create();
 //Level properties
 for (var i = 0; i &lt; 2; i++)
     global.levelMusic[i] = noone;
@@ -196,7 +196,7 @@ if (c_object_exists(worldObject))
     c_object_destroy(worldObject);
 if (c_shape_exists(worldShape))
     c_shape_destroy(worldShape);
-d3d_model_clear(global.worldModel);
+ds_list_clear(global.worldModel);
 if (background_exists(pauseBg))
 {
     global.paused = false;
@@ -238,10 +238,10 @@ while (true)
     if (str == "") break //End of file
     var x1 = real(str);
     file_text_readln(file);
-    var y1 = level_get_vertex_data(file), z1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), z2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file), z3 = level_get_vertex_data(file);
-    d3d_model_vertex_texture(global.worldModel, x1, y1, z1, x1 / 16, y1 / 16);
-    d3d_model_vertex_texture(global.worldModel, x2, y2, z2, x2 / 16, y2 / 16);
-    d3d_model_vertex_texture(global.worldModel, x3, y3, z3, x3 / 16, y3 / 16);
+    var y1 = level_get_vertex_data(file), z1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), z2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file), z3 = level_get_vertex_data(file), texture = level_get_vertex_data(file), realTexture = 2;
+    if (texture)
+        realTexture = 3;
+    ds_list_add(global.worldModel, x1, y1, z1, x2, y2, z2, x3, y3, z3, realTexture);
     c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
     global.minZ = min(global.minZ, z1, z2, z3);
 }
@@ -285,7 +285,7 @@ discord_update_presence("0 backups collected", global.roomName, "largeicon" + st
           <argument>
             <kind>1</kind>
             <string>///Unload game
-d3d_model_destroy(global.worldModel);
+ds_list_destroy(global.worldModel);
 font_delete(global.messageFont);
 discord_free_app();
 discord_free_dll();

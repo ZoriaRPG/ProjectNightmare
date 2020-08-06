@@ -308,7 +308,32 @@ if (global.skybox != -1)
 }
 //Draw world model
 texture_set_repeat(true);
-d3d_model_draw(global.worldModel, 0, 0, 0, global.tex[2]);
+for (i = 0; i &lt; ds_list_size(global.worldModel); i += 10)
+{
+    d3d_primitive_begin_texture(pr_trianglelist, global.tex[ds_list_find_value(global.worldModel, i + 9)]);
+    var x1 = ds_list_find_value(global.worldModel, i), y1 = ds_list_find_value(global.worldModel, i + 1), z1 = ds_list_find_value(global.worldModel, i + 2), x2 = ds_list_find_value(global.worldModel, i + 3), y2 = ds_list_find_value(global.worldModel, i + 4), z2 = ds_list_find_value(global.worldModel, i + 5), x3 = ds_list_find_value(global.worldModel, i + 6), y3 = ds_list_find_value(global.worldModel, i + 7), z3 = ds_list_find_value(global.worldModel, i + 8);
+    if (x3 == x1 &amp;&amp; y3 == y1) //If the triangle is the upper half of a wall, map accordingly
+    {
+        d3d_vertex_texture(x1, y1, z1, 0, 0);
+        d3d_vertex_texture(x2, y2, z1, point_distance(x1, y1, x2, y2) / 16, 0);
+        d3d_vertex_texture(x1, y1, z3, 0, -(z3 - z1) / 16);
+    }
+    else
+        if (x3 == x2 &amp;&amp; y3 == y2) //Check if lower half of a wall
+        {
+            var hRepeat = point_distance(x1, y1, x2, y2) / 16, vRepeat = (z3 - z1) / 16;
+            d3d_vertex_texture(x1, y1, z1, 0, vRepeat);
+            d3d_vertex_texture(x2, y2, z1, hRepeat, vRepeat);
+            d3d_vertex_texture(x2, y2, z3, hRepeat, 0);
+        }
+        else
+        {
+            d3d_vertex_texture(x1, y1, z1, x1 / 16, y1 / 16);
+            d3d_vertex_texture(x2, y2, z2, x2 / 16, y2 / 16);
+            d3d_vertex_texture(x3, y3, z3, x3 / 16, y3 / 16);
+        }
+    d3d_primitive_end();
+}
 texture_set_repeat(false);
 //Draw actors
 with (objActor)
