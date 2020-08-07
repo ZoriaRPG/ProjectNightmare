@@ -28,15 +28,10 @@
             <string>///Load game
 //Load textures. These will mostly be backgrounds.
 global.textures = 0;
-texture_background_load(btSkybox);
-texture_background_load(btTile);
-texture_background_load(btGrass);
-texture_background_load(btStairs);
-texture_background_load(btStairs2);
-texture_background_load(btStairs3);
-texture_background_load(btStairs4);
-texture_background_load(btFence);
-texture_background_load(btCarpet);
+texture_load(btSkybox, 0);
+texture_load(btTile, 0);
+texture_load(btGrass, 0);
+texture_load(stWater, 1);
 c_init();
 worldShape = -1;
 worldObject = -1;
@@ -240,7 +235,7 @@ while (true)
     file_text_readln(file);
     var y1 = level_get_vertex_data(file), z1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), z2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file), z3 = level_get_vertex_data(file), texture = level_get_vertex_data(file), realTexture = 1;
     if (texture)
-        realTexture = 2;
+        realTexture = texture + 1;
     ds_list_add(global.worldModel, x1, y1, z1, x2, y2, z2, x3, y3, z3, realTexture);
     c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
     global.minZ = min(global.minZ, z1, z2, z3);

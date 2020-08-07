@@ -3,24 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="19" name="datafiles">
-    <datafile>
-      <name>level.pnl</name>
-      <exists>-1</exists>
-      <size>5610</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>level.pnl</filename>
-    </datafile>
+  <datafiles number="20" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -71,6 +54,23 @@
         </Config>
       </ConfigOptions>
       <filename>Collisions.dll</filename>
+    </datafile>
+    <datafile>
+      <name>level.pnl</name>
+      <exists>-1</exists>
+      <size>7040</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>9223372036854775807</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>level.pnl</filename>
     </datafile>
   </datafiles>
   <NewExtensions/>
@@ -155,10 +155,13 @@
       <sprite>sprites\sprLinkJump</sprite>
       <sprite>sprites\sprLinkBlink</sprite>
     </sprites>
-    <sprite>sprites\sprGoomba</sprite>
     <sprite>sprites\sprBomb</sprite>
     <sprite>sprites\sprActor</sprite>
     <sprite>sprites\sprHealth</sprite>
+    <sprite>sprites\sprGoomba</sprite>
+    <sprites name="Textures">
+      <sprite>sprites\stWater</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
@@ -280,7 +283,8 @@
     <script>scripts\player_sound_play.gml</script>
     <script>scripts\level_get_vertex_data.gml</script>
     <script>scripts\matrix_world_reset.gml</script>
-    <script>scripts\texture_background_load.gml</script>
+    <script>scripts\texture_load.gml</script>
+    <script>scripts\texture_get.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shBillboard.shader</shader>

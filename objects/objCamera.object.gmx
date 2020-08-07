@@ -303,14 +303,14 @@ audio_listener_orientation(cCos, -cSin, cTan, 0, 0, 1);
 if (global.skybox != -1)
 {
     d3d_set_zwriteenable(false);
-    d3d_draw_ellipsoid(global.cX + 128, global.cY + 128, global.cZ + 256, global.cX - 128, global.cY - 128, global.cZ - 256, global.tex[global.skybox], 1, -1, 32);
+    d3d_draw_ellipsoid(global.cX + 128, global.cY + 128, global.cZ + 256, global.cX - 128, global.cY - 128, global.cZ - 256, texture_get(global.skybox), 1, -1, 32);
     d3d_set_zwriteenable(true);
 }
 //Draw world model
 texture_set_repeat(true);
 for (i = 0; i &lt; ds_list_size(global.worldModel); i += 10)
 {
-    d3d_primitive_begin_texture(pr_trianglelist, global.tex[ds_list_find_value(global.worldModel, i + 9)]);
+    d3d_primitive_begin_texture(pr_trianglelist, texture_get(ds_list_find_value(global.worldModel, i + 9)));
     var x1 = ds_list_find_value(global.worldModel, i), y1 = ds_list_find_value(global.worldModel, i + 1), z1 = ds_list_find_value(global.worldModel, i + 2), x2 = ds_list_find_value(global.worldModel, i + 3), y2 = ds_list_find_value(global.worldModel, i + 4), z2 = ds_list_find_value(global.worldModel, i + 5), x3 = ds_list_find_value(global.worldModel, i + 6), y3 = ds_list_find_value(global.worldModel, i + 7), z3 = ds_list_find_value(global.worldModel, i + 8);
     if (x3 == x1 &amp;&amp; y3 == y1) //If the triangle is the upper half of a wall, map accordingly
     {
