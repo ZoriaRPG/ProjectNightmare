@@ -163,9 +163,9 @@
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
     <background>background\bgPauseLink</background>
+    <background>background\bgShadow</background>
     <backgrounds name="Textures">
       <background>background\btSkybox</background>
-      <background>background\btShadow</background>
       <background>background\btTile</background>
       <background>background\btGrass</background>
       <background>background\btStairs</background>

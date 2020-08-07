@@ -1,5 +1,6 @@
-///texture_background_load(slot, background)
-global.tex[argument0] = background_get_texture(argument1);
+///texture_background_load(background)
+global.tex[global.textures] = background_get_texture(argument0);
 //Prepare size values for real world measuring
-global.tSize[argument0, 0] = background_get_width(argument1) * 0.5;
-global.tSize[argument0, 1] = background_get_height(argument1) * 0.5;
+global.tSize[global.textures, 0] = background_get_width(argument0) * 0.5;
+global.tSize[global.textures, 1] = background_get_height(argument0) * 0.5;
+global.textures++;

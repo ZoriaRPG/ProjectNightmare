@@ -360,7 +360,7 @@ with (objActor)
     {
         matrix_set(matrix_world, shadowMatrix);
         var shadowSize = 2 * radius;
-        draw_background_stretched_ext(btShadow, -radius, -radius, shadowSize, shadowSize, c_white, 0.51);
+        draw_background_stretched_ext(bgShadow, -radius, -radius, shadowSize, shadowSize, c_white, 0.51);
         matrix_world_reset();
     }
 }

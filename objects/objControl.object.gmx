@@ -27,16 +27,16 @@
             <kind>1</kind>
             <string>///Load game
 //Load textures. These will mostly be backgrounds.
-texture_background_load(0, btSkybox);
-texture_background_load(1, btShadow);
-texture_background_load(2, btTile);
-texture_background_load(3, btGrass);
-texture_background_load(4, btStairs);
-texture_background_load(5, btStairs2);
-texture_background_load(6, btStairs3);
-texture_background_load(7, btStairs4);
-texture_background_load(8, btFence);
-texture_background_load(9, btCarpet);
+global.textures = 0;
+texture_background_load(btSkybox);
+texture_background_load(btTile);
+texture_background_load(btGrass);
+texture_background_load(btStairs);
+texture_background_load(btStairs2);
+texture_background_load(btStairs3);
+texture_background_load(btStairs4);
+texture_background_load(btFence);
+texture_background_load(btCarpet);
 c_init();
 worldShape = -1;
 worldObject = -1;
@@ -238,9 +238,9 @@ while (true)
     if (str == "") break //End of file
     var x1 = real(str);
     file_text_readln(file);
-    var y1 = level_get_vertex_data(file), z1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), z2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file), z3 = level_get_vertex_data(file), texture = level_get_vertex_data(file), realTexture = 2;
+    var y1 = level_get_vertex_data(file), z1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), z2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file), z3 = level_get_vertex_data(file), texture = level_get_vertex_data(file), realTexture = 1;
     if (texture)
-        realTexture = 3;
+        realTexture = 2;
     ds_list_add(global.worldModel, x1, y1, z1, x2, y2, z2, x3, y3, z3, realTexture);
     c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
     global.minZ = min(global.minZ, z1, z2, z3);
@@ -389,130 +389,6 @@ if (instance_exists(objPlayer))
             <kind>1</kind>
             <string>setFramerate = !setFramerate;
 framerate_set();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="67">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>var model = d3d_model_create();
-d3d_model_primitive_begin(model, pr_trianglelist);
-for (var i = 0; i &lt; ds_list_size(global.worldModel); i++)
-{
-    var object = ds_list_find_value(global.worldModel, i), val = ds_list_find_value(object, 2);
-    //Check geometry type header
-    switch (ds_list_find_value(object, 0))
-    {
-        //Floor
-        case (0):
-            var val2 = ds_list_find_value(object, 3), x1 = ds_list_find_value(object, 4), y1 = ds_list_find_value(object, 5), z1 = ds_list_find_value(object, 6), x2 = ds_list_find_value(object, 7), y2 = ds_list_find_value(object, 8), z2 = ds_list_find_value(object, 9), x3 = ds_list_find_value(object, 10);
-            if !(is_undefined(x3))
-            {
-                var y3 = ds_list_find_value(object, 11), z3 = ds_list_find_value(object, 12);
-                if (val2)
-                {
-                    d3d_model_vertex(model, x3, y3, z3);
-                    d3d_model_vertex(model, x2, y2, z2);
-                    d3d_model_vertex(model, x1, y1, z1);
-                }
-                else
-                {
-                    d3d_model_vertex(model, x1, y1, z1);
-                    d3d_model_vertex(model, x2, y2, z2);
-                    d3d_model_vertex(model, x3, y3, z3);
-                }
-            }
-            else
-            {
-                if (val == 1 || val == 3)
-                    if (val2)
-                    {
-                        d3d_model_vertex(model, x1, y2, z1);
-                        d3d_model_vertex(model, x2, y1, z2);
-                        d3d_model_vertex(model, x1, y1, z2);
-                        d3d_model_vertex(model, x1, y2, z1);
-                        d3d_model_vertex(model, x2, y2, z1);
-                        d3d_model_vertex(model, x2, y1, z2);
-                    }
-                    else
-                    {
-                        d3d_model_vertex(model, x1, y1, z2);
-                        d3d_model_vertex(model, x2, y1, z2);
-                        d3d_model_vertex(model, x1, y2, z1);
-                        d3d_model_vertex(model, x2, y1, z2);
-                        d3d_model_vertex(model, x2, y2, z1);
-                        d3d_model_vertex(model, x1, y2, z1);
-                    }
-                else
-                    if (val2)
-                    {
-                        d3d_model_vertex(model, x1, y1, z1);
-                        d3d_model_vertex(model, x1, y2, z1);
-                        d3d_model_vertex(model, x2, y1, z2);
-                        d3d_model_vertex(model, x1, y2, z1);
-                        d3d_model_vertex(model, x2, y2, z2);
-                        d3d_model_vertex(model, x2, y1, z2);
-                    }
-                    else
-                    {
-                        d3d_model_vertex(model, x1, y1, z1);
-                        d3d_model_vertex(model, x2, y1, z2);
-                        d3d_model_vertex(model, x1, y2, z1);
-                        d3d_model_vertex(model, x2, y1, z2);
-                        d3d_model_vertex(model, x2, y2, z2);
-                        d3d_model_vertex(model, x1, y2, z1);
-                    }
-            }
-        break
-        //Wall
-        case (1):
-            var x1 = ds_list_find_value(object, 3), y1 = ds_list_find_value(object, 4), z1 = ds_list_find_value(object, 5), x2 = ds_list_find_value(object, 6), y2 = ds_list_find_value(object, 7), z2 = ds_list_find_value(object, 8);
-            switch (val)
-            {
-                case (0):
-                    d3d_model_vertex(model, x1, y1, z1);
-                    d3d_model_vertex(model, x2, y2, z1);
-                    d3d_model_vertex(model, x1, y1, z2);
-                    d3d_model_vertex(model, x2, y2, z1);
-                    d3d_model_vertex(model, x2, y2, z2);
-                    d3d_model_vertex(model, x1, y1, z2);
-                break
-                case (1):
-                    d3d_model_vertex(model, x1, y1, z2);
-                    d3d_model_vertex(model, x2, y2, z1);
-                    d3d_model_vertex(model, x1, y1, z1);
-                break
-                case (2):
-                    d3d_model_vertex(model, x2, y2, z2);
-                    d3d_model_vertex(model, x2, y2, z1);
-                    d3d_model_vertex(model, x1, y1, z1);
-                break
-            }
-        break
-    }
-}
-d3d_model_primitive_end(model);
-var file = get_save_filename("D3D model|*.d3d", "worldModel");
-if (file != "")
-    d3d_model_save(model, file);
-d3d_model_clear(model);
-d3d_model_destroy(model);
 </string>
           </argument>
         </arguments>
