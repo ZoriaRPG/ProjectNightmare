@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="20" name="datafiles">
+  <datafiles number="21" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -58,7 +58,7 @@
     <datafile>
       <name>level.pnl</name>
       <exists>-1</exists>
-      <size>7040</size>
+      <size>7315</size>
       <exportAction>2</exportAction>
       <exportDir></exportDir>
       <overwrite>0</overwrite>
@@ -281,7 +281,7 @@
     <script>scripts\framerate_set.gml</script>
     <script>scripts\smoothstep.gml</script>
     <script>scripts\player_sound_play.gml</script>
-    <script>scripts\level_get_vertex_data.gml</script>
+    <script>scripts\level_read_real.gml</script>
     <script>scripts\matrix_world_reset.gml</script>
     <script>scripts\texture_load.gml</script>
     <script>scripts\texture_get.gml</script>

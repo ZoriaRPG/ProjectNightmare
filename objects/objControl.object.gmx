@@ -223,38 +223,71 @@ global.skybox = 0;
           <argument>
             <kind>1</kind>
             <string>///Load map
-worldShape = c_shape_create();
-c_shape_begin_trimesh();
-d3d_model_primitive_begin(global.worldModel, pr_trianglelist);
-var file = file_text_open_read("level.pnl");
-while (true)
+switch (room)
 {
-    var str = file_text_read_string(file);
-    if (str == "") break //End of file
-    var x1 = real(str);
-    file_text_readln(file);
-    var y1 = level_get_vertex_data(file), z1 = level_get_vertex_data(file), x2 = level_get_vertex_data(file), y2 = level_get_vertex_data(file), z2 = level_get_vertex_data(file), x3 = level_get_vertex_data(file), y3 = level_get_vertex_data(file), z3 = level_get_vertex_data(file), texture = level_get_vertex_data(file), realTexture = 1;
-    if (texture)
-        realTexture = texture + 1;
-    ds_list_add(global.worldModel, x1, y1, z1, x2, y2, z2, x3, y3, z3, realTexture);
-    c_shape_add_triangle(x1, y1, z1, x2, y2, z2, x3, y3, z3);
-    global.minZ = min(global.minZ, z1, z2, z3);
+    case (rmTitle):
+        audio_sound_gain(global.levelMusic[0], 1, 0);
+    case (rmMain):
+        worldShape = c_shape_create();
+        c_shape_begin_trimesh();
+        d3d_model_primitive_begin(global.worldModel, pr_trianglelist);
+        var file = file_text_open_read("level.pnl");
+        while !(file_text_eof(file))
+        {
+            number = level_read_real(file);
+            switch (number)
+            {
+                case (0.1): //Geometry
+                case (0.2): //Actors
+                    header = number;
+                break
+            }
+            if (room == rmTitle &amp;&amp; header == 0.2) break //Abort actors if level is in title screen
+            if (number == header) continue
+            switch (header)
+            {
+                case (0.1): //Geometry
+                    var y1 = level_read_real(file), z1 = level_read_real(file), x2 = level_read_real(file), y2 = level_read_real(file), z2 = level_read_real(file), x3 = level_read_real(file), y3 = level_read_real(file), z3 = level_read_real(file), texture = level_read_real(file), realTexture = 1;
+                    if (texture)
+                        realTexture = texture + 1;
+                    ds_list_add(global.worldModel, number, y1, z1, x2, y2, z2, x3, y3, z3, realTexture);
+                    c_shape_add_triangle(number, y1, z1, x2, y2, z2, x3, y3, z3);
+                    global.minZ = min(global.minZ, z1, z2, z3);
+                break
+                case (0.2): //Actors
+                    var yy = level_read_real(file), zz = level_read_real(file), dir = level_read_real(file), type = level_read_real(file), obj = objPlayerSpawn;
+                    switch (type)
+                    {
+                        case (1):
+                            obj = objGoomba;
+                        break
+                        case (2):
+                            obj = objBomb;
+                        break
+                    }
+                    with (instance_create(number, yy, obj))
+                    {
+                        z = zz + half;
+                        faceDir = dir;
+                    }
+                break
+            }
+        }
+        file_text_close(file);
+        d3d_model_primitive_end(global.worldModel);
+        c_shape_end_trimesh(worldShape);
+        worldObject = c_object_create(worldShape, 1, 1);
+        global.world = c_world_create();
+        c_world_add_object(worldObject);
+        show_debug_message("Done");
+    break
 }
-file_text_close(file);
-d3d_model_primitive_end(global.worldModel);
-c_shape_end_trimesh(worldShape);
-worldObject = c_object_create(worldShape, 1, 1);
-global.world = c_world_create();
-c_world_add_object(worldObject);
-show_debug_message("Done");
 //Reset in-game states
 if (global.dawn)
     audio_play_sound(musDawn, 1, false);
 else
     music_start();
 global.battle = false;
-if (room == rmTitle)
-    audio_sound_gain(global.levelMusic[0], 1, 0);
 framerate_set();
 discord_update_presence("0 backups collected", global.roomName, "largeicon" + string(global.roomIcon), "smallicon");
 </string>

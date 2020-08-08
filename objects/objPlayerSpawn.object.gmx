@@ -28,7 +28,9 @@
             <string>///Handle character type
 //This will spawn the character based on the current chapter (Mario in the first half and
 //Link in the second half).
-z = ((1 + global.link * 1.5) * 8) + 1;
+z = 0;
+faceDir = 0;
+half = 0;
 alarm[0] = 1;
 </string>
           </argument>
@@ -57,8 +59,8 @@ if (global.link)
     player = objLink;
 with (instance_create(x, y, player))
 {
-    z = other.z;
-    faceDir = other.direction;
+    z = other.z + half;
+    faceDir = other.faceDir;
 }
 </string>
           </argument>

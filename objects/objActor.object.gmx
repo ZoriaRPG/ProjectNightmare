@@ -137,16 +137,6 @@ if (fShadow)
         floorPitch = 0;
     }
 //Physics
-//Actor collision
-var actorTouch = instance_place(x, y, objActor);
-//If there is a solid actor and I'm pushable... and if I am overlapping the actor...
-if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable &amp;&amp; bottom &lt; actorTouch.top &amp;&amp; top &gt; actorTouch.bottom)
-{
-    //Move out of the way
-    var angle = point_direction(x, y, actorTouch.x, actorTouch.y);
-    hSpeed = lengthdir_x(-0.3, angle) + actorTouch.hSpeed;
-    vSpeed = lengthdir_y(-0.3, angle) + actorTouch.vSpeed;
-}
 //Sliding on steep slopes
 if (sliding)
 {
@@ -195,6 +185,16 @@ else
 //Collision
 if !(fGhost)
 {
+    //Actor collision
+    var actorTouch = instance_place(x, y, objActor);
+    //If there is a solid actor and I'm pushable... and if I am overlapping the actor...
+    if (actorTouch &amp;&amp; actorTouch.fSolid &amp;&amp; fPushable &amp;&amp; bottom &lt; actorTouch.top &amp;&amp; top &gt; actorTouch.bottom)
+    {
+        //Move out of the way
+        var angle = point_direction(x, y, actorTouch.x, actorTouch.y);
+        hSpeed = lengthdir_x(-0.3, angle) + actorTouch.hSpeed;
+        vSpeed = lengthdir_y(-0.3, angle) + actorTouch.vSpeed;
+    }
     //Floor collision
     //The actor will not move down regular slopes if it is bouncy.
     if (c_raycast_world(x, y, z, x + hSpeed, y + vSpeed, bottom + zSpeed, 1) || (!fBounce &amp;&amp; zSpeed &lt;= 0 &amp;&amp; c_raycast_world(x, y, z, x, y, bottom - (4 + zSpeed), 1)))

@@ -55,7 +55,6 @@ global.roomIcon = 2;</code>
   </views>
   <instances>
     <instance objName="objCamera" x="0" y="0" name="inst_444BBFD1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objPlayerSpawn" x="80" y="80" name="inst_7B5B47C9" locked="0" code="z = 256;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
