@@ -191,7 +191,14 @@ if (c_object_exists(worldObject))
     c_object_destroy(worldObject);
 if (c_shape_exists(worldShape))
     c_shape_destroy(worldShape);
-ds_list_clear(global.worldModel);
+for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
+{
+    var vertexBatch = ds_list_find_value(global.worldModel, i), modelID = ds_list_find_value(vertexBatch, 1);
+    show_debug_message("Destroyed vertex batch with texture " + string(ds_list_find_value(vertexBatch, 0)) + ", model ID " + string(modelID));
+    d3d_model_destroy(modelID);
+    ds_list_destroy(vertexBatch);
+}
+show_debug_message("Cleared world model");
 if (background_exists(pauseBg))
 {
     global.paused = false;
@@ -228,9 +235,13 @@ switch (room)
     case (rmTitle):
         audio_sound_gain(global.levelMusic[0], 1, 0);
     case (rmMain):
+        //Create separate d3d models for multiple textures
+        var vertexBatch, i;
+        for (i = 0; i &lt; global.textures; i++)
+            vertexBatch[i] = ds_list_create();
+        //Start reading level file data 
         worldShape = c_shape_create();
         c_shape_begin_trimesh();
-        d3d_model_primitive_begin(global.worldModel, pr_trianglelist);
         var file = file_text_open_read("level.pnl");
         while !(file_text_eof(file))
         {
@@ -248,9 +259,37 @@ switch (room)
             {
                 case (0.1): //Geometry
                     var y1 = level_read_real(file), z1 = level_read_real(file), x2 = level_read_real(file), y2 = level_read_real(file), z2 = level_read_real(file), x3 = level_read_real(file), y3 = level_read_real(file), z3 = level_read_real(file), texture = level_read_real(file), realTexture = 1;
-                    if (texture)
+                    if (texture) //Align PN Editor's texture IDs to in-game IDs
                         realTexture = texture + 1;
-                    ds_list_add(global.worldModel, number, y1, z1, x2, y2, z2, x3, y3, z3, realTexture);
+                    for (i = 0; i &lt; global.textures; i++) //Loop through the textures to match the triangle's
+                        if (i == realTexture)
+                        {
+                            if (ds_list_empty(vertexBatch[i])) //If this vertex batch is not made yet, make one
+                                ds_list_add(vertexBatch[i], i, d3d_model_create());
+                            var model = ds_list_find_value(vertexBatch[i], 1); //Get model from the vertex batch list
+                            d3d_model_primitive_begin(model, pr_trianglelist);
+                            if (x3 == number &amp;&amp; y3 == number) //If the triangle is the upper half of a wall, map accordingly
+                            {
+                                d3d_model_vertex_texture(model, number, y1, z1, 0, 0);
+                                d3d_model_vertex_texture(model, x2, y2, z1, point_distance(number, y1, x2, y2) / 16, 0);
+                                d3d_model_vertex_texture(model, number, y1, z3, 0, -(z3 - z1) / 16);
+                            }
+                            else
+                                if (x3 == x2 &amp;&amp; y3 == y2) //Check if lower half of a wall
+                                {
+                                    var hRepeat = point_distance(number, y1, x2, y2) / 16, vRepeat = (z3 - z1) / 16;
+                                    d3d_model_vertex_texture(model, number, y1, z1, 0, vRepeat);
+                                    d3d_model_vertex_texture(model, x2, y2, z1, hRepeat, vRepeat);
+                                    d3d_model_vertex_texture(model, x2, y2, z3, hRepeat, 0);
+                                }
+                                else
+                                {
+                                    d3d_model_vertex_texture(model, number, y1, z1, number / 16, y1 / 16);
+                                    d3d_model_vertex_texture(model, x2, y2, z2, x2 / 16, y2 / 16);
+                                    d3d_model_vertex_texture(model, x3, y3, z3, x3 / 16, y3 / 16);
+                                }
+                            d3d_model_primitive_end(model);
+                        }
                     c_shape_add_triangle(number, y1, z1, x2, y2, z2, x3, y3, z3);
                     global.minZ = min(global.minZ, z1, z2, z3);
                 break
@@ -274,12 +313,19 @@ switch (room)
             }
         }
         file_text_close(file);
-        d3d_model_primitive_end(global.worldModel);
+        for (i = 0; i &lt; global.textures; i++)
+            if (ds_list_empty(vertexBatch[i]))
+                ds_list_destroy(vertexBatch[i]); //Delete vertex batch if there are no triangles stored
+            else
+            {
+                ds_list_add(global.worldModel, vertexBatch[i]); //Add it to the world model otherwise
+                show_debug_message("Added triangles to world model with texture " + string(ds_list_find_value(vertexBatch[i], 0)) + ", model ID " + string(ds_list_find_value(vertexBatch[i], 1)));
+            }
         c_shape_end_trimesh(worldShape);
         worldObject = c_object_create(worldShape, 1, 1);
         global.world = c_world_create();
         c_world_add_object(worldObject);
-        show_debug_message("Done");
+        show_debug_message("Created world model");
     break
 }
 //Reset in-game states

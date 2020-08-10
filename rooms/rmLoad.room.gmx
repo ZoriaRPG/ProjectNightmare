@@ -21,10 +21,11 @@ audio_group_load(audiogroup_sounds);
 audio_falloff_set_model(audio_falloff_exponent_distance);
 //Set logo to either Mario's or Zelda's. This will carry on throughout the whole game.
 randomize();
-global.link=random(1)&gt;0.5;
-global.maxRender=65536;
+global.link = random(1) &gt; 0.5;
+global.maxRender = 65536;
 //Create controller object
-instance_create(0,0,objControl);
+if !(instance_exists(objControl))
+    instance_create(0, 0, objControl);
 room_goto_next();</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>
