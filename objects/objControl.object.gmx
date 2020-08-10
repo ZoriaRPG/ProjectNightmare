@@ -193,10 +193,14 @@ if (c_shape_exists(worldShape))
     c_shape_destroy(worldShape);
 for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
 {
-    var vertexBatch = ds_list_find_value(global.worldModel, i), modelID = ds_list_find_value(vertexBatch, 1);
-    show_debug_message("Destroyed vertex batch with texture " + string(ds_list_find_value(vertexBatch, 0)) + ", model ID " + string(modelID));
-    d3d_model_destroy(modelID);
-    ds_list_destroy(vertexBatch);
+    var vertexBatch = ds_list_find_value(global.worldModel, i);
+    if (ds_exists(vertexBatch, ds_type_list))
+    {
+        var modelID = ds_list_find_value(vertexBatch, 1);
+        show_debug_message("Destroyed vertex batch with texture " + string(ds_list_find_value(vertexBatch, 0)) + ", model ID " + string(modelID));
+        d3d_model_destroy(modelID);
+        ds_list_destroy(vertexBatch);
+    }
 }
 show_debug_message("Cleared world model");
 if (background_exists(pauseBg))

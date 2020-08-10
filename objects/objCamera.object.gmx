@@ -316,7 +316,8 @@ texture_set_repeat(true);
 for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
 {
     var vertexBatch = ds_list_find_value(global.worldModel, i);
-    d3d_model_draw(ds_list_find_value(vertexBatch, 1), 0, 0, 0, texture_get(ds_list_find_value(vertexBatch, 0)));
+    if (ds_exists(vertexBatch, ds_type_list))
+        d3d_model_draw(ds_list_find_value(vertexBatch, 1), 0, 0, 0, texture_get(ds_list_find_value(vertexBatch, 0)));
 }
 texture_set_repeat(false);
 //Draw actors
