@@ -26,6 +26,12 @@ global.maxRender = 65536;
 //Create controller object
 if !(instance_exists(objControl))
     instance_create(0, 0, objControl);
+if (parameter_count())
+{
+    for (i = 0; i &lt; parameter_count(); i++)
+        show_message(parameter_string(i));
+    exit
+}
 room_goto_next();</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>

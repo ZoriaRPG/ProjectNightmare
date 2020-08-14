@@ -54,6 +54,7 @@ global.roomIcon = 0; //Also for RPC. The number corresponds to which large icon 
 global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
 global.messageFont = font_add_sprite(sprFont, ord("!"), true, 1);
 global.deltaTime = 60 / 1000000 * delta_time;
+global.debugLevel = "level.pnl";
 pauseBg = -1;
 pauseX = -463;
 healthY = -46;
@@ -202,6 +203,7 @@ for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
         ds_list_destroy(vertexBatch);
     }
 }
+ds_list_clear(global.worldModel);
 show_debug_message("Cleared world model");
 if (background_exists(pauseBg))
 {
