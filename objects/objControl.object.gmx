@@ -274,7 +274,7 @@ switch (room)
                                 ds_list_add(vertexBatch[i], i, d3d_model_create());
                             var model = ds_list_find_value(vertexBatch[i], 1); //Get model from the vertex batch list
                             d3d_model_primitive_begin(model, pr_trianglelist);
-                            if (x3 == number &amp;&amp; y3 == number) //If the triangle is the upper half of a wall, map accordingly
+                            if (x3 == number &amp;&amp; y3 == y1) //If the triangle is the upper half of a wall, map accordingly
                             {
                                 d3d_model_vertex_texture(model, number, y1, z1, 0, 0);
                                 d3d_model_vertex_texture(model, x2, y2, z1, point_distance(number, y1, x2, y2) / 16, 0);
@@ -283,10 +283,10 @@ switch (room)
                             else
                                 if (x3 == x2 &amp;&amp; y3 == y2) //Check if lower half of a wall
                                 {
-                                    var hRepeat = point_distance(number, y1, x2, y2) / 16, vRepeat = (z3 - z1) / 16;
+                                    var hRepeat = point_distance(number, y1, x2, y2) / 16, vRepeat = (z2 - z1) / 16;
                                     d3d_model_vertex_texture(model, number, y1, z1, 0, vRepeat);
+                                    d3d_model_vertex_texture(model, x2, y2, z2, hRepeat, 0);
                                     d3d_model_vertex_texture(model, x2, y2, z1, hRepeat, vRepeat);
-                                    d3d_model_vertex_texture(model, x2, y2, z3, hRepeat, 0);
                                 }
                                 else
                                 {

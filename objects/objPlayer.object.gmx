@@ -253,6 +253,18 @@ if (keyboard_check_pressed(ord("E")))
             }
         }
     }
+//Check if the player is overlapping a cutscene trigger area
+near = collision_point(x, y, objCutsceneTrigger, false, true);
+if (near) //If there is a trigger, create the cutscene
+    with (near)
+    {
+        with (instance_create(0, 0, objCutscene))
+        {
+            cutscene_create();
+            ds_list_copy(list, other.list); //Write all cutscene data from trigger to cutscene
+        }
+        instance_destroy(); //Remove the trigger
+    }
 //Hurt test
 if (keyboard_check_pressed(ord("Z")))
     event_user(0);

@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="21" name="datafiles">
+  <datafiles number="22" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -58,7 +58,7 @@
     <datafile>
       <name>level.pnl</name>
       <exists>-1</exists>
-      <size>7315</size>
+      <size>4214</size>
       <exportAction>2</exportAction>
       <exportDir></exportDir>
       <overwrite>0</overwrite>
@@ -297,6 +297,7 @@
     <object>objects\objControl</object>
     <object>objects\objCamera</object>
     <object>objects\objCutscene</object>
+    <object>objects\objCutsceneTrigger</object>
     <objects name="GUI">
       <object>objects\objIntro</object>
       <object>objects\objTitle</object>
