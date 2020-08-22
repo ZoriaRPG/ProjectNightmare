@@ -101,9 +101,18 @@ else
             }
         break
         case (sprMarioSlide):
+        case (sprMarioSlide2):
             frameSpd = max(0.1, spdDis * 0.2);
             if (fric == 0.2)
                 sprite = sprMario;
+        break
+        case (sprMarioFlip):
+            if (frame &gt;= 3.5)
+            {
+                frameSpd = 0;
+                if (fOnGround)
+                    sprite = sprMario;
+            }
         break
         default:
             if (sliding)

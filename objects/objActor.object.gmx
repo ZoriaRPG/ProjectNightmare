@@ -194,6 +194,7 @@ if !(fGhost)
         var angle = point_direction(x, y, actorTouch.x, actorTouch.y);
         hSpeed = lengthdir_x(-0.3, angle) + actorTouch.hSpeed;
         vSpeed = lengthdir_y(-0.3, angle) + actorTouch.vSpeed;
+        enemy_bounce();
     }
     //Floor collision
     //The actor will not move down regular slopes if it is bouncy.
@@ -219,8 +220,7 @@ if !(fGhost)
                 hSpeed /= -bounciness;
             else
                 hSpeed = 0;
-            if (fEnemy)
-                faceDir = irandom(360);
+            enemy_bounce();
         }
     }
     //Vertical wall collision
@@ -236,8 +236,7 @@ if !(fGhost)
                 vSpeed /= -bounciness;
             else
                 vSpeed = 0;
-            if (fEnemy)
-                faceDir = irandom(360);
+            enemy_bounce();
         }
     }
     //Ceiling collision

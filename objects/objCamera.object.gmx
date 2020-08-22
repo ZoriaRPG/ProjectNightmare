@@ -120,7 +120,7 @@ if (target &amp;&amp; instance_exists(target))
             previousZ = tSZ;
         if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
             tZ = tRZ;
-        if (target.hp)
+        if (target.hp &amp;&amp; !cutscene_exists())
         {
             //Toggle freelook
             if (mouse_check_button_pressed(mb_left))
