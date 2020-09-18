@@ -36,7 +36,7 @@ pitch = 0;
 global.follow = false;
 timer_create();
 timer[0] = 1;
-for (var i = 0; i &lt; 6; i++)
+for (var i = 0; i &lt; 7; i++)
     startPos[i] = 0;
 </string>
           </argument>
@@ -83,6 +83,7 @@ if (timer_tick(0))
             startPos[4] = global.cP;
             timer[1] = cutscene_get_value();
             startPos[5] = timer[1];
+            startPos[6] = cutscene_get_value();
         break
         //cutscene_wait
         case (1):
@@ -113,7 +114,16 @@ if (timer_tick(0))
 }
 if (instance_exists(objCamera) &amp;&amp; !global.follow)
 {
-    var step = smoothstep(0, startPos[5], timer[1]);
+    var step, time = max(0, timer[1]);
+    switch (startPos[6])
+    {
+        case (0):
+            step = smoothstep(0, startPos[5], time);
+        break
+        case (1):
+            step = time / startPos[5];
+        break
+    }
     global.cX = lerp(x, startPos[0], step);
     global.cY = lerp(y, startPos[1], step);
     global.cZ = lerp(z, startPos[2], step);

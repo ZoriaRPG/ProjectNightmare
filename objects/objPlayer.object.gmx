@@ -135,7 +135,7 @@ if (onGround)
             z = objCamera.z;
             cutscene_create();
             var xx = other.x + lengthdir_x(32, other.faceDir), yy = other.y + lengthdir_y(32, other.faceDir);
-            cutscene_camera(xx, yy, other.z, point_direction(xx, yy, other.x, other.y), 0, 30);
+            cutscene_camera(xx, yy, other.z, point_direction(xx, yy, other.x, other.y), 0, 30, 0);
         }
     }
 }
@@ -189,8 +189,9 @@ if (fric == 0.2)
     //Divekick
     if (keyboard_check_pressed(ord("X")) &amp;&amp; object_index == objMario &amp;&amp; onGround &amp;&amp; spdDis &gt; 1)
     {
-        hSpeed *= 1.5;
-        vSpeed *= 1.5;
+        var divePower = lengthdir_x(1.3, floorPitch);
+        hSpeed *= divePower;
+        vSpeed *= divePower;
         zSpeed += 1;
         fric = 0.02;
         sprite = sprMarioSlide2;
@@ -262,7 +263,7 @@ if (keyboard_check_pressed(ord("E")))
                         direction = objCamera.faceDir;
                         pitch = objCamera.pitch;
                         cutscene_create();
-                        cutscene_camera(xx, yy, near.z - 4, point_direction(xx, yy, near.x, near.y), 0, 60)
+                        cutscene_camera(xx, yy, near.z - 4, point_direction(xx, yy, near.x, near.y), 0, 60, 0)
                         cutscene_wait(20);
                         //Add messages manually, because cutscene_message only allows string inputs.
                         ds_list_add(list, 3);
