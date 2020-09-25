@@ -26,7 +26,34 @@
           <argument>
             <kind>1</kind>
             <string>///Load game
-//Load textures. These will mostly be backgrounds.
+//[CONTROL BINDS]
+//(Movement)
+global.bind[0, 0] = ord("W"); //Up
+global.bind[0, 1] = gp_axislv;
+global.bind[1, 0] = ord("A"); //Left
+global.bind[1, 1] = gp_axislh;
+global.bind[2, 0] = ord("S"); //Down
+global.bind[2, 1] = gp_axislv;
+global.bind[3, 0] = ord("D"); //Right
+global.bind[3, 1] = gp_axislh;
+global.bind[4, 0] = vk_space; //Jump
+global.bind[4, 1] = gp_face1;
+global.bind[5, 0] = ord("X"); //Slidekick
+global.bind[5, 1] = gp_face2;
+global.bind[6, 0] = ord("E"); //Interact
+global.bind[6, 1] = gp_face3;
+global.bind[7, 0] = ord("Q"); //Make camera look from player
+global.bind[7, 1] = gp_face4;
+//(Camera)
+global.bind[8, 0] = mb_left; //Free scroll
+global.bind[8, 1] = gp_shoulderl;
+global.bind[9, 0] = mb_right; //First person
+global.bind[9, 1] = gp_shoulderr;
+global.bind[10, 1] = gp_axisrv; //Camera up
+global.bind[11, 1] = gp_axisrh; //Camera left
+global.bind[12, 1] = gp_axisrv; //Camera down
+global.bind[13, 1] = gp_axisrh; //Camera right
+//Load textures. These will mostly be backgrounds. Animated textures are sprites.
 global.textures = 0;
 texture_load(btSkybox, 0);
 texture_load(btTile, 0);
@@ -120,7 +147,33 @@ if (keyboard_check(vk_numpad0) &amp;&amp; keyboard_check_pressed(vk_numpad1) &am
     audio_stop_sound(global.levelMusic[1]);
     audio_play_sound(musMosa, 1, true);
 }
-/*The game logic system. This synchronizes the game logic with delta time, allowing you
+//Toggle pause
+if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(sndPause))
+{
+    audio_play_sound(sndPause, 0, false);
+    global.paused = !global.paused;
+    audio_sound_gain(global.levelMusic[global.battle], 1 / (1 + 4 * global.paused), 100);
+    if (global.paused)
+    {
+        pauseX = 1000;
+        pauseBg = background_create_from_surface(application_surface, 0, 0, view_wview[0], view_hview[0], false, false);
+        instance_deactivate_all(true);
+        exit
+    }
+    else
+    {
+        background_delete(pauseBg);
+        instance_activate_all();
+    }
+}
+//Return to title screen
+if (bind_hardcode_pressed(vk_escape, gp_select) &amp;&amp; instance_exists(objPlayer))
+{
+    room_goto(rmTitle);
+    global.paused = false;
+    exit
+}
+/*The game logic system: This synchronizes the game logic with delta time, allowing you
 to play at any framerate. Instead of using step events, all objects use the according
 User Defined events as their steps.*/
 gameLoop += global.deltaTime;
@@ -469,74 +522,6 @@ if (instance_exists(objPlayer))
             <kind>1</kind>
             <string>setFramerate = !setFramerate;
 framerate_set();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="27">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Return to title screen
-if (instance_exists(objPlayer))
-{
-    room_goto(rmTitle);
-    global.paused = false;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="13">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Toggle pause
-if (((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(sndPause))
-{
-    audio_play_sound(sndPause, 0, false);
-    global.paused = !global.paused;
-    audio_sound_gain(global.levelMusic[global.battle], 1 / (1 + 4 * global.paused), 100);
-    if (global.paused)
-    {
-        pauseX = 1000;
-        pauseBg = background_create_from_surface(application_surface, 0, 0, view_wview[0], view_hview[0], false, false);
-        instance_deactivate_all(true);
-    }
-    else
-    {
-        background_delete(pauseBg);
-        instance_activate_all();
-    }
-}
 </string>
           </argument>
         </arguments>

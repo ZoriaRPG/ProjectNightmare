@@ -55,7 +55,6 @@ global.roomIcon = 2;</code>
   </views>
   <instances>
     <instance objName="objCamera" x="0" y="0" name="inst_444BBFD1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="objCutscene" x="16" y="352" name="inst_870F704D" locked="0" code="cutscene_create();&#xA;cutscene_camera(400, 304, 128, 0, 10, 60, 0);&#xA;cutscene_wait(60);&#xA;cutscene_camera(0, 0, 0, 0, 0, 1, 1);&#xA;cutscene_wait(1);&#xA;cutscene_camera(400, 304, 128, 0, 10, 120, 1);&#xA;cutscene_wait(120);&#xA;cutscene_end();&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

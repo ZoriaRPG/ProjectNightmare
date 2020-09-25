@@ -210,8 +210,7 @@ if !(fGhost)
     var i;
     for (i = -radius; i &lt;= radius; i += radius)
     {
-        if (i == 0)
-            continue
+        if (i == 0) continue
         if (c_raycast_world(x, y, z, x + i + hSpeed, y, z, 1))
         {
             var dir = point_direction(x, y, c_hit_x(), c_hit_y());
@@ -226,8 +225,7 @@ if !(fGhost)
     //Vertical wall collision
     for (i = -radius; i &lt;= radius; i += radius)
     {
-        if (i == 0)
-            continue
+        if (i == 0) continue
         if (c_raycast_world(x, y, z, x, y + i + vSpeed, z, 1))
         {
             var dir = point_direction(x, y, c_hit_x(), c_hit_y());
@@ -241,7 +239,7 @@ if !(fGhost)
     }
     //Ceiling collision
     //The ceiling always prevents the player from overlapping at all, similarly to SM64.
-    if (c_raycast_world(x, y, z, x + hSpeed, y + vSpeed, top + zSpeed, 1))
+    if (c_raycast_world(x, y, z, x, y, top + zSpeed, 1))
     {
         x = xprevious;
         y = yprevious;

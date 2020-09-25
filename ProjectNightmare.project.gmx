@@ -191,6 +191,8 @@
       <script>scripts\actor_sprite_update.gml</script>
       <script>scripts\actor_bounce_z.gml</script>
       <script>scripts\player_drop_holdable.gml</script>
+      <script>scripts\player_sound_play.gml</script>
+      <script>scripts\enemy_bounce.gml</script>
     </scripts>
     <scripts name="Collision">
       <script>scripts\c_init.gml</script>
@@ -253,7 +255,9 @@
       <script>scripts\angle_normalize.gml</script>
       <script>scripts\turn_to_angle.gml</script>
       <script>scripts\world_matrix_from_normal.gml</script>
+      <script>scripts\matrix_world_reset.gml</script>
       <script>scripts\lerp_delta.gml</script>
+      <script>scripts\smoothstep.gml</script>
     </scripts>
     <scripts name="Cutscenes">
       <script>scripts\cutscene_create.gml</script>
@@ -274,20 +278,20 @@
       <script>scripts\discord_free_app.gml</script>
       <script>scripts\discord_free_dll.gml</script>
     </scripts>
-    <script>scripts\mouse_look.gml</script>
+    <scripts name="Input">
+      <script>scripts\mouse_look.gml</script>
+      <script>scripts\bind_check.gml</script>
+      <script>scripts\bind_hardcode_pressed.gml</script>
+    </scripts>
     <script>scripts\change_option.gml</script>
     <script>scripts\transition_create.gml</script>
     <script>scripts\timer_create.gml</script>
     <script>scripts\timer_tick.gml</script>
     <script>scripts\music_start.gml</script>
     <script>scripts\framerate_set.gml</script>
-    <script>scripts\smoothstep.gml</script>
-    <script>scripts\player_sound_play.gml</script>
     <script>scripts\level_read_real.gml</script>
-    <script>scripts\matrix_world_reset.gml</script>
     <script>scripts\texture_load.gml</script>
     <script>scripts\texture_get.gml</script>
-    <script>scripts\enemy_bounce.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shBillboard.shader</shader>
