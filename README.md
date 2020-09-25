@@ -11,7 +11,13 @@ If you are interested in checking out our development progress, hop on over to o
 # CREDITS
 ### [TEAM NIGHTMARE]
 
-**Furret78, Jeansowaty, JUE13, LooPeR231, ReflexGURU** - beta testing
+**Can't Sleep** - graphics design, programming
+
+**Furret78, Jeansowaty, JUE13, LooPeR231** - beta testing
+
+**Hellfire** - graphics design
+
+**ReflexGURU** - programming, beta testing
 
 ### [THIRD-PARTIES]
 
@@ -21,9 +27,13 @@ If you are interested in checking out our development progress, hop on over to o
 
 **GMLScripts.com** - scripts
 
+**Hello** - cutscene system
+
 **Snidr** - world_matrix_from_normal script
 
 **Venomous** - Bullet Collision DLL
+
+**YellowAfterlife** - original third person movement code
 
 
 # DISCLAIMER
