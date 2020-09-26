@@ -38,8 +38,9 @@ fVisible = false;
 fGhost = true;
 fShadow = false;
 //Set first person zooming
-look = false;
-free = false;
+mode = 0; //0 - normal, 1 - first person, 2 - free scroll
+bob = 0;
+flinch = 0;
 sensX = 10;
 sensY = 10;
 previousZ = 0;
@@ -100,15 +101,14 @@ global.cP = pitch;
             <kind>1</kind>
             <string>///Attach camera to target
 var cursor = cr_default;
-if (free || look)
+if (mode)
     cursor = cr_none;
 window_set_cursor(cursor);
 if (target &amp;&amp; instance_exists(target))
 {
     if (cutscene_exists())
     {
-        free = false;
-        look = false;
+        mode = 0;
         target.fVisible = true;
     }
     if (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow))
@@ -125,43 +125,51 @@ if (target &amp;&amp; instance_exists(target))
             //Toggle freelook
             if (bind_check(8, 1))
             {
-                free = !free;
+                if (mode == 2)
+                {
+                    mode = 0;
+                    audio_play_sound(sndCameraOut, 1, false);
+                }
+                else
+                {
+                    mode = 2;
+                    audio_play_sound(sndCameraIn, 1, false);
+                }
                 target.fVisible = true;
-                look = false;
-                var zoom = sndCameraOut;
-                if (free)
-                    zoom = sndCameraIn;
-                audio_play_sound(zoom, 1, false);
             }
             //Toggle aiming
             if (bind_check(9, 1))
             {
-                look = !look;
-                target.fVisible = !look;
-                free = false;
-                pitch = 0;
-                var zoom = sndCameraOut;
-                if (look)
+                if (mode == 1)
                 {
-                    zoom = sndCameraIn;
-                    faceDir = tD;
+                    mode = 0;
+                    target.fVisible = true;
+                    target.faceDir = faceDir;
+                    audio_play_sound(sndCameraOut, 1, false);
                 }
                 else
-                    target.faceDir = faceDir;
-                audio_play_sound(zoom, 1, false);
+                {
+                    mode = 1;
+                    target.fVisible = false;
+                    faceDir = tD;
+                    audio_play_sound(sndCameraIn, 1, false);
+                }
+                pitch = 0;
             }
         }
         else
-        {
-            free = false;
-            look = false;
-        }
+            mode = 0;
         //Camera mechanics
-        if (look)
+        flinch = lerp(flinch, 0, 0.05);
+        if (mode == 1)
         {
             global.cX = tX;
             global.cY = tY;
-            global.cZ = target.top - 4;
+            var b = 0;
+            if (target.fOnGround &amp;&amp; target.fric == 0.2) b = lengthdir_y(target.spdDis * 3, current_time * 0.85)
+            if (target.sliding || target.fric != 0.2) b = -6;
+            bob = lerp(bob, b, 0.05);
+            global.cZ = target.top - 4 + bob;
             //Mouselook
             mouse_look(true);
             target.faceDir = global.cD;
@@ -170,7 +178,7 @@ if (target &amp;&amp; instance_exists(target))
         {
             var lerpAmount = 0.18;
             //Freelook
-            if (free)
+            if (mode == 2)
             {
                 mouse_look(true);
                 lerpAmount = 0.5;
@@ -183,7 +191,7 @@ if (target &amp;&amp; instance_exists(target))
                 }
             //Set the increments of the camera to zoom out for 3rd person
             var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), incZ = 0, obstructed = false, tBlockZ = tRZ + 24, tBlockZ2 = tZ + 24, tToX = tX - incX, tToY = tY - incY, tToZ = tBlockZ2, maxPitch = 89.5, minPitch = -89.5;
-            if (free)
+            if (mode == 2)
             {
                 incX = lengthdir_x(lengthdir_x(range, faceDir), pitch);
                 incY = lengthdir_x(lengthdir_y(range, faceDir), pitch);
@@ -203,7 +211,7 @@ if (target &amp;&amp; instance_exists(target))
             if (obstructed)
             {
                 tBlockZ2 = tZ + 10;
-                if (free)
+                if (mode == 2)
                     tToZ = tBlockZ2 + incZ;
             }
             //smooth turning
@@ -213,7 +221,7 @@ if (target &amp;&amp; instance_exists(target))
             x = global.cX;
             y = global.cY;
             z = global.cZ;
-            if !(free)
+            if !(mode == 2)
                 pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2), 2, pitch);
             else
             {
@@ -300,7 +308,9 @@ global.cP = pitch;
             <kind>1</kind>
             <string>///Rendering
 draw_set_color(c_white);
-var dir = degtorad(global.cD), cSin = sin(dir), cCos = cos(dir), cTan = tan(degtorad(pitch)), xTo = global.cX + cCos, yTo = global.cY - cSin, zTo = global.cZ + cTan;
+var dir = degtorad(global.cD), cSin = sin(dir), cCos = cos(dir), realPitch = pitch;
+if (mode == 1) realPitch = clamp(pitch + flinch, -89.5, 89.5); //Add flinching if first person mode
+var cTan = tan(degtorad(realPitch)), xTo = global.cX + cCos, yTo = global.cY - cSin, zTo = global.cZ + cTan;
 d3d_set_projection_ext(global.cX, global.cY, global.cZ, xTo, yTo, zTo, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
 audio_listener_position(global.cX, global.cY, global.cZ);
 audio_listener_orientation(cCos, -cSin, cTan, 0, 0, 1);
@@ -316,8 +326,7 @@ texture_set_repeat(true);
 for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
 {
     var vertexBatch = ds_list_find_value(global.worldModel, i);
-    if (ds_exists(vertexBatch, ds_type_list))
-        d3d_model_draw(ds_list_find_value(vertexBatch, 1), 0, 0, 0, texture_get(ds_list_find_value(vertexBatch, 0)));
+    if (ds_exists(vertexBatch, ds_type_list)) d3d_model_draw(ds_list_find_value(vertexBatch, 1), 0, 0, 0, texture_get(ds_list_find_value(vertexBatch, 0)));
 }
 texture_set_repeat(false);
 //Draw actors
@@ -328,27 +337,24 @@ with (objActor)
         if (rotate)
         {
             var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4);
-            while (dir &lt; 0)
-                dir += 4;
+            while (dir &lt; 0) dir += 4;
             cFrame = min(((sprite_get_number(sprite) * 0.25) * dir) + frame, sprite_get_number(sprite) - 1);
         }
-        else
-            cFrame = frame;
+        else cFrame = frame;
         shader_set(shBillboard);
         matrix_set(matrix_world, matrix_build(x, y, bottom, 0, 0, 0, 1, 1, 1));
         var size = scale * 0.5;
         draw_sprite_ext(sprite, cFrame, 0, 0, size, -size, 0, c_white, 1);
         shader_reset();
-        matrix_world_reset();
     }
     if (fShadow &amp;&amp; shadowZ != -65536 &amp;&amp; global.cZ &gt; shadowZ)
     {
         matrix_set(matrix_world, shadowMatrix);
         var shadowSize = 2 * radius;
         draw_background_stretched_ext(bgShadow, -radius, -radius, shadowSize, shadowSize, c_white, 0.51);
-        matrix_world_reset();
     }
 }
+matrix_world_reset();
 </string>
           </argument>
         </arguments>

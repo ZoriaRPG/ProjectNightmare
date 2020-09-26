@@ -395,6 +395,7 @@ else
 global.battle = false;
 framerate_set();
 discord_update_presence("0 backups collected", global.roomName, "largeicon" + string(global.roomIcon), "smallicon");
+window_set_cursor(cr_default);
 </string>
           </argument>
         </arguments>
