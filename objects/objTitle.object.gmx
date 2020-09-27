@@ -189,7 +189,7 @@ if (currentMenu)
             <kind>1</kind>
             <string>///Draw menus
 //Prepare a lot of variables for recycling. Optimization is important.
-var vw = view_wview[0] * 0.5, vh = view_hview[0] * 0.5, dir = get_timer() / 900, s = (image_xscale + lengthdir_x(wobble * 0.5, dir)) * 230, w = wobble * 0.04, blink = merge_color(make_color_rgb(248, 248, 248), make_color_rgb(251, 231, 0), abs(lengthdir_x(1, get_timer() / 4500))), wx = image_xscale + lengthdir_x(w, dir), wy = image_xscale + lengthdir_y(w, dir), tvh = vh + transY, wx2 = 2*wx, wy2 = 2*wy;
+var vw = view_wview[0] * 0.5, vh = view_hview[0] * 0.5, dir = get_timer() / 900, s = (image_xscale + lengthdir_x(wobble * 0.5, dir)) * 230, w = wobble * 0.04, blink = merge_color(make_color_rgb(248, 248, 248), make_color_rgb(251, 231, 0), abs(lengthdir_x(1, get_timer() / 4500))), wx = image_xscale + lengthdir_x(w, dir), wy = image_xscale + lengthdir_y(w, dir), tvh = vh + transY, wx2 = 2 * wx, wy2 = 2 * wy;
 draw_set_alpha(0.51);
 draw_rectangle_color(vw - s, 0, vw + s, view_hview[0], c_black, c_black, c_black, c_black, false);
 draw_set_alpha(1);
@@ -199,7 +199,9 @@ draw_set_halign(fa_center);
 switch (currentMenu)
 {
     case (0):
-        draw_text_transformed_colour(vw, tvh, "Press Enter to play", wx2, wy2, 0, blink, blink, blink, blink, 1);
+        var text = "Press Enter to start";
+        if (gamepad_is_connected(0)) text = "Press A to start";
+        draw_text_transformed_colour(vw, tvh, text, wx2, wy2, 0, blink, blink, blink, blink, 1);
     break
     default:
         for (var i = 0; i &lt; ds_list_size(menu[currentMenu]); i++)

@@ -155,7 +155,7 @@ if (keyboard_check_pressed(ord("R")))
     z = 300;
 }
 //Code by YAL
-var keyX = bind_check(0, 3) - bind_check(2, 4), keyY = bind_check(3, 3) - bind_check(1, 4), keyL, camD = 0;
+var keyX = bind_check(2, 4) - bind_check(0, 3), keyY = bind_check(3, 3) - bind_check(1, 4), keyL, camD = 0;
 keyL = point_distance(0, 0, keyX, keyY) * !sliding; //length of moving vector
 //if needed, normalize vector to prevent faster diagonal movement:
 if (keyL &gt; 1)
