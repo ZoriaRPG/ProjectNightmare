@@ -200,7 +200,7 @@ switch (currentMenu)
 {
     case (0):
         var text = "Press Enter to start";
-        if (gamepad_is_connected(0)) text = "Press A to start";
+        if (global.gamepad) text = "Press A to start";
         draw_text_transformed_colour(vw, tvh, text, wx2, wy2, 0, blink, blink, blink, blink, 1);
     break
     default:

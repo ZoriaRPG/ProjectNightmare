@@ -72,7 +72,6 @@ if (timer_tick(1))
 }
 if (alarmToggle &amp;&amp; timer[0] == -65536)
 {
-    var pressCont = bind_check(4, 1);
     if (message[0] != message[currentMessage])
     {
         if (timer_tick(2))
@@ -80,14 +79,14 @@ if (alarmToggle &amp;&amp; timer[0] == -65536)
             message[0] = string_copy(message[currentMessage], 1, string_length(message[0]) + 1);
             timer[2] = 1;
         }
-        if (pressCont)
+        if (global.bind[4, 3])
         {
             message[0] = message[currentMessage];
             timer[2] = -65536;
             exit
         }
     }
-    if (pressCont)
+    if (global.bind[4, 3])
         if (currentMessage &lt; array_length_1d(message) - 1)
         {
             message[0] = "";

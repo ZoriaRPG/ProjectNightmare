@@ -155,7 +155,7 @@ if (keyboard_check_pressed(ord("R")))
     z = 300;
 }
 //Code by YAL
-var keyX = bind_check(2, 4) - bind_check(0, 3), keyY = bind_check(3, 3) - bind_check(1, 4), keyL, camD = 0;
+var keyX = global.bind[0, 5] - global.bind[2, 6], keyY = global.bind[3, 5] - global.bind[1, 6], keyL, camD = 0;
 keyL = point_distance(0, 0, keyX, keyY) * !sliding; //length of moving vector
 //if needed, normalize vector to prevent faster diagonal movement:
 if (keyL &gt; 1)
@@ -187,7 +187,7 @@ if (fric == 0.2)
         vSpeed = clamp(vSpeed + ((lY * acc2) / acc), -lY2, lY2);
     }
     //Divekick
-    if (bind_check(5, 1) &amp;&amp; object_index == objMario &amp;&amp; onGround &amp;&amp; spdDis &gt; 1)
+    if (global.bind[5, 3] &amp;&amp; object_index == objMario &amp;&amp; onGround &amp;&amp; spdDis &gt; 1)
     {
         objCamera.flinch = -10;
         var divePower = lengthdir_x(1.3, floorPitch);
@@ -202,7 +202,7 @@ else
     if (spdDis &lt; 0.3)
         fric = 0.2;
 //jump when on the ground
-if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; bind_check(4, 1))
+if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global.bind[4, 3])
 {
     var h = jumpSpd;
     if (fric != 0.2)
@@ -236,7 +236,7 @@ if (near)
 else
     global.battle = false;
 //Holding mechanic
-if (bind_check(6, 1))
+if (global.bind[6, 3])
     if (holding)
         player_drop_holdable(hSpeed + lengthdir_x(1.5, faceDir), vSpeed + lengthdir_y(1.5, faceDir), zSpeed + 1.5);
     else

@@ -26,8 +26,17 @@
           <argument>
             <kind>1</kind>
             <string>///Load game
-//[CONTROL BINDS]
-//(Movement)
+/*[CONTROL BINDS]
+These are used by control to detect inputs. The 2D array indices are as follows:
+0 - keyboard bind
+1 - gamepad bind
+2 - held
+3 - pressed
+4 - released
+5 - axis, positive
+6 - axis, negative
+(Movement)*/
+global.gamepad = false;
 global.bind[0, 0] = ord("W"); //Up
 global.bind[0, 1] = gp_axislv;
 global.bind[1, 0] = ord("A"); //Left
@@ -53,6 +62,7 @@ global.bind[10, 1] = gp_axisrv; //Camera up
 global.bind[11, 1] = gp_axisrh; //Camera left
 global.bind[12, 1] = gp_axisrv; //Camera down
 global.bind[13, 1] = gp_axisrh; //Camera right
+bind_input_clear();
 //Load textures. These will mostly be backgrounds. Animated textures are sprites.
 global.textures = 0;
 texture_load(btSkybox, 0);
@@ -68,7 +78,7 @@ global.world = -1;
 1 - wall*/
 global.worldModel = ds_list_create();
 //Level properties
-for (var i = 0; i &lt; 2; i++)
+for (i = 0; i &lt; 2; i++)
     global.levelMusic[i] = noone;
 global.musicVolume[0] = 1; //Music slot 0 is the main level music. Set it to noone for silence.
 global.musicVolume[1] = 0; //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
@@ -92,7 +102,6 @@ setFramerate = true; /*Sets the maximum framerate. The values are as follows:
 false - 30
 true - 60*/
 display_set_gui_size(960, 540);
-gameLoop = 0;
 </string>
           </argument>
         </arguments>
@@ -176,8 +185,52 @@ if (bind_hardcode_pressed(vk_escape, gp_select) &amp;&amp; instance_exists(objPl
 /*The game logic system: This synchronizes the game logic with delta time, allowing you
 to play at any framerate. Instead of using step events, all objects use the according
 User Defined events as their steps.*/
-gameLoop += global.deltaTime;
-while (gameLoop)
+global.gamepad = gamepad_is_connected(0);
+var i, clearInput = false;
+for (i = 0; i &lt; 14; i++)
+{
+    var keyBind = global.bind[i, 0], conBind = global.bind[i, 1];
+    if (global.gamepad)
+    {
+        switch (conBind)
+        {
+            //Check for analog sticks
+            case (gp_axislh):
+            case (gp_axisrh):
+                bind_axis(i, false);
+            break
+            case (gp_axislv):
+            case (gp_axisrv):
+                bind_axis(i, true);
+            break
+            default: //Normal buttons
+                global.bind[i, 2] = gamepad_button_check(0, conBind);
+                global.bind[i, 5] = global.bind[i, 2];
+                global.bind[i, 6] = global.bind[i, 2];
+        }
+        global.bind[i, 4] = gamepad_button_check_released(0, conBind);
+    }
+    else
+    {
+        switch (keyBind)
+        {
+            //Check if bound to mouse (same for Released)
+            case (mb_left):
+            case (mb_middle):
+            case (mb_right):
+                global.bind[i, 2] = mouse_check_button(keyBind);
+                global.bind[i, 4] = mouse_check_button_released(keyBind);
+            break
+            default:
+                global.bind[i, 2] = keyboard_check(keyBind); //Just key buttons
+                global.bind[i, 4] = keyboard_check_released(keyBind);
+        }
+        global.bind[i, 5] = global.bind[i, 2];
+        global.bind[i, 6] = global.bind[i, 2];
+    }
+    global.bind[i, 3] = bind_hardcode_pressed(keyBind, conBind);
+}
+while (global.deltaTime--)
 {
     with (all)
     {
@@ -185,7 +238,13 @@ while (gameLoop)
         event_user(13); //Step
         event_user(15); //End Step
     }
-    gameLoop--;
+    //Input clear optimizations are used, since having to reset input values
+    //every time global.deltaTime is 1+ is pointless.
+    if !(clearInput)
+    {
+        bind_input_clear();
+        clearInput = true;
+    }
 }
 </string>
           </argument>

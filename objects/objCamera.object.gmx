@@ -123,7 +123,7 @@ if (target &amp;&amp; instance_exists(target))
         if (target.hp &amp;&amp; !cutscene_exists())
         {
             //Toggle freelook
-            if (bind_check(8, 1))
+            if (global.bind[8, 3])
             {
                 if (mode == 2)
                 {
@@ -138,7 +138,7 @@ if (target &amp;&amp; instance_exists(target))
                 target.fVisible = true;
             }
             //Toggle aiming
-            if (bind_check(9, 1))
+            if (global.bind[9, 3])
             {
                 if (mode == 1)
                 {
@@ -171,7 +171,7 @@ if (target &amp;&amp; instance_exists(target))
             bob = lerp(bob, b, 0.05);
             global.cZ = target.top - 4 + bob;
             //Mouselook
-            mouse_look(true);
+            mouse_look();
             target.faceDir = global.cD;
         }
         else
@@ -180,11 +180,11 @@ if (target &amp;&amp; instance_exists(target))
             //Freelook
             if (mode == 2)
             {
-                mouse_look(true);
+                mouse_look();
                 lerpAmount = 0.5;
             }
             else
-                if (bind_check(7, 1) &amp;&amp; faceDir != tD)
+                if (global.bind[7, 3] &amp;&amp; faceDir != tD)
                 {
                     faceDir = tD;
                     audio_play_sound(sndCameraSpin, 1, false);
