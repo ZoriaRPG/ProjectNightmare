@@ -354,7 +354,7 @@ with (objActor)
         draw_background_stretched_ext(bgShadow, -radius, -radius, shadowSize, shadowSize, c_white, 0.51);
     }
 }
-matrix_world_reset();
+matrix_set(matrix_world, global.defaultMatrix);
 </string>
           </argument>
         </arguments>

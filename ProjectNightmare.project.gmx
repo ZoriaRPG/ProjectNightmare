@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="22" name="datafiles">
+  <datafiles number="31" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -55,23 +55,134 @@
       </ConfigOptions>
       <filename>Collisions.dll</filename>
     </datafile>
-    <datafile>
-      <name>level.pnl</name>
-      <exists>-1</exists>
-      <size>4214</size>
-      <exportAction>2</exportAction>
-      <exportDir></exportDir>
-      <overwrite>0</overwrite>
-      <freeData>-1</freeData>
-      <removeEnd>0</removeEnd>
-      <store>0</store>
-      <ConfigOptions>
-        <Config name="Default">
-          <CopyToMask>9223372036854775807</CopyToMask>
-        </Config>
-      </ConfigOptions>
-      <filename>level.pnl</filename>
-    </datafile>
+    <datafiles number="31" name="data">
+      <datafiles number="31" name="gfx">
+        <datafiles number="31" name="tex">
+          <datafile>
+            <name>0.png</name>
+            <exists>-1</exists>
+            <size>44279</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>743440586</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>0.png</filename>
+          </datafile>
+          <datafile>
+            <name>1.png</name>
+            <exists>-1</exists>
+            <size>409</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>1.png</filename>
+          </datafile>
+          <datafile>
+            <name>2.png</name>
+            <exists>-1</exists>
+            <size>370</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>2.png</filename>
+          </datafile>
+          <datafile>
+            <name>3.gif</name>
+            <exists>-1</exists>
+            <size>1769</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>743440586</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>3.gif</filename>
+          </datafile>
+          <datafile>
+            <name>4.png</name>
+            <exists>-1</exists>
+            <size>179</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>4.png</filename>
+          </datafile>
+          <datafile>
+            <name>5.png</name>
+            <exists>-1</exists>
+            <size>279</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>5.png</filename>
+          </datafile>
+        </datafiles>
+      </datafiles>
+      <datafiles number="31" name="sfx"/>
+      <datafiles number="31" name="map">
+        <datafile>
+          <name>level.pnl</name>
+          <exists>-1</exists>
+          <size>4214</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>743440586</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>level.pnl</filename>
+        </datafile>
+      </datafiles>
+    </datafiles>
   </datafiles>
   <NewExtensions/>
   <sounds name="sound">
@@ -161,25 +272,11 @@
     <sprite>sprites\sprActor</sprite>
     <sprite>sprites\sprHealth</sprite>
     <sprite>sprites\sprGoomba</sprite>
-    <sprites name="Textures">
-      <sprite>sprites\stWater</sprite>
-    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bgPauseMario</background>
     <background>background\bgPauseLink</background>
     <background>background\bgShadow</background>
-    <backgrounds name="Textures">
-      <background>background\btSkybox</background>
-      <background>background\btTile</background>
-      <background>background\btGrass</background>
-      <background>background\btStairs</background>
-      <background>background\btStairs2</background>
-      <background>background\btStairs3</background>
-      <background>background\btStairs4</background>
-      <background>background\btFence</background>
-      <background>background\btCarpet</background>
-    </backgrounds>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -255,7 +352,6 @@
       <script>scripts\angle_normalize.gml</script>
       <script>scripts\turn_to_angle.gml</script>
       <script>scripts\world_matrix_from_normal.gml</script>
-      <script>scripts\matrix_world_reset.gml</script>
       <script>scripts\lerp_delta.gml</script>
       <script>scripts\smoothstep.gml</script>
     </scripts>
@@ -291,7 +387,6 @@
     <script>scripts\music_start.gml</script>
     <script>scripts\framerate_set.gml</script>
     <script>scripts\level_read_real.gml</script>
-    <script>scripts\texture_load.gml</script>
     <script>scripts\texture_get.gml</script>
   </scripts>
   <shaders name="shaders">

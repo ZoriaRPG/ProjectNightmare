@@ -63,19 +63,42 @@ global.bind[11, 1] = gp_axisrh; //Camera left
 global.bind[12, 1] = gp_axisrv; //Camera down
 global.bind[13, 1] = gp_axisrh; //Camera right
 bind_input_clear();
-//Load textures. These will mostly be backgrounds. Animated textures are sprites.
+/*Load textures. These will mostly be backgrounds (PNGs). Animated textures are sprites (GIFs).
+The texture filenames MUST be numbered. Example: 0.png, 1.png, 2.png, 3.gif...
+The variable data are as follows:
+global.tex[id, data] - the texture itself
+    &lt;id&gt; is the ID of the texture (hardcode limit of 32000)
+    &lt;data&gt;
+        0 - background/sprite
+        1... - the graphic as separate texture(s) (hardcoded limit of 31999 frames)*/
 global.textures = 0;
-texture_load(btSkybox, 0);
-texture_load(btTile, 0);
-texture_load(btGrass, 0);
-texture_load(stWater, 1);
+var file = file_find_first("data\gfx\tex\*.png", 0); //Static textures
+while (file != "")
+{
+    var slot = real(string_digits(file));
+    global.tex[slot, 0] = background_add("data\gfx\tex\" + file, false, false);
+    global.tex[slot, 1] = background_get_texture(global.tex[slot, 0]);
+    global.textures++;
+    file = file_find_next();
+}
+file = file_find_first("data\gfx\tex\*.gif", 0); //Animated textures
+while (file != "")
+{
+    var slot = real(string_digits(file));
+    global.tex[slot, 0] = sprite_add("data\gfx\tex\" + file, 0, false, false, 0, 0);
+    for (i = 0; i &lt; sprite_get_number(global.tex[slot, 0]); i++)
+        global.tex[slot, i + 1] = sprite_get_texture(global.tex[slot, 0], i);
+    global.textures++;
+    file = file_find_next();
+}
+//Prepare 3D collision system
 c_init();
 worldShape = -1;
 worldObject = -1;
 global.world = -1;
-/*Geometry types are stored in global.worldModel. They will also contain a list with their position:
-0 - floor
-1 - wall*/
+/*global.worldModel is a list of 3D models that is rendered by using a fake "vertex batching" method
+to give the illusion of displaying multiple textures on one whole model. Under the hood, it's only
+rendering multiple models as parts of the world, depending on how many textures are used in the map.*/
 global.worldModel = ds_list_create();
 //Level properties
 for (i = 0; i &lt; 2; i++)
@@ -91,7 +114,7 @@ global.roomIcon = 0; //Also for RPC. The number corresponds to which large icon 
 global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
 global.messageFont = font_add_sprite(sprFont, ord("!"), true, 1);
 global.deltaTime = 60 / 1000000 * delta_time;
-global.debugLevel = "level.pnl";
+global.defaultMatrix = matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1); //The default matrix. Used for resetting matrices back to default by recycling this variable.
 pauseBg = -1;
 pauseX = -463;
 healthY = -46;
@@ -360,7 +383,7 @@ switch (room)
         //Start reading level file data 
         worldShape = c_shape_create();
         c_shape_begin_trimesh();
-        var file = file_text_open_read("level.pnl");
+        var file = file_text_open_read("data\map\level.pnl");
         while !(file_text_eof(file))
         {
             number = level_read_real(file);
