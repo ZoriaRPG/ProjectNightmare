@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="31" name="datafiles">
+  <datafiles number="39" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -55,9 +55,9 @@
       </ConfigOptions>
       <filename>Collisions.dll</filename>
     </datafile>
-    <datafiles number="31" name="data">
-      <datafiles number="31" name="gfx">
-        <datafiles number="31" name="tex">
+    <datafiles number="39" name="data">
+      <datafiles number="39" name="gfx">
+        <datafiles number="39" name="tex">
           <datafile>
             <name>0.png</name>
             <exists>-1</exists>
@@ -110,9 +110,9 @@
             <filename>2.png</filename>
           </datafile>
           <datafile>
-            <name>3.gif</name>
+            <name>3.png</name>
             <exists>-1</exists>
-            <size>1769</size>
+            <size>1746</size>
             <exportAction>2</exportAction>
             <exportDir></exportDir>
             <overwrite>0</overwrite>
@@ -121,10 +121,10 @@
             <store>0</store>
             <ConfigOptions>
               <Config name="Default">
-                <CopyToMask>743440586</CopyToMask>
+                <CopyToMask>9223372036854775807</CopyToMask>
               </Config>
             </ConfigOptions>
-            <filename>3.gif</filename>
+            <filename>3.png</filename>
           </datafile>
           <datafile>
             <name>4.png</name>
@@ -160,10 +160,79 @@
             </ConfigOptions>
             <filename>5.png</filename>
           </datafile>
+          <datafile>
+            <name>ani.txt</name>
+            <exists>-1</exists>
+            <size>4</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>ani.txt</filename>
+          </datafile>
+        </datafiles>
+        <datafiles number="39" name="bg">
+          <datafile>
+            <name>0.png</name>
+            <exists>-1</exists>
+            <size>56550</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>0.png</filename>
+          </datafile>
+          <datafile>
+            <name>1.png</name>
+            <exists>-1</exists>
+            <size>130625</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>1.png</filename>
+          </datafile>
+          <datafile>
+            <name>2.png</name>
+            <exists>-1</exists>
+            <size>490</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>2.png</filename>
+          </datafile>
         </datafiles>
       </datafiles>
-      <datafiles number="31" name="sfx"/>
-      <datafiles number="31" name="map">
+      <datafiles number="39" name="map">
         <datafile>
           <name>level.pnl</name>
           <exists>-1</exists>
@@ -184,7 +253,9 @@
       </datafiles>
     </datafiles>
   </datafiles>
-  <NewExtensions/>
+  <NewExtensions>
+    <extension index="0">extensions\Custom Sprite Framework</extension>
+  </NewExtensions>
   <sounds name="sound">
     <sounds name="Music">
       <sound>sound\musTitle</sound>
@@ -273,11 +344,7 @@
     <sprite>sprites\sprHealth</sprite>
     <sprite>sprites\sprGoomba</sprite>
   </sprites>
-  <backgrounds name="background">
-    <background>background\bgPauseMario</background>
-    <background>background\bgPauseLink</background>
-    <background>background\bgShadow</background>
-  </backgrounds>
+  <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <scripts name="Actors">
@@ -388,6 +455,80 @@
     <script>scripts\framerate_set.gml</script>
     <script>scripts\level_read_real.gml</script>
     <script>scripts\texture_get.gml</script>
+    <scripts name="Image Framework">
+      <scripts name="Draw">
+        <script>scripts\draw_image.gml</script>
+        <script>scripts\draw_image_ext.gml</script>
+        <script>scripts\draw_image_general.gml</script>
+        <script>scripts\draw_image_part.gml</script>
+        <script>scripts\draw_image_part_ext.gml</script>
+        <script>scripts\draw_image_pos.gml</script>
+        <script>scripts\draw_image_pos_ext.gml</script>
+        <script>scripts\draw_image_pos_general.gml</script>
+        <script>scripts\draw_image_stretched.gml</script>
+        <script>scripts\draw_image_stretched_ext.gml</script>
+        <script>scripts\draw_image_tiled.gml</script>
+        <script>scripts\draw_image_tiled_area.gml</script>
+        <script>scripts\draw_image_tiled_area_ext.gml</script>
+        <script>scripts\draw_image_tiled_ext.gml</script>
+      </scripts>
+      <scripts name="Stream">
+        <script>scripts\image_stream_start.gml</script>
+        <script>scripts\image_stream_finish.gml</script>
+        <script>scripts\image_stream_add.gml</script>
+        <script>scripts\image_stream_add_files.gml</script>
+        <script>scripts\image_stream_add_sheet.gml</script>
+        <script>scripts\image_stream_add_3d.gml</script>
+        <script>scripts\image_stream_progress.gml</script>
+        <script>scripts\image_stream_receive.gml</script>
+        <script>scripts\image_stream_is_active.gml</script>
+        <script>scripts\image_stream_is_received.gml</script>
+        <script>scripts\image_stream_stop.gml</script>
+      </scripts>
+      <scripts name="Cache">
+        <script>scripts\image_cache_create.gml</script>
+        <script>scripts\image_cache_save.gml</script>
+        <script>scripts\image_cache_load.gml</script>
+        <script>scripts\image_cache_delete.gml</script>
+        <script>scripts\image_cache_unpack.gml</script>
+      </scripts>
+      <scripts name="Group">
+        <script>scripts\image_group_clear.gml</script>
+        <script>scripts\image_group_create.gml</script>
+        <script>scripts\image_group_destroy.gml</script>
+        <script>scripts\image_group_find_image.gml</script>
+        <script>scripts\image_group_exists.gml</script>
+        <script>scripts\image_group_flush.gml</script>
+        <script>scripts\image_group_prefetch.gml</script>
+      </scripts>
+      <scripts name="Get">
+        <scripts name="Set">
+          <script>scripts\image_get_filename.gml</script>
+          <script>scripts\image_get_number.gml</script>
+          <script>scripts\image_get_identifier.gml</script>
+          <script>scripts\image_get_width.gml</script>
+          <script>scripts\image_get_height.gml</script>
+          <script>scripts\image_get_xoffset.gml</script>
+          <script>scripts\image_get_yoffset.gml</script>
+          <script>scripts\image_get_uvs.gml</script>
+          <script>scripts\image_set_offset.gml</script>
+          <script>scripts\image_get_texturepage.gml</script>
+          <script>scripts\image_get_texture.gml</script>
+          <script>scripts\image_set_bbox.gml</script>
+          <script>scripts\image_get_bbox_left.gml</script>
+          <script>scripts\image_get_bbox_top.gml</script>
+          <script>scripts\image_get_bbox_right.gml</script>
+          <script>scripts\image_get_bbox_bottom.gml</script>
+        </scripts>
+      </scripts>
+      <script>scripts\image_system_init.gml</script>
+      <script>scripts\image_system_cleanup.gml</script>
+      <script>scripts\image_exists.gml</script>
+      <script>scripts\image_save.gml</script>
+      <script>scripts\image_save_strip.gml</script>
+      <script>scripts\image_save_sheet.gml</script>
+    </scripts>
+    <script>scripts\string_parse.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shBillboard.shader</shader>
@@ -436,6 +577,14 @@
       <room>rooms\rmMain</room>
     </rooms>
   </rooms>
+  <constants number="6">
+    <constant name="cDirSpr">"data\gfx\"</constant>
+    <constant name="cDirBg">"data\gfx\bg\"</constant>
+    <constant name="cDirTex">"data\gfx\tex\"</constant>
+    <constant name="cBgPauseMario">0</constant>
+    <constant name="cBgPauseLink">1</constant>
+    <constant name="cBgShadow">2</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

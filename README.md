@@ -23,6 +23,8 @@ If you are interested in checking out our development progress, hop on over to o
 
 **Aouab** - Discord Rich Presence for GameMaker
 
+**Braffolk** - Custom Sprite Framework
+
 **DragoniteSpam** - billboard shader
 
 **GMLScripts.com** - scripts

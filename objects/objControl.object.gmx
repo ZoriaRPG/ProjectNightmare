@@ -63,33 +63,61 @@ global.bind[11, 1] = gp_axisrh; //Camera left
 global.bind[12, 1] = gp_axisrv; //Camera down
 global.bind[13, 1] = gp_axisrh; //Camera right
 bind_input_clear();
+//Prepare Custom Sprite Framework for loading sprites and backgrounds
+image_system_init();
+image_group_create("spr");
+image_group_create("bg");
+image_group_create("tex");
+for (i = 0; i &lt; 3; i++) global.assets[i] = 0;
+/*Load backgrounds. They have no frames at all, so we can store way less data than sprites or textures.*/
+image_stream_start("bg", 1024, 1024, 0, true, false);
+var file = file_find_first(cDirBg + "*.png", 0);
+while (file != "")
+{
+    image_stream_add("tex", string_digits(file), cDirBg + file, 1, 0, 0);
+    global.assets[1]++; //Add this to total background count
+    file = file_find_next();
+}
+image_stream_finish("bg");
+for (i = 0; i &lt; global.assets[1]; i++) global.bg[i] = image_group_find_image("bg", string(i));
 /*Load textures. These will mostly be backgrounds (PNGs). Animated textures are sprites (GIFs).
 The texture filenames MUST be numbered. Example: 0.png, 1.png, 2.png, 3.gif...
 The variable data are as follows:
 global.tex[id, data] - the texture itself
     &lt;id&gt; is the ID of the texture (hardcode limit of 32000)
     &lt;data&gt;
-        0 - background/sprite
-        1... - the graphic as separate texture(s) (hardcoded limit of 31999 frames)*/
-global.textures = 0;
-var file = file_find_first("data\gfx\tex\*.png", 0); //Static textures
+        0 - pointer of graphic
+        1... - the graphic as separate texture pointer(s) (hardcoded limit of 31999 frames)*/
+image_stream_start("tex", 1024, 1024, 0, true, false);
+file = file_find_first(cDirTex + "*.png", 0);
 while (file != "")
 {
-    var slot = real(string_digits(file));
-    global.tex[slot, 0] = background_add("data\gfx\tex\" + file, false, false);
-    global.tex[slot, 1] = background_get_texture(global.tex[slot, 0]);
-    global.textures++;
+    var slot = string_digits(file), table = file_text_open_read(cDirTex + "ani.txt"), frames = 1, info;
+    while !(file_text_eof(table)) //Look for animation data in the animation data table
+    {
+        info = string_parse(file_text_read_string(table), "|");
+        if (info[| 0] == slot) //If the parsed string belongs to this texture...
+        {
+            show_debug_message("Found animation data for texture " + slot);
+            frames = info[| 1]; //Set amount of frames this texture has
+            ds_list_destroy(info);
+            break
+        }
+        ds_list_destroy(info);
+        file_text_readln(table);
+    }
+    //Close the lookup table after and add the texture to the atlas
+    file_text_close(table);
+    image_stream_add_3d("tex", slot, cDirTex + file, frames, 0, 0);
+    global.assets[2]++; //Add this to total textures count
     file = file_find_next();
 }
-file = file_find_first("data\gfx\tex\*.gif", 0); //Animated textures
-while (file != "")
+image_stream_finish("tex");
+for (i = 0; i &lt; global.assets[2]; i++)
 {
-    var slot = real(string_digits(file));
-    global.tex[slot, 0] = sprite_add("data\gfx\tex\" + file, 0, false, false, 0, 0);
-    for (i = 0; i &lt; sprite_get_number(global.tex[slot, 0]); i++)
-        global.tex[slot, i + 1] = sprite_get_texture(global.tex[slot, 0], i);
-    global.textures++;
-    file = file_find_next();
+    global.tex[i, 0] = image_group_find_image("tex", string(i));
+    for (j = 0; j &lt; image_get_number(global.tex[i, 0]); j++)
+        global.tex[i, 1 + j] = image_get_texture(global.tex[i, 0], j); //Add frames to texture pointer array
 }
 //Prepare 3D collision system
 c_init();
@@ -101,8 +129,7 @@ to give the illusion of displaying multiple textures on one whole model. Under t
 rendering multiple models as parts of the world, depending on how many textures are used in the map.*/
 global.worldModel = ds_list_create();
 //Level properties
-for (i = 0; i &lt; 2; i++)
-    global.levelMusic[i] = noone;
+for (i = 0; i &lt; 2; i++) global.levelMusic[i] = noone;
 global.musicVolume[0] = 1; //Music slot 0 is the main level music. Set it to noone for silence.
 global.musicVolume[1] = 0; //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
 global.skybox = 0; //The texture ID of the skybox.
@@ -118,9 +145,6 @@ global.defaultMatrix = matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1); //The default ma
 pauseBg = -1;
 pauseX = -463;
 healthY = -46;
-lolfps = fps_real;
-timer_create();
-timer[0] = 60;
 setFramerate = true; /*Sets the maximum framerate. The values are as follows:
 false - 30
 true - 60*/
@@ -151,13 +175,11 @@ display_set_gui_size(960, 540);
 global.deltaTime = 60 / 1000000 * delta_time;
 //Music control. Sets volume of each track accordingly while the game is unpaused
 if (global.dawn)
-{
-    if !(audio_is_playing(musDawn))
+    {if !(audio_is_playing(musDawn))
     {
         music_start();
         global.dawn = false;
-    }
-}
+    }}
 else
     if !(global.paused)
     {
@@ -292,11 +314,6 @@ while (global.deltaTime--)
           <argument>
             <kind>1</kind>
             <string>///Update FPS counter
-if (timer_tick(0))
-{
-    lolfps = fps_real;
-    timer[0] = 60;
-}
 healthY = lerp(healthY, -46 + 2 * (instance_exists(objPlayer) &amp;&amp; objPlayer.hp &lt; 8) * 46, 0.1)
 </string>
           </argument>
@@ -378,7 +395,7 @@ switch (room)
     case (rmMain):
         //Create separate d3d models for multiple textures
         var vertexBatch, i;
-        for (i = 0; i &lt; global.textures; i++)
+        for (i = 0; i &lt; global.assets[2]; i++)
             vertexBatch[i] = ds_list_create();
         //Start reading level file data 
         worldShape = c_shape_create();
@@ -402,7 +419,7 @@ switch (room)
                     var y1 = level_read_real(file), z1 = level_read_real(file), x2 = level_read_real(file), y2 = level_read_real(file), z2 = level_read_real(file), x3 = level_read_real(file), y3 = level_read_real(file), z3 = level_read_real(file), texture = level_read_real(file), realTexture = 1;
                     if (texture) //Align PN Editor's texture IDs to in-game IDs
                         realTexture = texture + 1;
-                    for (i = 0; i &lt; global.textures; i++) //Loop through the textures to match the triangle's
+                    for (i = 0; i &lt; global.assets[2]; i++) //Loop through the textures to match the triangle's
                         if (i == realTexture)
                         {
                             if (ds_list_empty(vertexBatch[i])) //If this vertex batch is not made yet, make one
@@ -454,7 +471,7 @@ switch (room)
             }
         }
         file_text_close(file);
-        for (i = 0; i &lt; global.textures; i++)
+        for (i = 0; i &lt; global.assets[2]; i++)
             if (ds_list_empty(vertexBatch[i]))
                 ds_list_destroy(vertexBatch[i]); //Delete vertex batch if there are no triangles stored
             else
@@ -505,6 +522,10 @@ ds_list_destroy(global.worldModel);
 font_delete(global.messageFont);
 discord_free_app();
 discord_free_dll();
+image_group_destroy("spr");
+image_group_destroy("bg");
+image_group_destroy("tex");
+image_system_cleanup();
 </string>
           </argument>
         </arguments>
@@ -536,10 +557,10 @@ if (global.paused)
     draw_set_alpha(1);
 }
 pauseX = lerp_delta(pauseX, !global.paused * -463, 0.25);
-var pX2 = 2 * pauseX + (800 * global.paused), character = bgPauseMario, font = fntMario;
+var pX2 = 2 * pauseX + (800 * global.paused), font = fntMario, character = cBgPauseMario;
 if (global.link)
 {
-    character = bgPauseLink;
+    character = cBgPauseLink;
     font = fntLink;
 }
 draw_set_font(font);
@@ -547,17 +568,10 @@ draw_set_halign(fa_right);
 draw_text_transformed(pX2 + 100, 200, "Paused", 2, 2, 0);
 draw_set_halign(fa_left);
 draw_set_font(-1);
-draw_background(character, pauseX, 0);
+draw_background(global.bg[character], pauseX, 0);
 draw_sprite_ext(sprIntro, global.link, pX2, 100, 0.5, 0.5, 0, c_white, 1);
-draw_text(8, 8, string(round(lolfps)) + " FPS#" + string(global.link) + "#" + string(global.deltaTime) + "#" + string(setFramerate));
-if (instance_exists(objPlayer))
-{
-    for (var i = 0; i &lt; array_length_1d(objPlayer.shadowMatrix); i++)
-        draw_text(8, 64 + i * 10, string(objPlayer.shadowMatrix[i]));
-    draw_text(64, 64, string(objPlayer.floorAngle));
-    draw_text(64, 74, string(objPlayer.floorPitch));
-    draw_sprite_ext(sprHealth, objPlayer.hp, view_wview[0] * 0.5, healthY, 2, 2, 0, c_white, 1);
-}
+draw_text(8, 8, string(round(fps_real)) + " FPS#" + string(global.link) + "#" + string(global.deltaTime) + "#" + string(setFramerate));
+if (instance_exists(objPlayer)) draw_sprite_ext(sprHealth, objPlayer.hp, view_wview[0] * 0.5, healthY, 2, 2, 0, c_white, 1);
 </string>
           </argument>
         </arguments>
