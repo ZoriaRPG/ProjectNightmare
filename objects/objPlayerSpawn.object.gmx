@@ -54,10 +54,10 @@ alarm[0] = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var player = objMario;
+            <string>/*var player = objMario;
 if (global.link)
-    player = objLink;
-with (instance_create(x, y, player))
+    player = objLink;*/
+with (instance_create(x, y, objMario))
 {
     z = other.z + half;
     faceDir = other.faceDir;

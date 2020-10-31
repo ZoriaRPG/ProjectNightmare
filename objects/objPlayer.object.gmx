@@ -28,8 +28,7 @@
             <string>///Set actor properties
 event_inherited();
 hp = 8;
-sprite = sprMario;
-rotate = true;
+sprite = cSprMario;
 frameSpd = 0.01;
 fSolid = true;
 fPushable = true;
@@ -92,18 +91,10 @@ actor_update();
           <argument>
             <kind>1</kind>
             <string>///Move test
-if (!instance_exists(objTransition) &amp;&amp; (z &lt; global.minZ - 300 || timer_tick(2)))
-{
-    if (global.link)
-        audio_play_sound(sndRespawn, 1, false);
-    transition_create(room, c_black);
-}
+if (!instance_exists(objTransition) &amp;&amp; (z &lt; global.minZ - 300 || timer_tick(2))) transition_create(room, c_black);
 if (instance_exists(objCamera))
-    if (timer_tick(1))
-        fVisible = objCamera.mode != 1;
-    else
-        if (timer[1] &amp;&amp; objCamera.mode != 1)
-            fVisible = !fVisible;
+    if (timer_tick(1)) fVisible = objCamera.mode != 1;
+    else if (timer[1] &amp;&amp; objCamera.mode != 1) fVisible = !fVisible;
 if (onGround)
 {
     //Friction
@@ -117,17 +108,7 @@ if (onGround)
     {
         timer[1] = -65536;
         timer[2] = 60;
-        if (global.link)
-            for (var i = 0; i &lt; 2; i++)
-                {if (global.levelMusic[i])
-                    audio_sound_gain(global.levelMusic[i], 0, 750);}
-        else
-        {
-            audio_stop_all();
-            audio_play_sound(musLose, 1, false);
-        }
-        player_drop_holdable(0, 0, 0);
-        player_sound_play(deadSnd);
+        player_die(0, deadSnd);
         with (instance_create(objCamera.x, objCamera.y, objCutscene))
         {
             direction = objCamera.faceDir;
@@ -195,7 +176,7 @@ if (fric == 0.2)
         vSpeed *= divePower;
         zSpeed += 1;
         fric = 0.02;
-        sprite = sprMarioSlide2;
+        sprite = cSprMarioSlide2;
     }
 }
 else
@@ -213,7 +194,7 @@ if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global
         vSpeed *= 0.5;
         if (object_index == objMario)
         {
-            sprite = sprMarioFlip;
+            sprite = cSprMarioFlip;
             frameSpd = 0.2;
             frame = 0;
         }
@@ -302,17 +283,7 @@ if (keyboard_check_pressed(ord("Z")))
 //Bottomless pit detection
 if (z &lt; global.minZ)
 {
-    if (global.link)
-        for (var i = 0; i &lt; 2; i++)
-            {if (global.levelMusic[i])
-                audio_sound_gain(global.levelMusic[i], 0, 750);}
-    else
-    {
-        audio_stop_all();
-        audio_play_sound(musLose, 1, false);
-    }
-    player_sound_play(fallSnd);
-    player_drop_holdable(0, 0, 1);
+    player_die(1, fallSnd);
     with (instance_create(0, 0, objCutscene))
     {
         global.follow = true;

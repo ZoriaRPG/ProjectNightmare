@@ -3,10 +3,10 @@
 if (sprite != -1)
 {
     var nums;
-    if (rotate)
-        nums = sprite_get_number(sprite) * 0.25;
+    if (global.spr[sprite, 1])
+        nums = image_get_number(global.spr[sprite, 0]) * 0.25;
     else
-        nums = sprite_get_number(sprite) - 1;
+        nums = image_get_number(global.spr[sprite, 0]) - 1;
     if (nums != 0)
         frame = (frame + frameSpd) mod (nums);
 }

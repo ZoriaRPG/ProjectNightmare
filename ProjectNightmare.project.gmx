@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="39" name="datafiles">
+  <datafiles number="58" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -55,9 +55,9 @@
       </ConfigOptions>
       <filename>Collisions.dll</filename>
     </datafile>
-    <datafiles number="39" name="data">
-      <datafiles number="39" name="gfx">
-        <datafiles number="39" name="tex">
+    <datafiles number="58" name="data">
+      <datafiles number="58" name="gfx">
+        <datafiles number="58" name="tex">
           <datafile>
             <name>0.png</name>
             <exists>-1</exists>
@@ -178,7 +178,7 @@
             <filename>ani.txt</filename>
           </datafile>
         </datafiles>
-        <datafiles number="39" name="bg">
+        <datafiles number="58" name="bg">
           <datafile>
             <name>0.png</name>
             <exists>-1</exists>
@@ -199,7 +199,43 @@
           <datafile>
             <name>1.png</name>
             <exists>-1</exists>
-            <size>130625</size>
+            <size>490</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>1.png</filename>
+          </datafile>
+        </datafiles>
+        <datafiles number="58" name="spr">
+          <datafile>
+            <name>0.png</name>
+            <exists>-1</exists>
+            <size>22433</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>0.png</filename>
+          </datafile>
+          <datafile>
+            <name>1.png</name>
+            <exists>-1</exists>
+            <size>1962</size>
             <exportAction>2</exportAction>
             <exportDir></exportDir>
             <overwrite>0</overwrite>
@@ -216,7 +252,7 @@
           <datafile>
             <name>2.png</name>
             <exists>-1</exists>
-            <size>490</size>
+            <size>5663</size>
             <exportAction>2</exportAction>
             <exportDir></exportDir>
             <overwrite>0</overwrite>
@@ -230,9 +266,232 @@
             </ConfigOptions>
             <filename>2.png</filename>
           </datafile>
+          <datafile>
+            <name>3.png</name>
+            <exists>-1</exists>
+            <size>3004</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>3.png</filename>
+          </datafile>
+          <datafile>
+            <name>4.png</name>
+            <exists>-1</exists>
+            <size>1861</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>4.png</filename>
+          </datafile>
+          <datafile>
+            <name>5.png</name>
+            <exists>-1</exists>
+            <size>5464</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>5.png</filename>
+          </datafile>
+          <datafile>
+            <name>6.png</name>
+            <exists>-1</exists>
+            <size>4393</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>6.png</filename>
+          </datafile>
+          <datafile>
+            <name>7.png</name>
+            <exists>-1</exists>
+            <size>2821</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>7.png</filename>
+          </datafile>
+          <datafile>
+            <name>8.png</name>
+            <exists>-1</exists>
+            <size>1583</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>8.png</filename>
+          </datafile>
+          <datafile>
+            <name>9.png</name>
+            <exists>-1</exists>
+            <size>4050</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>9.png</filename>
+          </datafile>
+          <datafile>
+            <name>10.png</name>
+            <exists>-1</exists>
+            <size>210</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>10.png</filename>
+          </datafile>
+          <datafile>
+            <name>11.png</name>
+            <exists>-1</exists>
+            <size>6744</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>11.png</filename>
+          </datafile>
+          <datafile>
+            <name>12.png</name>
+            <exists>-1</exists>
+            <size>18571</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>12.png</filename>
+          </datafile>
+          <datafile>
+            <name>ani.txt</name>
+            <exists>-1</exists>
+            <size>10</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>ani.txt</filename>
+          </datafile>
+        </datafiles>
+        <datafiles number="58" name="fnt">
+          <datafile>
+            <name>0.ttf</name>
+            <exists>-1</exists>
+            <size>16312</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>0.ttf</filename>
+          </datafile>
+          <datafile>
+            <name>1.gif</name>
+            <exists>-1</exists>
+            <size>5432</size>
+            <exportAction>2</exportAction>
+            <exportDir></exportDir>
+            <overwrite>0</overwrite>
+            <freeData>-1</freeData>
+            <removeEnd>0</removeEnd>
+            <store>0</store>
+            <ConfigOptions>
+              <Config name="Default">
+                <CopyToMask>9223372036854775807</CopyToMask>
+              </Config>
+            </ConfigOptions>
+            <filename>1.gif</filename>
+          </datafile>
         </datafiles>
       </datafiles>
-      <datafiles number="39" name="map">
+      <datafiles number="58" name="map">
         <datafile>
           <name>level.pnl</name>
           <exists>-1</exists>
@@ -255,6 +514,7 @@
   </datafiles>
   <NewExtensions>
     <extension index="0">extensions\Custom Sprite Framework</extension>
+    <extension index="1">extensions\FMODGMS</extension>
   </NewExtensions>
   <sounds name="sound">
     <sounds name="Music">
@@ -268,9 +528,7 @@
     </sounds>
     <sounds name="Intro">
       <sound>sound\sndIntroCoin</sound>
-      <sound>sound\sndIntroRupee</sound>
       <sound>sound\sndIntroMario</sound>
-      <sound>sound\sndIntroLink</sound>
     </sounds>
     <sounds name="GUI">
       <sound>sound\sndCameraIn</sound>
@@ -303,46 +561,11 @@
       <sound>sound\sndMarioHurt5</sound>
       <sound>sound\sndMarioDead</sound>
     </sounds>
-    <sounds name="Link">
-      <sound>sound\sndLinkJump</sound>
-      <sound>sound\sndLinkJump2</sound>
-      <sound>sound\sndLinkJump3</sound>
-      <sound>sound\sndLinkJump4</sound>
-      <sound>sound\sndLinkJump5</sound>
-      <sound>sound\sndLinkFall</sound>
-      <sound>sound\sndLinkFall2</sound>
-      <sound>sound\sndLinkHurt</sound>
-      <sound>sound\sndLinkHurt2</sound>
-      <sound>sound\sndLinkHurt3</sound>
-      <sound>sound\sndLinkHurt4</sound>
-    </sounds>
     <sound>sound\sndJump</sound>
     <sound>sound\sndRespawn</sound>
   </sounds>
   <sprites name="sprites">
-    <sprite>sprites\sprIntro</sprite>
-    <sprite>sprites\sprFont</sprite>
-    <sprites name="Mario">
-      <sprite>sprites\sprMario</sprite>
-      <sprite>sprites\sprMarioRun</sprite>
-      <sprite>sprites\sprMarioJump</sprite>
-      <sprite>sprites\sprMarioBlink</sprite>
-      <sprite>sprites\sprMarioWoah</sprite>
-      <sprite>sprites\sprMarioSlideStart</sprite>
-      <sprite>sprites\sprMarioSlide</sprite>
-      <sprite>sprites\sprMarioSlide2</sprite>
-      <sprite>sprites\sprMarioFlip</sprite>
-    </sprites>
-    <sprites name="Link">
-      <sprite>sprites\sprLink</sprite>
-      <sprite>sprites\sprLinkRun</sprite>
-      <sprite>sprites\sprLinkJump</sprite>
-      <sprite>sprites\sprLinkBlink</sprite>
-    </sprites>
-    <sprite>sprites\sprBomb</sprite>
     <sprite>sprites\sprActor</sprite>
-    <sprite>sprites\sprHealth</sprite>
-    <sprite>sprites\sprGoomba</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -357,6 +580,7 @@
       <script>scripts\player_drop_holdable.gml</script>
       <script>scripts\player_sound_play.gml</script>
       <script>scripts\enemy_bounce.gml</script>
+      <script>scripts\player_die.gml</script>
     </scripts>
     <scripts name="Collision">
       <script>scripts\c_init.gml</script>
@@ -419,7 +643,6 @@
       <script>scripts\angle_normalize.gml</script>
       <script>scripts\turn_to_angle.gml</script>
       <script>scripts\world_matrix_from_normal.gml</script>
-      <script>scripts\lerp_delta.gml</script>
       <script>scripts\smoothstep.gml</script>
     </scripts>
     <scripts name="Cutscenes">
@@ -529,14 +752,20 @@
       <script>scripts\image_save_sheet.gml</script>
     </scripts>
     <script>scripts\string_parse.gml</script>
+    <scripts name="FMODGMS">
+      <script>scripts\FMODGMS_Util_BeatsToSamples.gml</script>
+      <script>scripts\FMODGMS_Util_SecondsToSamples.gml</script>
+      <script>scripts\FMODGMS_Util_SamplesToSeconds.gml</script>
+      <script>scripts\FMODGMS_Util_SamplesToBeats.gml</script>
+      <script>scripts\FMODGMS_Snd_TypeToString.gml</script>
+      <script>scripts\FMODGMS_Snd_TagDataTypeToString.gml</script>
+      <script>scripts\FMODGMS_Snd_TagTypeToString.gml</script>
+      <script>scripts\FMODGMS_Effect_TypeToString.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shBillboard.shader</shader>
   </shaders>
-  <fonts name="fonts">
-    <font>fonts\fntMario</font>
-    <font>fonts\fntLink</font>
-  </fonts>
   <objects name="objects">
     <object>objects\objControl</object>
     <object>objects\objCamera</object>
@@ -556,7 +785,6 @@
       <objects name="Parents">
         <objects name="Characters">
           <object>objects\objMario</object>
-          <object>objects\objLink</object>
         </objects>
         <objects name="Actors">
           <object>objects\objActor</object>
@@ -577,13 +805,28 @@
       <room>rooms\rmMain</room>
     </rooms>
   </rooms>
-  <constants number="6">
-    <constant name="cDirSpr">"data\gfx\"</constant>
+  <constants number="21">
+    <constant name="cDirSpr">"data\gfx\spr\"</constant>
     <constant name="cDirBg">"data\gfx\bg\"</constant>
     <constant name="cDirTex">"data\gfx\tex\"</constant>
+    <constant name="cDirFnt">"data\gfx\fnt\"</constant>
+    <constant name="cSprIntro">0</constant>
+    <constant name="cSprMario">1</constant>
+    <constant name="cSprMarioRun">2</constant>
+    <constant name="cSprMarioJump">3</constant>
+    <constant name="cSprMarioBlink">4</constant>
+    <constant name="cSprMarioWoah">5</constant>
+    <constant name="cSprMarioSlideStart">6</constant>
+    <constant name="cSprMarioSlide">7</constant>
+    <constant name="cSprMarioSlide2">8</constant>
+    <constant name="cSprMarioFlip">9</constant>
+    <constant name="cSprBomb">10</constant>
+    <constant name="cSprHealth">11</constant>
+    <constant name="cSprGoomba">12</constant>
     <constant name="cBgPauseMario">0</constant>
-    <constant name="cBgPauseLink">1</constant>
-    <constant name="cBgShadow">2</constant>
+    <constant name="cBgShadow">1</constant>
+    <constant name="cFntMario">0</constant>
+    <constant name="cFntMessage">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

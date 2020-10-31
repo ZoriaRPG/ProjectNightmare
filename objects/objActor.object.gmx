@@ -61,7 +61,6 @@ shadowMatrix = matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1);
 sprite = -1;
 frame = 0; //Similar to image_index.
 frameSpd = 0; //Similar to image_speed.
-rotate = false; //Use rotate only if your sprite has 4 angles.
 scale = 1; //scale is used for changing the actor's sprite size. Does not affect hitbox.
 emitter = audio_emitter_create();
 audio_emitter_falloff(emitter, 85.5, 170.5, 1);
@@ -192,13 +191,18 @@ if !(fGhost)
     {
         //Move out of the way
         var angle = point_direction(x, y, actorTouch.x, actorTouch.y);
-        hSpeed = lengthdir_x(-0.3, angle) + actorTouch.hSpeed;
-        vSpeed = lengthdir_y(-0.3, angle) + actorTouch.vSpeed;
+        while (place_meeting(x, y, actorTouch))
+        {
+            if (c_raycast_world(actorTouch.x, actorTouch.y, actorTouch.z, x - lengthdir_x(radius, angle), y - lengthdir_y(radius, angle), z, 1)) break
+            x -= lengthdir_x(1, angle);
+            y -= lengthdir_y(1, angle);
+        }
         enemy_bounce();
     }
     //Floor collision
+    var incX = x + hSpeed, incY = y + vSpeed;
     //The actor will not move down regular slopes if it is bouncy.
-    if (c_raycast_world(x, y, z, x + hSpeed, y + vSpeed, bottom + zSpeed, 1) || (!fBounce &amp;&amp; zSpeed &lt;= 0 &amp;&amp; c_raycast_world(x, y, z, x, y, bottom - (4 + zSpeed), 1)))
+    if (c_raycast_world(x, y, z, incX, incY, bottom + zSpeed, 1) || (!fBounce &amp;&amp; zSpeed &lt;= 0 &amp;&amp; c_raycast_world(x, y, z, x, y, bottom - (4 + zSpeed), 1)))
     {
         z = c_hit_z() + half;
         actor_bounce_z();
@@ -207,35 +211,26 @@ if !(fGhost)
     else
         fOnGround = false;
     //Horizontal wall collision
-    var i;
-    for (i = -radius; i &lt;= radius; i += radius)
+    if (c_raycast_world(incX - radius, incY, z, incX + radius, incY, z, 1))
     {
-        if (i == 0) continue
-        if (c_raycast_world(x, y, z, x + i + hSpeed, y, z, 1))
-        {
-            var dir = point_direction(x, y, c_hit_x(), c_hit_y());
-            x = c_hit_x() - lengthdir_x(radius, dir);
-            if (fBounce)
-                hSpeed /= -bounciness;
-            else
-                hSpeed = 0;
-            enemy_bounce();
-        }
+        var dir = point_direction(x, y, c_hit_x(), c_hit_y());
+        x = c_hit_x() - lengthdir_x(radius, dir);
+        if (fBounce)
+            hSpeed /= -bounciness;
+        else
+            hSpeed = 0;
+        enemy_bounce();
     }
     //Vertical wall collision
-    for (i = -radius; i &lt;= radius; i += radius)
+    if (c_raycast_world(incX, incY - radius, z, incX, incY + radius, z, 1))
     {
-        if (i == 0) continue
-        if (c_raycast_world(x, y, z, x, y + i + vSpeed, z, 1))
-        {
-            var dir = point_direction(x, y, c_hit_x(), c_hit_y());
-            y = c_hit_y() - lengthdir_y(radius, dir);
-            if (fBounce)
-                vSpeed /= -bounciness;
-            else
-                vSpeed = 0;
-            enemy_bounce();
-        }
+        var dir = point_direction(x, y, c_hit_x(), c_hit_y());
+        y = c_hit_y() - lengthdir_y(radius, dir);
+        if (fBounce)
+            vSpeed /= -bounciness;
+        else
+            vSpeed = 0;
+        enemy_bounce();
     }
     //Ceiling collision
     //The ceiling always prevents the player from overlapping at all, similarly to SM64.

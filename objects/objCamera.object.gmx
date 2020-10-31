@@ -333,18 +333,18 @@ texture_set_repeat(false);
 with (objActor)
 {
     if (fVisible &amp;&amp; sprite != -1)
-    {
-        if (rotate)
+    { 
+        if (global.spr[sprite, 1])
         {
-            var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4);
+            var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(global.spr[sprite, 0]);
             while (dir &lt; 0) dir += 4;
-            cFrame = min(((sprite_get_number(sprite) * 0.25) * dir) + frame, sprite_get_number(sprite) - 1);
+            cFrame = min(((frames * 0.25) * dir) + frame, frames - 1);
         }
         else cFrame = frame;
         shader_set(shBillboard);
         matrix_set(matrix_world, matrix_build(x, y, bottom, 0, 0, 0, 1, 1, 1));
         var size = scale * 0.5;
-        draw_sprite_ext(sprite, cFrame, 0, 0, size, -size, 0, c_white, 1);
+        draw_image_ext(global.spr[sprite, 0], cFrame, 0, 0, size, -size, 0, c_white, 1);
         shader_reset();
     }
     if (fShadow &amp;&amp; shadowZ != -65536 &amp;&amp; global.cZ &gt; shadowZ)

@@ -193,7 +193,7 @@ var vw = view_wview[0] * 0.5, vh = view_hview[0] * 0.5, dir = get_timer() / 900,
 draw_set_alpha(0.51);
 draw_rectangle_color(vw - s, 0, vw + s, view_hview[0], c_black, c_black, c_black, c_black, false);
 draw_set_alpha(1);
-draw_sprite_ext(sprIntro, global.link, vw, vh - 132, wx, wy, 0, c_white, 1);
+draw_image_ext(global.spr[cSprIntro, 0], 0, vw, vh - 132, wx, wy, 0, c_white, 1);
 draw_set_halign(fa_center);
 //For some reason it won't upscale to 2x, so let's use wx2 and wy2
 switch (currentMenu)

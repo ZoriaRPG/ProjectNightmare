@@ -32,7 +32,7 @@ height = 5;
 hitbox_create();
 faceDir = irandom(360);
 spd = 0.4;
-sprite = sprGoomba;
+sprite = cSprGoomba;
 scale = 0.1875;
 </string>
           </argument>
