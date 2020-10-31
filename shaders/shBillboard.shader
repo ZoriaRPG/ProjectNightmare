@@ -20,8 +20,8 @@ void main() {
     modelView[1][2] = 0.;
     
     // Column 2:
-    modelView[2][0] = 0.;
-    modelView[2][1] = 0.;
+    //modelView[2][0] = 0.;
+    //modelView[2][1] = 0.;
     modelView[2][2] = 1.;
     
     gl_Position = gm_Matrices[MATRIX_PROJECTION] * (modelView * vec4(in_Position, 1.));

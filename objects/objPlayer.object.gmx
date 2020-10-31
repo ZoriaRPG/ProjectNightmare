@@ -122,8 +122,7 @@ if (onGround)
 }
 onGround = fOnGround || c_raycast_world(x, y, z, x, y, bottom - 2, 1);
 spdDis = point_distance(0, 0, hSpeed, vSpeed);
-if (!hp || cutscene_exists())
-    exit
+if (!hp || cutscene_exists()) exit
 if (keyboard_check_pressed(ord("R")))
 {
     sliding = false;
@@ -147,22 +146,19 @@ if (keyL &gt; 1)
 }
 if (instance_exists(objCamera))
 {
-    if (abs(keyY) &amp;&amp; !objCamera.mode)
-        objCamera.faceDir -= (keyY * spdDis);
+    if (abs(keyY) &amp;&amp; !objCamera.mode) objCamera.faceDir -= (keyY * spdDis);
     camD = objCamera.faceDir;
 }
 //actually move around, if needed:
 if (fric == 0.2)
 {
     //change friction if sliding
-    if (sliding)
-        fric = 0.02;
+    if (sliding) fric = 0.02;
     if (keyL &gt; 0)
     {
         faceDir = point_direction(0,0,keyX,keyY) + global.cD;
         var acc = 1 + 6 * !onGround, cDD = global.cD - 90, lX = lengthdir_x(keyX, global.cD) + lengthdir_x(keyY, cDD), lY = lengthdir_y(keyX, global.cD) + lengthdir_y(keyY, cDD), vector = point_distance(0, 0, lX, lY), walkSpeed = 2;
-        if (onGround &amp;&amp; floorPitch)
-            walkSpeed = lengthdir_x(2, floorPitch);
+        if (onGround &amp;&amp; floorPitch) walkSpeed = lengthdir_x(2, floorPitch);
         var lX2 = abs(lengthdir_x(vector, faceDir)) * walkSpeed, lY2 = abs(lengthdir_y(vector, faceDir)) * walkSpeed, acc2 = 0.75;
         hSpeed = clamp(hSpeed + ((lX * acc2) / acc), -lX2, lX2);
         vSpeed = clamp(vSpeed + ((lY * acc2) / acc), -lY2, lY2);
@@ -179,9 +175,7 @@ if (fric == 0.2)
         sprite = cSprMarioSlide2;
     }
 }
-else
-    if (spdDis &lt; 0.3)
-        fric = 0.2;
+else if (spdDis &lt; 0.3) fric = 0.2;
 //jump when on the ground
 if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global.bind[4, 3])
 {
@@ -203,23 +197,18 @@ if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global
     {
         objCamera.flinch = 3;
         player_sound_play(jumpSnd);
-        d3d_sound_play(sndJump, false, 1);
+        d3d_sound_play(global.snd[cSndJump], false, 1);
     }
-    if !(c_raycast_world(x, y, z, x, y, top + jumpSpd, 1))
-        z += h;
+    if !(c_raycast_world(x, y, z, x, y, top + jumpSpd, 1)) z += h;
     zSpeed = h - 0.1;
 }
 //Get nearest enemy
 var near = instance_nearest(x, y, objEnemy);
 //If nearest enemy is within the range of the player, crank up that battle music.
-if (near)
-    global.battle = point_distance_3d(x, y, z, near.x, near.y, near.z) &lt; 100;
-else
-    global.battle = false;
+if (near) global.battle = point_distance_3d(x, y, z, near.x, near.y, near.z) &lt; 100; else global.battle = false;
 //Holding mechanic
 if (global.bind[6, 3])
-    if (holding)
-        player_drop_holdable(hSpeed + lengthdir_x(1.5, faceDir), vSpeed + lengthdir_y(1.5, faceDir), zSpeed + 1.5);
+    if (holding) player_drop_holdable(hSpeed + lengthdir_x(1.5, faceDir), vSpeed + lengthdir_y(1.5, faceDir), zSpeed + 1.5);
     else
     {
         near = instance_nearest(x, y, objHoldable);
@@ -251,8 +240,7 @@ if (global.bind[6, 3])
                         //Add messages manually, because cutscene_message only allows string inputs.
                         ds_list_add(list, 3);
                         var strings = ds_list_create();
-                        for (var i = 0; i &lt; array_length_1d(near.message); i++)
-                            ds_list_add(strings, near.message[i]);
+                        for (var i = 0, n = array_length_1d(near.message); i &lt; n; i++) ds_list_add(strings, near.message[i]);
                         ds_list_add(list, strings);
                         cutscene_wait_message();
                         cutscene_wait(10);
@@ -278,8 +266,7 @@ if (near) //If there is a trigger, create the cutscene
         instance_destroy(); //Remove the trigger
     }
 //Hurt test
-if (keyboard_check_pressed(ord("Z")))
-    event_user(0);
+if (keyboard_check_pressed(ord("Z"))) event_user(0);
 //Bottomless pit detection
 if (z &lt; global.minZ)
 {

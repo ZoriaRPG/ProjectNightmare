@@ -34,7 +34,6 @@ d3d_set_hidden(true);
 d3d_set_culling(true);
 draw_set_alpha_test(true);
 draw_set_alpha_test_ref_value(0);
-audio_group_load(audiogroup_sounds);
 audio_falloff_set_model(audio_falloff_exponent_distance);
 global.maxRender = 65536;
 /*[CONTROL BINDS]
@@ -88,7 +87,7 @@ for (i = 0; i &lt; 3; i++) global.assets[i] = 0;
 /*Load sprites. They are mostly used by the GUI and Actors. The sprite files MUST be PNGs and numbered. Example: 0.png, 1.png, 2.png...
 The variable data are as follows:
 global.spr[id, data] - the sprite itself
-    &lt;id&gt; is the ID of the texture (hardcore limit of 32000)
+    &lt;id&gt; is the ID of the texture (hardcoded limit of 32000)
     &lt;info&gt;
         0 - pointer of sprite
         1 - is a rotatable sprite
@@ -138,7 +137,7 @@ for (i = 0; i &lt; global.assets[1]; i++) global.bg[i] = image_group_find_image(
 /*Load textures. The texture files MUST be PNGs and numbered. Example: 0.png, 1.png, 2.png...
 The variable data are as follows:
 global.tex[id, data] - the texture itself
-    &lt;id&gt; is the ID of the texture (hardcode limit of 32000)
+    &lt;id&gt; is the ID of the texture (hardcoded limit of 32000)
     &lt;data&gt;
         0 - pointer of graphic
         1 - animation speed
@@ -183,7 +182,6 @@ global.fnt[&lt;id&gt;, &lt;sprite&gt;]
     &lt;id&gt; - pointer of font
     &lt;sprite&gt; - pointer of font's sprite, -1 if TrueType*/
 file = file_find_first(cDirFnt + "*", 0);
-i = 0;
 while (file != "")
 {
     var slot = real(string_digits(file)), ext = string_copy(file, 3, 3);
@@ -193,16 +191,22 @@ while (file != "")
         case ("ttf"):
             global.fnt[slot, 0] = font_add(cDirFnt + file, 12, false, false, 32, 127);
             global.fnt[slot, 1] = -1;
-            show_debug_message("Loading TrueType font, slot " + string(i));
-            i++;
+            show_debug_message("Loading TrueType font, slot " + string(slot));
         break
         case ("gif"):
             global.fnt[slot, 1] = sprite_add(cDirFnt + file, 0, false, false, 0, 0);
-            global.fnt[slot, 0] = font_add_sprite(global.fnt[i, 1], ord("!"), true, 1);
-            show_debug_message("Loading sprite font, slot " + string(i));
-            i++;
+            global.fnt[slot, 0] = font_add_sprite(global.fnt[slot, 1], ord("!"), true, 1);
+            show_debug_message("Loading sprite font, slot " + string(slot));
         break
     }
+    file = file_find_next();
+}
+//Load sounds. The sound files MUST be OGGs and numbered. Example: 0.ogg, 1.ogg, 2.ogg...
+file = file_find_first(cDirSfx + "*.ogg", 0);
+while (file != "")
+{
+    var slot = real(string_digits(file));
+    global.snd[slot] = audio_create_stream(cDirSfx + file);
     file = file_find_next();
 }
 //Prepare 3D collision system
@@ -291,9 +295,9 @@ if (keyboard_check(vk_numpad0) &amp;&amp; keyboard_check_pressed(vk_numpad1) &am
     audio_play_sound(musMosa, 1, true);
 }
 //Toggle pause
-if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(sndPause))
+if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(global.snd[cSndPause]))
 {
-    audio_play_sound(sndPause, 0, false);
+    audio_play_sound(global.snd[cSndPause], 0, false);
     global.paused = !global.paused;
     audio_sound_gain(global.levelMusic[global.battle], 1 / (1 + 4 * global.paused), 100);
     if (global.paused)
@@ -613,6 +617,7 @@ for (var i = 0, n = array_height_2d(global.fnt); i &lt; n; i++)
     font_delete(global.fnt[i, 0]);
     if (global.fnt[i, 1]) sprite_delete(global.fnt[i, 1]);
 }
+for (var i = 0, n = array_length_1d(global.snd); i &lt; n; i++) audio_destroy_stream(global.snd[i]);
 discord_free_app();
 discord_free_dll();
 image_group_destroy("spr");

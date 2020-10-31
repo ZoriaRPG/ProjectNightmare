@@ -88,10 +88,8 @@ faceDir = startDir;
             <kind>1</kind>
             <string>if (working)
 {
-    if (instance_exists(objPlayer))
-        faceDir += turn_to_angle(point_direction(x, y, objPlayer.x, objPlayer.y), 1, faceDir);
-    if !(cutscene_exists())
-        working = false;
+    if (instance_exists(objPlayer)) faceDir += turn_to_angle(point_direction(x, y, objPlayer.x, objPlayer.y), 1, faceDir);
+    if !(cutscene_exists()) working = false;
     sprite = talkSprite;
     frameSpd = 0.2;
 }

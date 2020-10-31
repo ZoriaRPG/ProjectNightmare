@@ -33,7 +33,7 @@ alarmToggle = false;
 show = false;
 message[0] = "";
 currentMessage = 1;
-audio_play_sound(sndMessageOpen, 1, false);
+audio_play_sound(global.snd[cSndMessageOpen], 1, false);
 </string>
           </argument>
         </arguments>
@@ -57,8 +57,7 @@ audio_play_sound(sndMessageOpen, 1, false);
           <argument>
             <kind>1</kind>
             <string>if (timer_tick(0))
-    if (alarmToggle)
-        instance_destroy();
+    if (alarmToggle) instance_destroy();
     else
     {
         alarmToggle = true;
@@ -66,8 +65,7 @@ audio_play_sound(sndMessageOpen, 1, false);
     }
 if (timer_tick(1))
 {
-    if (message[0] != message[currentMessage])
-        audio_play_sound(sndMessage, 1, false);
+    if (message[0] != message[currentMessage]) audio_play_sound(global.snd[cSndMessage], 1, false);
     timer[1] = 5;
 }
 if (alarmToggle &amp;&amp; timer[0] == -65536)
@@ -96,7 +94,7 @@ if (alarmToggle &amp;&amp; timer[0] == -65536)
         else
             if (show)
             {
-                audio_play_sound(sndMessageClose, 1, false);
+                audio_play_sound(global.snd[cSndMessageClose], 1, false);
                 timer[0] = 10;
                 show = false;
             }
@@ -123,13 +121,7 @@ if (alarmToggle &amp;&amp; timer[0] == -65536)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (show)
-    scale = 10;
-else
-    if (alarmToggle)
-        scale = timer[0];
-    else
-        scale = (10 - timer[0]);
+            <string>if (show) scale = 10; else if (alarmToggle) scale = timer[0]; else scale = (10 - timer[0]);
 scale *= 0.1;
 draw_set_color(c_black);
 draw_set_alpha(0.51);

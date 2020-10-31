@@ -128,12 +128,12 @@ if (target &amp;&amp; instance_exists(target))
                 if (mode == 2)
                 {
                     mode = 0;
-                    audio_play_sound(sndCameraOut, 1, false);
+                    audio_play_sound(global.snd[cSndCameraOut], 1, false);
                 }
                 else
                 {
                     mode = 2;
-                    audio_play_sound(sndCameraIn, 1, false);
+                    audio_play_sound(global.snd[cSndCameraIn], 1, false);
                 }
                 target.fVisible = true;
             }
@@ -145,14 +145,14 @@ if (target &amp;&amp; instance_exists(target))
                     mode = 0;
                     target.fVisible = true;
                     target.faceDir = faceDir;
-                    audio_play_sound(sndCameraOut, 1, false);
+                    audio_play_sound(global.snd[cSndCameraOut], 1, false);
                 }
                 else
                 {
                     mode = 1;
                     target.fVisible = false;
                     faceDir = tD;
-                    audio_play_sound(sndCameraIn, 1, false);
+                    audio_play_sound(global.snd[cSndCameraIn], 1, false);
                 }
                 pitch = 0;
             }
@@ -187,7 +187,7 @@ if (target &amp;&amp; instance_exists(target))
                 if (global.bind[7, 3] &amp;&amp; faceDir != tD)
                 {
                     faceDir = tD;
-                    audio_play_sound(sndCameraSpin, 1, false);
+                    audio_play_sound(global.snd[cSndCameraSpin], 1, false);
                 }
             //Set the increments of the camera to zoom out for 3rd person
             var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), incZ = 0, obstructed = false, tBlockZ = tRZ + 24, tBlockZ2 = tZ + 24, tToX = tX - incX, tToY = tY - incY, tToZ = tBlockZ2, maxPitch = 89.5, minPitch = -89.5;

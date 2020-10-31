@@ -26,19 +26,19 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-jumpSnd[0] = sndMarioJump;
-jumpSnd[1] = sndMarioJump2;
-jumpSnd[2] = sndMarioJump3;
-jumpSnd[3] = sndMarioJump4;
-jumpSnd[4] = sndMarioJump5;
-fallSnd[0] = sndMarioFall;
-fallSnd[1] = sndMarioFall2;
-hurtSnd[0] = sndMarioHurt;
-hurtSnd[1] = sndMarioHurt2;
-hurtSnd[2] = sndMarioHurt3;
-hurtSnd[3] = sndMarioHurt4;
-hurtSnd[4] = sndMarioHurt5;
-deadSnd[0] = sndMarioDead;
+jumpSnd[0] = global.snd[cSndMarioJump];
+jumpSnd[1] = global.snd[cSndMarioJump2];
+jumpSnd[2] = global.snd[cSndMarioJump3];
+jumpSnd[3] = global.snd[cSndMarioJump4];
+jumpSnd[4] = global.snd[cSndMarioJump5];
+fallSnd[0] = global.snd[cSndMarioFall];
+fallSnd[1] = global.snd[cSndMarioFall2];
+hurtSnd[0] = global.snd[cSndMarioHurt];
+hurtSnd[1] = global.snd[cSndMarioHurt2];
+hurtSnd[2] = global.snd[cSndMarioHurt3];
+hurtSnd[3] = global.snd[cSndMarioHurt4];
+hurtSnd[4] = global.snd[cSndMarioHurt5];
+deadSnd[0] = global.snd[cSndMarioDead];
 hitbox_create();
 </string>
           </argument>
@@ -89,10 +89,7 @@ else
                 frameSpd = 0.01;
             }
         break
-        case (cSprMarioWoah):
-            if !(floorPitch)
-                sprite = cSprMario;
-        break
+        case (cSprMarioWoah): if !(floorPitch) sprite = cSprMario; break
         case (cSprMarioSlideStart):
             if (frame &gt;= 2.5)
             {
@@ -103,15 +100,13 @@ else
         case (cSprMarioSlide):
         case (cSprMarioSlide2):
             frameSpd = max(0.1, spdDis * 0.2);
-            if (fric == 0.2)
-                sprite = cSprMario;
+            if (fric == 0.2) sprite = cSprMario;
         break
         case (cSprMarioFlip):
             if (frame &gt;= 3.5)
             {
                 frameSpd = 0;
-                if (fOnGround)
-                    sprite = cSprMario;
+                if (fOnGround) sprite = cSprMario;
             }
         break
         default:
@@ -142,11 +137,13 @@ else
                         frameSpd = spdDis * 0.15;
                     }
                     else
+                    {
                         if (sprite != cSprMarioBlink)
                         {
                             sprite = cSprMario;
                             frameSpd = 0.01;
                         }
+                    }
                 }
                 else
                 {

@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="58" name="datafiles">
+  <datafiles number="114" name="datafiles">
     <datafile>
       <name>discord_rich_presence.dll</name>
       <exists>-1</exists>
@@ -55,9 +55,9 @@
       </ConfigOptions>
       <filename>Collisions.dll</filename>
     </datafile>
-    <datafiles number="58" name="data">
-      <datafiles number="58" name="gfx">
-        <datafiles number="58" name="tex">
+    <datafiles number="114" name="data">
+      <datafiles number="114" name="gfx">
+        <datafiles number="114" name="tex">
           <datafile>
             <name>0.png</name>
             <exists>-1</exists>
@@ -178,7 +178,7 @@
             <filename>ani.txt</filename>
           </datafile>
         </datafiles>
-        <datafiles number="58" name="bg">
+        <datafiles number="114" name="bg">
           <datafile>
             <name>0.png</name>
             <exists>-1</exists>
@@ -214,7 +214,7 @@
             <filename>1.png</filename>
           </datafile>
         </datafiles>
-        <datafiles number="58" name="spr">
+        <datafiles number="114" name="spr">
           <datafile>
             <name>0.png</name>
             <exists>-1</exists>
@@ -454,7 +454,7 @@
             <filename>ani.txt</filename>
           </datafile>
         </datafiles>
-        <datafiles number="58" name="fnt">
+        <datafiles number="114" name="fnt">
           <datafile>
             <name>0.ttf</name>
             <exists>-1</exists>
@@ -491,7 +491,7 @@
           </datafile>
         </datafiles>
       </datafiles>
-      <datafiles number="58" name="map">
+      <datafiles number="114" name="map">
         <datafile>
           <name>level.pnl</name>
           <exists>-1</exists>
@@ -510,11 +510,488 @@
           <filename>level.pnl</filename>
         </datafile>
       </datafiles>
+      <datafiles number="114" name="sfx">
+        <datafile>
+          <name>0.ogg</name>
+          <exists>-1</exists>
+          <size>7531</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>0.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>1.ogg</name>
+          <exists>-1</exists>
+          <size>12089</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>1.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>2.ogg</name>
+          <exists>-1</exists>
+          <size>5319</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>2.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>3.ogg</name>
+          <exists>-1</exists>
+          <size>5541</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>3.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>4.ogg</name>
+          <exists>-1</exists>
+          <size>4929</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>4.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>5.ogg</name>
+          <exists>-1</exists>
+          <size>9179</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>5.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>6.ogg</name>
+          <exists>-1</exists>
+          <size>14571</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>6.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>7.ogg</name>
+          <exists>-1</exists>
+          <size>13492</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>7.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>8.ogg</name>
+          <exists>-1</exists>
+          <size>5459</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>8.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>9.ogg</name>
+          <exists>-1</exists>
+          <size>4533</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>9.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>10.ogg</name>
+          <exists>-1</exists>
+          <size>5098</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>10.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>11.ogg</name>
+          <exists>-1</exists>
+          <size>4506</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>11.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>12.ogg</name>
+          <exists>-1</exists>
+          <size>7637</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>12.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>13.ogg</name>
+          <exists>-1</exists>
+          <size>8006</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>13.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>14.ogg</name>
+          <exists>-1</exists>
+          <size>4822</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>14.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>15.ogg</name>
+          <exists>-1</exists>
+          <size>4542</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>15.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>16.ogg</name>
+          <exists>-1</exists>
+          <size>4596</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>16.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>17.ogg</name>
+          <exists>-1</exists>
+          <size>4738</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>17.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>18.ogg</name>
+          <exists>-1</exists>
+          <size>4894</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>18.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>19.ogg</name>
+          <exists>-1</exists>
+          <size>14582</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>19.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>20.ogg</name>
+          <exists>-1</exists>
+          <size>11525</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>20.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>21.ogg</name>
+          <exists>-1</exists>
+          <size>4963</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>21.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>22.ogg</name>
+          <exists>-1</exists>
+          <size>5393</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>22.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>23.ogg</name>
+          <exists>-1</exists>
+          <size>5100</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>23.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>24.ogg</name>
+          <exists>-1</exists>
+          <size>5723</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>24.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>25.ogg</name>
+          <exists>-1</exists>
+          <size>5677</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>25.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>26.ogg</name>
+          <exists>-1</exists>
+          <size>15984</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>26.ogg</filename>
+        </datafile>
+        <datafile>
+          <name>27.ogg</name>
+          <exists>-1</exists>
+          <size>5564</size>
+          <exportAction>2</exportAction>
+          <exportDir></exportDir>
+          <overwrite>0</overwrite>
+          <freeData>-1</freeData>
+          <removeEnd>0</removeEnd>
+          <store>0</store>
+          <ConfigOptions>
+            <Config name="Default">
+              <CopyToMask>9223372036854775807</CopyToMask>
+            </Config>
+          </ConfigOptions>
+          <filename>27.ogg</filename>
+        </datafile>
+      </datafiles>
     </datafiles>
   </datafiles>
   <NewExtensions>
     <extension index="0">extensions\Custom Sprite Framework</extension>
-    <extension index="1">extensions\FMODGMS</extension>
   </NewExtensions>
   <sounds name="sound">
     <sounds name="Music">
@@ -526,43 +1003,6 @@
       <sound>sound\musLose</sound>
       <sound>sound\musMosa</sound>
     </sounds>
-    <sounds name="Intro">
-      <sound>sound\sndIntroCoin</sound>
-      <sound>sound\sndIntroMario</sound>
-    </sounds>
-    <sounds name="GUI">
-      <sound>sound\sndCameraIn</sound>
-      <sound>sound\sndCameraOut</sound>
-      <sound>sound\sndCameraSpin</sound>
-      <sound>sound\sndPause</sound>
-      <sound>sound\sndEnter</sound>
-      <sound>sound\sndBegin</sound>
-      <sound>sound\sndSelect</sound>
-      <sound>sound\sndMessageOpen</sound>
-      <sound>sound\sndMessage</sound>
-      <sound>sound\sndMessageClose</sound>
-    </sounds>
-    <sounds name="Enemies">
-      <sound>sound\sndGoomba</sound>
-      <sound>sound\sndGoombaDead</sound>
-    </sounds>
-    <sounds name="Mario">
-      <sound>sound\sndMarioJump</sound>
-      <sound>sound\sndMarioJump2</sound>
-      <sound>sound\sndMarioJump3</sound>
-      <sound>sound\sndMarioJump4</sound>
-      <sound>sound\sndMarioJump5</sound>
-      <sound>sound\sndMarioFall</sound>
-      <sound>sound\sndMarioFall2</sound>
-      <sound>sound\sndMarioHurt</sound>
-      <sound>sound\sndMarioHurt2</sound>
-      <sound>sound\sndMarioHurt3</sound>
-      <sound>sound\sndMarioHurt4</sound>
-      <sound>sound\sndMarioHurt5</sound>
-      <sound>sound\sndMarioDead</sound>
-    </sounds>
-    <sound>sound\sndJump</sound>
-    <sound>sound\sndRespawn</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprActor</sprite>
@@ -752,16 +1192,6 @@
       <script>scripts\image_save_sheet.gml</script>
     </scripts>
     <script>scripts\string_parse.gml</script>
-    <scripts name="FMODGMS">
-      <script>scripts\FMODGMS_Util_BeatsToSamples.gml</script>
-      <script>scripts\FMODGMS_Util_SecondsToSamples.gml</script>
-      <script>scripts\FMODGMS_Util_SamplesToSeconds.gml</script>
-      <script>scripts\FMODGMS_Util_SamplesToBeats.gml</script>
-      <script>scripts\FMODGMS_Snd_TypeToString.gml</script>
-      <script>scripts\FMODGMS_Snd_TagDataTypeToString.gml</script>
-      <script>scripts\FMODGMS_Snd_TagTypeToString.gml</script>
-      <script>scripts\FMODGMS_Effect_TypeToString.gml</script>
-    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shBillboard.shader</shader>
@@ -805,11 +1235,12 @@
       <room>rooms\rmMain</room>
     </rooms>
   </rooms>
-  <constants number="21">
+  <constants number="50">
     <constant name="cDirSpr">"data\gfx\spr\"</constant>
     <constant name="cDirBg">"data\gfx\bg\"</constant>
     <constant name="cDirTex">"data\gfx\tex\"</constant>
     <constant name="cDirFnt">"data\gfx\fnt\"</constant>
+    <constant name="cDirSfx">"data\sfx\"</constant>
     <constant name="cSprIntro">0</constant>
     <constant name="cSprMario">1</constant>
     <constant name="cSprMarioRun">2</constant>
@@ -827,14 +1258,38 @@
     <constant name="cBgShadow">1</constant>
     <constant name="cFntMario">0</constant>
     <constant name="cFntMessage">1</constant>
+    <constant name="cSndIntroCoin">0</constant>
+    <constant name="cSndIntroMario">1</constant>
+    <constant name="cSndCameraIn">2</constant>
+    <constant name="cSndCameraOut">3</constant>
+    <constant name="cSndCameraSpin">4</constant>
+    <constant name="cSndPause">5</constant>
+    <constant name="cSndEnter">6</constant>
+    <constant name="cSndBegin">7</constant>
+    <constant name="cSndSelect">8</constant>
+    <constant name="cSndMessageOpen">9</constant>
+    <constant name="cSndMessage">10</constant>
+    <constant name="cSndMessageClose">11</constant>
+    <constant name="cSndGoomba">12</constant>
+    <constant name="cSndGoombaDead">13</constant>
+    <constant name="cSndMarioJump">14</constant>
+    <constant name="cSndMarioJump2">15</constant>
+    <constant name="cSndMarioJump3">16</constant>
+    <constant name="cSndMarioJump4">17</constant>
+    <constant name="cSndMarioJump5">18</constant>
+    <constant name="cSndMarioFall">19</constant>
+    <constant name="cSndMarioFall2">20</constant>
+    <constant name="cSndMarioHurt">21</constant>
+    <constant name="cSndMarioHurt2">22</constant>
+    <constant name="cSndMarioHurt3">23</constant>
+    <constant name="cSndMarioHurt4">24</constant>
+    <constant name="cSndMarioHurt5">25</constant>
+    <constant name="cSndMarioDead">26</constant>
+    <constant name="cSndJump">27</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
-  <audiogroups name="audiogroups">
-    <audiogroup name="audiogroup_default"/>
-    <audiogroup name="audiogroup_sounds"/>
-  </audiogroups>
   <TutorialState>
     <IsTutorial>0</IsTutorial>
     <TutorialName></TutorialName>

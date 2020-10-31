@@ -65,7 +65,7 @@ switch (state)
         //Tick down the timer before the logo appears.
         if (timer_tick(0))
         {
-            audio_play_sound(sndIntroCoin, 1, false);
+            audio_play_sound(global.snd[cSndIntroCoin], 1, false);
             state = 2;
         }
     break
@@ -91,7 +91,7 @@ switch (state)
     case (4):
         if (timer_tick(0))
         {
-            audio_play_sound(sndIntroMario, 1, false);
+            audio_play_sound(global.snd[cSndIntroMario], 1, false);
             timer[0] = 30;
             state = 5;
         }
