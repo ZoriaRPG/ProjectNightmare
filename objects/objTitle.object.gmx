@@ -58,7 +58,7 @@ menu[4,2]="Master Volume ";
 menu[4,3]="Music Volume ";
 menu[4,4]="Sound Volume ";
 menu[4,5]="Back";*/
-audio_play_sound(musTitle, 1, true);
+FMODGMS_Snd_PlaySound(global.mus[cMusTitle], global.channel); //Stupid workaround, since the title map doesn't play music for some reason
 </string>
           </argument>
         </arguments>

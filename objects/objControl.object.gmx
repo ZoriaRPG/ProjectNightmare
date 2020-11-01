@@ -185,7 +185,6 @@ file = file_find_first(cDirFnt + "*", 0);
 while (file != "")
 {
     var slot = real(string_digits(file)), ext = string_copy(file, 3, 3);
-    show_debug_message(ext);
     switch (ext)
     {
         case ("ttf"):
@@ -207,6 +206,36 @@ while (file != "")
 {
     var slot = real(string_digits(file));
     global.snd[slot] = audio_create_stream(cDirSfx + file);
+    file = file_find_next();
+}
+FMODGMS_Sys_Create();
+FMODGMS_Sys_Initialize(1);
+global.channel = FMODGMS_Chan_CreateChannel();
+/*Load music. The music files MUST be any audio format supported by FMOD. Example: 0.ogg, 1.mp3, 2.mod...
+In order to correctly assign loop points to tracks, the sample rate must be 44100 hz.
+If a music track doesn't have any loop points, it will only play once.*/
+var file = file_find_first(cDirBgm + "*", 0);
+while (file != "")
+{
+    if (file == "loop.txt") break //Stupid workaround for mistakingly loading loop.txt as a music track
+    var slot = string_digits(file), arraySlot = real(slot);
+    global.mus[arraySlot] = FMODGMS_Snd_LoadSound(cDirBgm + file);
+    var table = file_text_open_read(cDirBgm + "loop.txt"), info;
+    while !(file_text_eof(table)) //Look for loop points in the music data table
+    {
+        info = string_parse(file_text_read_string(table), "|");
+        if (info[| 0] == slot) //If the parsed string belongs to this track...
+        {
+            show_debug_message("Found loop points for music " + slot);
+            FMODGMS_Snd_Set_LoopPoints(global.mus[arraySlot], FMODGMS_Util_SecondsToSamples(real(info[| 1]), 44100), FMODGMS_Util_SecondsToSamples(real(info[| 2]), 44100)); //Set loop points for track
+            FMODGMS_Snd_Set_LoopMode(global.mus[arraySlot], 1, -1); //Set track to loop
+            ds_list_destroy(info);
+            break
+        }
+        ds_list_destroy(info);
+        file_text_readln(table);
+    }
+    file_text_close(table); //Close the lookup table after
     file = file_find_next();
 }
 //Prepare 3D collision system
@@ -267,7 +296,7 @@ display_set_gui_size(960, 540);
             <string>///Level music control &amp; delta timing
 global.deltaTime = 60 / 1000000 * delta_time;
 //Music control. Sets volume of each track accordingly while the game is unpaused
-if (global.dawn)
+/*if (global.dawn)
     {if !(audio_is_playing(musDawn))
     {
         music_start();
@@ -293,13 +322,13 @@ if (keyboard_check(vk_numpad0) &amp;&amp; keyboard_check_pressed(vk_numpad1) &am
     audio_stop_sound(global.levelMusic[0]);
     audio_stop_sound(global.levelMusic[1]);
     audio_play_sound(musMosa, 1, true);
-}
+}*/
 //Toggle pause
 if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(global.snd[cSndPause]))
 {
     audio_play_sound(global.snd[cSndPause], 0, false);
     global.paused = !global.paused;
-    audio_sound_gain(global.levelMusic[global.battle], 1 / (1 + 4 * global.paused), 100);
+    FMODGMS_Chan_Set_Volume(global.channel, 1 / (1 + 4 * global.paused));
     if (global.paused)
     {
         pauseBg = background_create_from_surface(application_surface, 0, 0, view_wview[0], view_hview[0], false, false);
@@ -431,12 +460,9 @@ healthY = lerp(healthY, -46 + 2 * (instance_exists(objPlayer) &amp;&amp; objPlay
           <argument>
             <kind>1</kind>
             <string>///Clear map
-if (c_world_exists())
-    c_world_destroy();
-if (c_object_exists(worldObject))
-    c_object_destroy(worldObject);
-if (c_shape_exists(worldShape))
-    c_shape_destroy(worldShape);
+if (c_world_exists()) c_world_destroy();
+if (c_object_exists(worldObject)) c_object_destroy(worldObject);
+if (c_shape_exists(worldShape)) c_shape_destroy(worldShape);
 for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
 {
     var vertexBatch = ds_list_find_value(global.worldModel, i);
@@ -456,6 +482,7 @@ if (background_exists(pauseBg))
     background_delete(pauseBg);
 }
 audio_stop_all();
+music_stop();
 global.dawn = false;
 global.skybox = 0;
 </string>
@@ -580,10 +607,7 @@ switch (room)
     break
 }
 //Reset in-game states
-if (global.dawn)
-    audio_play_sound(musDawn, 1, false);
-else
-    music_start();
+music_start();
 global.battle = false;
 framerate_set();
 discord_update_presence("0 backups collected", global.roomName, "largeicon" + string(global.roomIcon), "smallicon");
@@ -618,6 +642,7 @@ for (var i = 0, n = array_height_2d(global.fnt); i &lt; n; i++)
     if (global.fnt[i, 1]) sprite_delete(global.fnt[i, 1]);
 }
 for (var i = 0, n = array_length_1d(global.snd); i &lt; n; i++) audio_destroy_stream(global.snd[i]);
+FMODGMS_Sys_Close();
 discord_free_app();
 discord_free_dll();
 image_group_destroy("spr");

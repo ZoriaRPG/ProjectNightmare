@@ -10,8 +10,7 @@
   <persistent>0</persistent>
   <colour>16777164</colour>
   <showcolour>-1</showcolour>
-  <code>global.levelMusic[0] = musHyrule;
-global.levelMusic[1] = musBattle;
+  <code>global.levelMusic[0] = cMusOverworld;
 global.roomName = "Debug Map";
 global.roomIcon = 2;</code>
   <enableViews>-1</enableViews>

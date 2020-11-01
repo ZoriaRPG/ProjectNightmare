@@ -308,10 +308,10 @@ global.cP = pitch;
             <kind>1</kind>
             <string>///Rendering
 draw_set_color(c_white);
-var dir = degtorad(global.cD), cSin = sin(dir), cCos = cos(dir), realPitch = pitch;
+var realPitch = pitch;
 if (mode == 1) realPitch = clamp(pitch + flinch, -89.5, 89.5); //Add flinching if first person mode
-var cTan = tan(degtorad(realPitch)), xTo = global.cX + cCos, yTo = global.cY - cSin, zTo = global.cZ + cTan;
-d3d_set_projection_ext(global.cX, global.cY, global.cZ, xTo, yTo, zTo, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
+var cCos = dcos(global.cD), cSin = dsin(global.cD), cTan = dtan(realPitch);
+d3d_set_projection_ext(global.cX, global.cY, global.cZ, global.cX + cCos, global.cY - cSin, global.cZ + cTan, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
 audio_listener_position(global.cX, global.cY, global.cZ);
 audio_listener_orientation(cCos, -cSin, cTan, 0, 0, 1);
 //Draw the skybox
@@ -341,8 +341,7 @@ with (objActor)
             cFrame = min(((frames * 0.25) * dir) + frame, frames - 1);
         }
         else cFrame = frame;
-        shader_set(shBillboard);
-        matrix_set(matrix_world, matrix_build(x, y, bottom, 0, 0, 0, 1, 1, 1));
+        matrix_set(matrix_world, matrix_build(x, y, bottom, -90, global.cD - 90, 0, 1, 1, 1));
         var size = scale * 0.5;
         draw_image_ext(global.spr[sprite, 0], cFrame, 0, 0, size, -size, 0, c_white, 1);
         shader_reset();

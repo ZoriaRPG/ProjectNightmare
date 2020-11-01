@@ -10,7 +10,7 @@
   <persistent>0</persistent>
   <colour>16777164</colour>
   <showcolour>-1</showcolour>
-  <code>global.levelMusic[0]=musTitle;
+  <code>global.levelMusic[0] = cMusTitle;
 global.roomName = "Title";
 global.roomIcon = 0;</code>
   <enableViews>-1</enableViews>
