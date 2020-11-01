@@ -331,7 +331,7 @@ if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPl
     FMODGMS_Chan_Set_Volume(global.channel, 1 / (1 + 4 * global.paused));
     if (global.paused)
     {
-        pauseBg = background_create_from_surface(application_surface, 0, 0, view_wview[0], view_hview[0], false, false);
+        pauseBg = background_create_from_surface(application_surface, 0, 0, surface_get_width(application_surface), surface_get_height(application_surface), false, false);
         instance_deactivate_all(true);
         exit
     }
@@ -672,13 +672,7 @@ image_system_cleanup();
           <argument>
             <kind>1</kind>
             <string>///Draw pause GUI
-if (global.paused)
-{
-    draw_background(pauseBg, 0, 0);
-    draw_set_alpha(0.51);
-    draw_rectangle_colour(0, 0, view_wview[0], view_hview[0], c_black, c_black, c_black, c_black, false);
-    draw_set_alpha(1);
-}
+if (global.paused) draw_background_ext(pauseBg, 0, 0, display_get_gui_width() / background_get_width(pauseBg), display_get_gui_height() / background_get_height(pauseBg), 0, make_color_rgb(128, 128, 128), 1);
 var pX2 = 2 * pauseX + (800 * global.paused);
 draw_set_font(global.fnt[cFntMario, 0]);
 draw_set_halign(fa_right);
@@ -689,6 +683,55 @@ draw_image(global.bg[cBgPauseMario], 0, pauseX, 0);
 draw_image_ext(global.spr[cSprIntro, 0], 0, pX2, 100, 0.5, 0.5, 0, c_white, 1);
 draw_text(8, 8, string(round(fps_real)) + " FPS#" + string(global.deltaTime) + "#" + string(setFramerate));
 if (instance_exists(objPlayer)) draw_image_ext(global.spr[cSprHealth, 0], objPlayer.hp, view_wview[0] * 0.5, healthY, 2, 2, 0, c_white, 1);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="115">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var getFull = window_get_fullscreen();
+if (getFull) surface_resize(application_surface, 960, 540);
+else surface_resize(application_surface, display_get_width(), display_get_height());
+window_set_fullscreen(!getFull);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="114">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>display_reset((display_aa != 4) * 4, false);
 </string>
           </argument>
         </arguments>
