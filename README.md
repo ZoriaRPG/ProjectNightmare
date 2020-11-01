@@ -13,9 +13,11 @@ If you are interested in checking out our development progress, hop on over to o
 
 **Can't Sleep** - graphics design, programming
 
-**Furret78, Jeansowaty, JUE13, LooPeR231** - beta testing
+**Furret78, JUE13** - beta testing
 
 **Hellfire** - graphics design
+
+**LooPeR231** - level design, beta testing
 
 **ReflexGURU** - programming, beta testing
 
@@ -30,6 +32,8 @@ If you are interested in checking out our development progress, hop on over to o
 **GMLScripts.com** - scripts
 
 **Hello** - cutscene system
+
+**M.S.T.O.P.** - FMODGMS
 
 **Snidr** - world_matrix_from_normal script
 
