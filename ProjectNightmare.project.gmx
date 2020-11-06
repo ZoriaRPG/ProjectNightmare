@@ -1146,6 +1146,8 @@
       <script>scripts\cutscene_message.gml</script>
       <script>scripts\cutscene_wait_message.gml</script>
       <script>scripts\cutscene_transition.gml</script>
+      <script>scripts\cutscene_start_loop.gml</script>
+      <script>scripts\cutscene_loop.gml</script>
     </scripts>
     <scripts name="Geometry">
       <script>scripts\point_pitch.gml</script>
@@ -1153,6 +1155,7 @@
       <script>scripts\turn_to_angle.gml</script>
       <script>scripts\world_matrix_from_normal.gml</script>
       <script>scripts\smoothstep.gml</script>
+      <script>scripts\lerp_angle.gml</script>
     </scripts>
     <scripts name="Image Framework">
       <scripts name="Draw">

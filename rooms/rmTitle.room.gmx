@@ -53,8 +53,9 @@ global.roomIcon = 0;</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="objCamera" x="32" y="32" name="inst_9CCBE43C" locked="0" code="z=96;&#xA;faceDir=315;&#xA;pitch=-10;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objCamera" x="32" y="32" name="inst_9CCBE43C" locked="0" code="z = 96;&#xA;faceDir = 315;&#xA;pitch = -10;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="objTitle" x="0" y="0" name="inst_B561D81A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="objCutscene" x="32" y="32" name="inst_ABEA8F5E" locked="0" code="z = 96;&#xA;direction = 315;&#xA;pitch = -10;&#xA;cutscene_create();&#xA;cutscene_camera(32, 32, 96, 315, -10, 300, 0);&#xA;cutscene_wait(300);&#xA;cutscene_start_loop();&#xA;cutscene_camera(32, 32, 96, 315, -10, 300, 1);&#xA;cutscene_wait(300);&#xA;cutscene_camera(64, 32, 100, 225, -12.5, 300, 1);&#xA;cutscene_wait(300);&#xA;cutscene_camera(64, 64, 96, 135, -10, 300, 1);&#xA;cutscene_wait(300);&#xA;cutscene_camera(32, 64, 100, 45, -12.5, 300, 1);&#xA;cutscene_wait(300);&#xA;cutscene_loop();" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

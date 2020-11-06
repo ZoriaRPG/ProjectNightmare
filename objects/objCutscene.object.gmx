@@ -34,6 +34,7 @@ data2 = 0;
 z = 0;
 pitch = 0;
 global.follow = false;
+canLoop = false;
 timer_create();
 timer[0] = 1;
 for (var i = 0; i &lt; 7; i++) startPos[i] = 0;
@@ -97,6 +98,13 @@ if (timer_tick(0))
         case (4): wait = -65536; break
         //cutscene_transition
         case (5): transition_create(cutscene_get_value(), cutscene_get_value()); break
+        //cutscene_loop
+        case (6):
+            ds_list_copy(list, doneList);
+            ds_list_clear(doneList);
+        break
+        //cutscene_start_loop
+        case (7): canLoop = true; break
     }
     timer[0] = wait;
 }
@@ -111,7 +119,7 @@ if (instance_exists(objCamera) &amp;&amp; !global.follow)
     global.cX = lerp(x, startPos[0], step);
     global.cY = lerp(y, startPos[1], step);
     global.cZ = lerp(z, startPos[2], step);
-    objCamera.faceDir = lerp(direction, startPos[3], step);
+    objCamera.faceDir = lerp_angle(direction, startPos[3], step);
     objCamera.pitch = lerp(pitch, startPos[4], step);
     timer_tick(1);
 }

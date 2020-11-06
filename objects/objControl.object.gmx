@@ -515,8 +515,7 @@ switch (room)
     case (rmMain):
         //Create separate d3d models for multiple textures
         var vertexBatch, i;
-        for (i = 0; i &lt; global.assets[2]; i++)
-            vertexBatch[i] = ds_list_create();
+        for (i = 0; i &lt; global.assets[2]; i++) vertexBatch[i] = ds_list_create();
         //Start reading level file data 
         worldShape = c_shape_create();
         c_shape_begin_trimesh();
@@ -537,13 +536,11 @@ switch (room)
             {
                 case (0.1): //Geometry
                     var y1 = level_read_real(file), z1 = level_read_real(file), x2 = level_read_real(file), y2 = level_read_real(file), z2 = level_read_real(file), x3 = level_read_real(file), y3 = level_read_real(file), z3 = level_read_real(file), texture = level_read_real(file), realTexture = 1;
-                    if (texture) //Align PN Editor's texture IDs to in-game IDs
-                        realTexture = texture + 1;
+                    if (texture) realTexture = texture + 1; //Align PN Editor's texture IDs to in-game IDs
                     for (i = 0; i &lt; global.assets[2]; i++) //Loop through the textures to match the triangle's
                         if (i == realTexture)
                         {
-                            if (ds_list_empty(vertexBatch[i])) //If this vertex batch is not made yet, make one
-                                ds_list_add(vertexBatch[i], i, d3d_model_create());
+                            if (ds_list_empty(vertexBatch[i])) ds_list_add(vertexBatch[i], i, d3d_model_create()); //If this vertex batch is not made yet, make one
                             var model = ds_list_find_value(vertexBatch[i], 1); //Get model from the vertex batch list
                             d3d_model_primitive_begin(model, pr_trianglelist);
                             if (x3 == number &amp;&amp; y3 == y1) //If the triangle is the upper half of a wall, map accordingly
@@ -575,12 +572,8 @@ switch (room)
                     var yy = level_read_real(file), zz = level_read_real(file), dir = level_read_real(file), type = level_read_real(file), obj = objPlayerSpawn;
                     switch (type)
                     {
-                        case (1):
-                            obj = objGoomba;
-                        break
-                        case (2):
-                            obj = objBomb;
-                        break
+                        case (1): obj = objGoomba; break
+                        case (2): obj = objBomb; break
                     }
                     with (instance_create(number, yy, obj))
                     {
@@ -592,8 +585,7 @@ switch (room)
         }
         file_text_close(file);
         for (i = 0; i &lt; global.assets[2]; i++)
-            if (ds_list_empty(vertexBatch[i]))
-                ds_list_destroy(vertexBatch[i]); //Delete vertex batch if there are no triangles stored
+            if (ds_list_empty(vertexBatch[i])) ds_list_destroy(vertexBatch[i]); //Delete vertex batch if there are no triangles stored
             else
             {
                 ds_list_add(global.worldModel, vertexBatch[i]); //Add it to the world model otherwise
