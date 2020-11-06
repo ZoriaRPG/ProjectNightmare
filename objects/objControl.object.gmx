@@ -172,8 +172,7 @@ image_stream_finish("tex");
 for (i = 0; i &lt; global.assets[2]; i++)
 {
     global.tex[i, 0] = image_group_find_image("tex", string(i));
-    for (j = 0; j &lt; image_get_number(global.tex[i, 0]); j++)
-        global.tex[i, 2 + j] = image_get_texture(global.tex[i, 0], j); //Add frames to texture pointer array
+    for (j = 0; j &lt; image_get_number(global.tex[i, 0]); j++) global.tex[i, 2 + j] = image_get_texture(global.tex[i, 0], j); //Add frames to texture pointer array
 }
 /*Load fonts. The font files MUST be TTF/GIFs and numbered. Example: 0.ttf, 1.ttf, 2.gif...
 A font will be stored into its own texture page. The engine can load a maximum of 10 fonts total, but you can edit the loader to raise the limit. (Why would a game have 10 different fonts, though?)
@@ -510,10 +509,9 @@ global.skybox = 0;
             <string>///Load map
 switch (room)
 {
-    case (rmTitle):
-        audio_sound_gain(global.levelMusic[0], 1, 0);
+    case (rmTitle): audio_sound_gain(global.levelMusic[0], 1, 0);
     case (rmMain):
-        //Create separate d3d models for multiple textures
+        //Create separate D3D models for multiple textures
         var vertexBatch, i;
         for (i = 0; i &lt; global.assets[2]; i++) vertexBatch[i] = ds_list_create();
         //Start reading level file data 
