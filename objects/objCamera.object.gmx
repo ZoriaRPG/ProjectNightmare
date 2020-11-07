@@ -101,8 +101,7 @@ global.cP = pitch;
             <kind>1</kind>
             <string>///Attach camera to target
 var cursor = cr_default;
-if (mode)
-    cursor = cr_none;
+if (mode) cursor = cr_none;
 window_set_cursor(cursor);
 if (target &amp;&amp; instance_exists(target))
 {
@@ -116,10 +115,8 @@ if (target &amp;&amp; instance_exists(target))
         //Ready up target coordinates
         var tX = target.x, tY = target.y, tRZ = target.bottom, tZ = tRZ, tZS = target.zSpeed, tSZ = target.shadowZ, tD = target.faceDir;
         tZ = previousZ;
-        if (target.fOnGround &amp;&amp; tSZ != -65536)
-            previousZ = tSZ;
-        if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40)
-            tZ = tRZ;
+        if (target.fOnGround &amp;&amp; tSZ != -65536) previousZ = tSZ;
+        if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40) tZ = tRZ;
         if (target.hp &amp;&amp; !cutscene_exists())
         {
             //Toggle freelook
@@ -157,8 +154,7 @@ if (target &amp;&amp; instance_exists(target))
                 pitch = 0;
             }
         }
-        else
-            mode = 0;
+        else mode = 0;
         //Camera mechanics
         flinch = lerp(flinch, 0, 0.05);
         if (mode == 1)
@@ -183,12 +179,11 @@ if (target &amp;&amp; instance_exists(target))
                 mouse_look();
                 lerpAmount = 0.5;
             }
-            else
-                if (global.bind[7, 3] &amp;&amp; faceDir != tD)
-                {
-                    faceDir = tD;
-                    audio_play_sound(global.snd[cSndCameraSpin], 1, false);
-                }
+            else if (global.bind[7, 3] &amp;&amp; faceDir != tD)
+            {
+                faceDir = tD;
+                audio_play_sound(global.snd[cSndCameraSpin], 1, false);
+            }
             //Set the increments of the camera to zoom out for 3rd person
             var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), incZ = 0, obstructed = false, tBlockZ = tRZ + 24, tBlockZ2 = tZ + 24, tToX = tX - incX, tToY = tY - incY, tToZ = tBlockZ2, maxPitch = 89.5, minPitch = -89.5;
             if (mode == 2)
@@ -211,8 +206,7 @@ if (target &amp;&amp; instance_exists(target))
             if (obstructed)
             {
                 tBlockZ2 = tZ + 10;
-                if (mode == 2)
-                    tToZ = tBlockZ2 + incZ;
+                if (mode == 2) tToZ = tBlockZ2 + incZ;
             }
             //smooth turning
             global.cX = lerp(global.cX, tToX, lerpAmount);
@@ -221,8 +215,7 @@ if (target &amp;&amp; instance_exists(target))
             x = global.cX;
             y = global.cY;
             z = global.cZ;
-            if !(mode == 2)
-                pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2), 2, pitch);
+            if !(mode == 2) pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2), 2, pitch);
             else
             {
                 minPitch = -45;
@@ -310,6 +303,12 @@ global.cP = pitch;
 draw_set_color(c_white);
 var realPitch = pitch;
 if (mode == 1) realPitch = clamp(pitch + flinch, -89.5, 89.5); //Add flinching if first person mode
+if (mode == 2)
+{
+    var tZ = previousZ, tRZ = target.bottom;
+    if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40) tZ = tRZ;
+    realPitch = point_pitch(global.cX, global.cY, global.cZ, target.x, target.y, tZ + 24);
+}
 var cCos = dcos(global.cD), cSin = dsin(global.cD), cTan = dtan(realPitch);
 d3d_set_projection_ext(global.cX, global.cY, global.cZ, global.cX + cCos, global.cY - cSin, global.cZ + cTan, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
 audio_listener_position(global.cX, global.cY, global.cZ);
