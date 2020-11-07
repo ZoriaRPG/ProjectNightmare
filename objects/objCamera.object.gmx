@@ -303,12 +303,6 @@ global.cP = pitch;
 draw_set_color(c_white);
 var realPitch = pitch;
 if (mode == 1) realPitch = clamp(pitch + flinch, -89.5, 89.5); //Add flinching if first person mode
-if (mode == 2)
-{
-    var tZ = previousZ, tRZ = target.bottom;
-    if (tRZ &lt; previousZ - 10|| tRZ &gt; previousZ + 40) tZ = tRZ;
-    realPitch = point_pitch(global.cX, global.cY, global.cZ, target.x, target.y, tZ + 24);
-}
 var cCos = dcos(global.cD), cSin = dsin(global.cD), cTan = dtan(realPitch);
 d3d_set_projection_ext(global.cX, global.cY, global.cZ, global.cX + cCos, global.cY - cSin, global.cZ + cTan, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
 audio_listener_position(global.cX, global.cY, global.cZ);
