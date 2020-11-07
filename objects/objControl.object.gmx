@@ -361,13 +361,9 @@ for (i = 0; i &lt; 14; i++)
         {
             //Check for analog sticks
             case (gp_axislh):
-            case (gp_axisrh):
-                bind_axis(i, false);
-            break
+            case (gp_axisrh): bind_axis(i, false); break
             case (gp_axislv):
-            case (gp_axisrv):
-                bind_axis(i, true);
-            break
+            case (gp_axisrv): bind_axis(i, true); break
             default: //Normal buttons
                 global.bind[i, 2] = gamepad_button_check(0, conBind);
                 global.bind[i, 5] = global.bind[i, 2];
@@ -395,7 +391,8 @@ for (i = 0; i &lt; 14; i++)
     }
     global.bind[i, 3] = bind_hardcode_pressed(keyBind, conBind);
 }
-while (global.deltaTime--)
+var gameLoop = global.deltaTime;
+while (gameLoop--)
 {
     with (all)
     {
