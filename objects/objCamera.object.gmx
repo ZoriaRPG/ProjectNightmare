@@ -308,7 +308,7 @@ d3d_set_projection_ext(global.cX, global.cY, global.cZ, global.cX + cCos, global
 audio_listener_position(global.cX, global.cY, global.cZ);
 audio_listener_orientation(cCos, -cSin, cTan, 0, 0, 1);
 //Draw the skybox
-if (global.skybox != -1)
+if (global.skybox != noone)
 {
     d3d_set_zwriteenable(false);
     d3d_draw_ellipsoid(global.cX + 128, global.cY + 128, global.cZ + 256, global.cX - 128, global.cY - 128, global.cZ - 256, texture_get(global.skybox), 1, -1, 32);
