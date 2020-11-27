@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -149,8 +149,7 @@ if (sliding)
         hSpeed = lengthdir_x(min(abs(hSpeed) + 0.1, abs(lengthdir_x(3, floorPitch))), oppositeAngle);
         vSpeed = lengthdir_y(min(abs(vSpeed) + 0.1, abs(lengthdir_y(3, floorPitch))), oppositeAngle);
     }
-    else
-        sliding = false;
+    else sliding = false;
 }
 else
 {
@@ -160,8 +159,7 @@ else
     {
         //The real speed is calculated based on the angle of the slope that the actor is standing on.
         var realSpeed = spd;
-        if (fOnGround &amp;&amp; floorPitch)
-            realSpeed = lengthdir_x(spd, floorPitch);
+        if (fOnGround &amp;&amp; floorPitch) realSpeed = lengthdir_x(spd, floorPitch);
         hSpeed = lengthdir_x(realSpeed, faceDir);
         vSpeed = lengthdir_y(realSpeed, faceDir);
     }
@@ -177,9 +175,7 @@ else
             sliding = true;
         }
     }
-    else
-        if (fGravity &amp;&amp; zSpeed &gt; -10) //Gravity
-            zSpeed -= 0.1;
+    else if (fGravity &amp;&amp; zSpeed &gt; -10) zSpeed -= 0.1; //Gravity
 }
 //Collision
 if !(fGhost)
@@ -208,17 +204,14 @@ if !(fGhost)
         actor_bounce_z();
         fOnGround = true;
     }
-    else
-        fOnGround = false;
+    else fOnGround = false;
     //Horizontal wall collision
     if (c_raycast_world(incX - radius, incY, z, incX + radius, incY, z, 1))
     {
         var dir = point_direction(x, y, c_hit_x(), c_hit_y());
         x = c_hit_x() - lengthdir_x(radius, dir);
-        if (fBounce)
-            hSpeed /= -bounciness;
-        else
-            hSpeed = 0;
+        if (fBounce) hSpeed /= -bounciness;
+        else hSpeed = 0;
         enemy_bounce();
     }
     //Vertical wall collision
@@ -226,10 +219,8 @@ if !(fGhost)
     {
         var dir = point_direction(x, y, c_hit_x(), c_hit_y());
         y = c_hit_y() - lengthdir_y(radius, dir);
-        if (fBounce)
-            vSpeed /= -bounciness;
-        else
-            vSpeed = 0;
+        if (fBounce) vSpeed /= -bounciness;
+        else vSpeed = 0;
         enemy_bounce();
     }
     //Ceiling collision
@@ -242,10 +233,8 @@ if !(fGhost)
         hSpeed = 0;
         vSpeed = 0;
         if (zSpeed &gt; 0)
-            if (fBounce)
-                zSpeed = -zSpeed;
-            else
-                zSpeed = 0;
+            if (fBounce) zSpeed = -zSpeed;
+            else zSpeed = 0;
     }
 }
 x += hSpeed;
@@ -275,32 +264,7 @@ z += zSpeed;
             <kind>1</kind>
             <string>///Update audio, position &amp; disappear in pits
 actor_update();
-if (z &lt; global.minZ - 1024)
-    instance_destroy();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Clear used memory
-instance_destroy();
+if (z &lt; global.minZ - 1024) instance_destroy();
 </string>
           </argument>
         </arguments>

@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -38,13 +38,13 @@ audio_falloff_set_model(audio_falloff_exponent_distance);
 global.maxRender = 65536;
 /*[CONTROL BINDS]
 These are used by control to detect inputs. The 2D array indices are as follows:
-0 - keyboard bind
-1 - gamepad bind
-2 - held
-3 - pressed
-4 - released
-5 - axis, positive
-6 - axis, negative
+0 = keyboard bind
+1 = gamepad bind
+2 = held
+3 = pressed
+4 = released
+5 = axis, positive
+6 = axis, negative
 (Movement)*/
 global.gamepad = false;
 global.bind[0, 0] = ord("W"); //Up
@@ -73,37 +73,49 @@ global.bind[11, 1] = gp_axisrh; //Camera left
 global.bind[12, 1] = gp_axisrv; //Camera down
 global.bind[13, 1] = gp_axisrh; //Camera right
 bind_input_clear();
+/*[ASSETS]
+All game assets are externalized and stored in a ZIP file. The asset maps are as follows:
+global.spr = sprites/models (coming soon)
+global.bg = backgrounds
+global.tex = textures
+global.mtl = materials (coming soon)
+global.fnt = fonts (coming soon)
+global.snd = sounds
+global.mus = music
+---
+Check if the data folder is in the local appdata. If not, extract data.zip.
+If your game gives an error that is related to a missing asset, you have to manually extract data.zip.
+Just for the sake of debugging, we disabled data path checking.*/
+/*if !(directory_exists("data"))*/ zip_unzip("data.zip", game_save_id);
 //Prepare Custom Sprite Framework for loading sprites and backgrounds
 image_system_init();
 image_group_create("spr");
 image_group_create("bg");
 image_group_create("tex");
-/*global.assets store the total amount of graphics stored in each image group.
-The array indices specify the image group:
-    0 - sprites
-    1 - backgrounds
-    2 - textures*/
-for (i = 0; i &lt; 3; i++) global.assets[i] = 0;
-/*Load sprites. They are mostly used by the GUI and Actors. The sprite files MUST be PNGs and numbered. Example: 0.png, 1.png, 2.png...
-The variable data are as follows:
-global.spr[id, data] - the sprite itself
-    &lt;id&gt; is the ID of the texture (hardcoded limit of 32000)
-    &lt;info&gt;
-        0 - pointer of sprite
-        1 - is a rotatable sprite
-        2 - X offset
-        3 - Y offset*/
+var assets = 0; /*Temporary variable for counting current asset types
+---SPRITES---
+They are mostly used by the GUI and Actors.
+The sprite files are located in data\gfx\spr and MUST be PNGs and numbered.
+Example: 0.png, 1.png, 2.png...
+
+"ani.txt" contains sprite definitions, where every line is formatted like this: sprite|frames|rotates|xOffset|yOffset
+
+The sprite map structure is as follows:
+global.spr[? id] = a list containing sprite data:
+    0 = the sprite itself
+    1 = rotates (4-directional)
+*/
+global.spr = ds_map_create();
 image_stream_start("spr", 2048, 2048, 0, true, false);
-var file = file_find_first(cDirSpr + "*.png", 0);
+var file = file_find_first(cDirSpr + "*.png", 0), tempData = ds_list_create();
 while (file != "")
 {
     var slot = string_digits(file), table = file_text_open_read(cDirSpr + "ani.txt"), frames = 1, rotates = false, xOfs = 0, yOfs = 0, info;
     while !(file_text_eof(table)) //Look for animation data in the animation data table
     {
-        info = string_parse(file_text_read_string(table), "|");
+        info = string_parse(level_read_string(table), "|");
         if (info[| 0] == slot) //If the parsed string belongs to this sprite...
         {
-            show_debug_message("Found animation data for sprite " + slot);
             frames = real(info[| 1]); //Set amount of frames this sprite has
             rotates = real(info[| 2]); //Set "rotatable" flag for sprite
             xOfs = real(info[| 3]); //Set X offset of sprite
@@ -112,36 +124,60 @@ while (file != "")
             break
         }
         ds_list_destroy(info);
-        file_text_readln(table);
     }
     //Close the lookup table after and add the sprites to the atlas
     file_text_close(table);
     image_stream_add("spr", slot, cDirSpr + file, frames, xOfs, yOfs);
-    global.spr[real(slot), 1] = rotates;
-    global.assets[0]++; //Add this to total sprites count
+    ds_list_insert(tempData, real(slot), rotates);
+    //Increment the total sprites count and find the next sprite
+    assets++;
     file = file_find_next();
 }
 image_stream_finish("spr");
-for (i = 0; i &lt; global.assets[0]; i++) global.spr[i, 0] = image_group_find_image("spr", string(i));
-//Load backgrounds. They have no frames at all, so we can store way less data than sprites or textures.
+for (i = 0; i &lt; assets; i++) //Add every streamed sprite to global.spr
+{
+    var sprData = ds_list_create();
+    ds_list_add(sprData, image_group_find_image("spr", string(i)), tempData[| i]);
+    ds_map_add(global.spr, i, sprData);
+}
+ds_list_clear(tempData);
+assets = 0;
+/*---BACKGROUNDS---
+They have no frames at all, so we can store way less data than sprites or textures.
+The background files are located in data\gfx\bg and MUST be PNGs and numbered.
+Example: 0.png, 1.png, 2.png...
+
+The background list structure is as follows:
+global.bg[| id] = the pointer of the background graphic*/
+global.bg = ds_list_create();
 image_stream_start("bg", 1024, 1024, 0, true, false);
 var file = file_find_first(cDirBg + "*.png", 0);
 while (file != "")
 {
-    image_stream_add("bg", string_digits(file), cDirBg + file, 1, 0, 0);
-    global.assets[1]++; //Add this to total background count
+    var slot = string_digits(file);
+    image_stream_add("bg", slot, cDirBg + file, 1, 0, 0);
+    //Increment the total backgrounds count and find the next background
+    assets++;
     file = file_find_next();
 }
 image_stream_finish("bg");
-for (i = 0; i &lt; global.assets[1]; i++) global.bg[i] = image_group_find_image("bg", string(i));
-/*Load textures. The texture files MUST be PNGs and numbered. Example: 0.png, 1.png, 2.png...
-The variable data are as follows:
-global.tex[id, data] - the texture itself
-    &lt;id&gt; is the ID of the texture (hardcoded limit of 32000)
-    &lt;data&gt;
-        0 - pointer of graphic
-        1 - animation speed
-        2... - the graphic as separate texture pointer(s) (hardcoded limit of 31998 frames)*/
+for (i = 0; i &lt; assets; i++) ds_list_add(global.bg, image_group_find_image("bg", string(i)));
+assets = 0;
+/*---TEXTURES---
+Textures are used by levels, which means all the level texture handling is done by PN Editor and no pointer enums are needed.
+The texture files are located in data\gfx\tex and MUST be PNGs and numbered.
+Example: 0.png, 1.png, 2.png...
+
+"ani.txt" contains texture definitions, where every line is formatted like this: texture|frames|speed
+
+The sprite map structure is as follows:
+global.tex[? id] = a list containing texture data:
+    0 = pointer of graphic
+    1 = animation speed
+    2... = the graphic as separate texture pointer(s)
+*/
+tempData = ds_list_create();
+global.tex = ds_map_create();
 image_stream_start("tex", 1024, 1024, 0, true, false);
 file = file_find_first(cDirTex + "*.png", 0);
 while (file != "")
@@ -164,61 +200,60 @@ while (file != "")
     //Close the lookup table after and add the texture to the atlas
     file_text_close(table);
     image_stream_add_3d("tex", slot, cDirTex + file, frames, 0, 0);
-    global.tex[real(slot), 1] = spd;
-    global.assets[2]++; //Add this to total textures count
+    ds_list_insert(tempData, real(slot), spd);
+    //Increment the total textures count and find the next background
+    assets++;
     file = file_find_next();
 }
 image_stream_finish("tex");
-for (i = 0; i &lt; global.assets[2]; i++)
+for (i = 0; i &lt; assets; i++)
 {
-    global.tex[i, 0] = image_group_find_image("tex", string(i));
-    for (j = 0; j &lt; image_get_number(global.tex[i, 0]); j++) global.tex[i, 2 + j] = image_get_texture(global.tex[i, 0], j); //Add frames to texture pointer array
+    var texData = ds_list_create();
+    ds_list_add(texData, image_group_find_image("tex", string(i)), tempData[| i]);
+    for (var j = 0, p = texData[| 0], n = image_get_number(p); j &lt; n; j++) ds_list_add(texData, image_get_texture(p, j)); //Add frames to texture data list
+    ds_map_add(global.tex, i, texData);
 }
-/*Load fonts. The font files MUST be TTF/GIFs and numbered. Example: 0.ttf, 1.ttf, 2.gif...
-A font will be stored into its own texture page. The engine can load a maximum of 10 fonts total, but you can edit the loader to raise the limit. (Why would a game have 10 different fonts, though?)
-The variable data are as follows:
-global.fnt[&lt;id&gt;, &lt;sprite&gt;]
-    &lt;id&gt; - pointer of font
-    &lt;sprite&gt; - pointer of font's sprite, -1 if TrueType*/
-file = file_find_first(cDirFnt + "*", 0);
-while (file != "")
-{
-    var slot = real(string_digits(file)), ext = string_copy(file, 3, 3);
-    switch (ext)
-    {
-        case ("ttf"):
-            global.fnt[slot, 0] = font_add(cDirFnt + file, 12, false, false, 32, 127);
-            global.fnt[slot, 1] = -1;
-            show_debug_message("Loading TrueType font, slot " + string(slot));
-        break
-        case ("gif"):
-            global.fnt[slot, 1] = sprite_add(cDirFnt + file, 0, false, false, 0, 0);
-            global.fnt[slot, 0] = font_add_sprite(global.fnt[slot, 1], ord("!"), true, 1);
-            show_debug_message("Loading sprite font, slot " + string(slot));
-        break
-    }
-    file = file_find_next();
-}
-//Load sounds. The sound files MUST be OGGs and numbered. Example: 0.ogg, 1.ogg, 2.ogg...
+ds_list_destroy(tempData);
+assets = 0;
+/*---SOUNDS---
+The sound files are located in data\sfx\ and MUST be OGGs and numbered.
+Example: 0.ogg, 1.ogg, 2.ogg...
+
+The sound map structure is as follows:
+global.snd[| id] = the pointer of the sound*/
+tempData = ds_priority_create();
+global.snd = ds_list_create();
 file = file_find_first(cDirSfx + "*.ogg", 0);
 while (file != "")
 {
-    var slot = real(string_digits(file));
-    global.snd[slot] = audio_create_stream(cDirSfx + file);
+    ds_priority_add(tempData, audio_create_stream(cDirSfx + file), real(string_digits(file)));
+    assets++;
     file = file_find_next();
 }
+repeat (assets)
+{
+    ds_list_add(global.snd, ds_priority_find_min(tempData));
+    ds_priority_delete_min(tempData);
+}
+ds_priority_destroy(tempData);
 FMODGMS_Sys_Create();
-FMODGMS_Sys_Initialize(1);
-global.channel = FMODGMS_Chan_CreateChannel();
-/*Load music. The music files MUST be any audio format supported by FMOD. Example: 0.ogg, 1.mp3, 2.mod...
+FMODGMS_Sys_Initialize(2);
+/*---MUSIC---
+The music files are located in data\sfx\bgm and MUST be any audio format supported by FMOD.
+Example: 0.ogg, 1.mp3, 2.mod...
+
+"loop.txt" contains music definitions, where every line is formatted like this: track|loopStart|loopEnd
 In order to correctly assign loop points to tracks, the sample rate must be 44100 hz.
-If a music track doesn't have any loop points, it will only play once.*/
+If a music track doesn't have any loop points, it will only play once.
+
+The music map structure is as follows:
+global.mus[| id] = the pointer of the track*/
+global.mus = ds_list_create();
 var file = file_find_first(cDirBgm + "*", 0);
 while (file != "")
 {
     if (file == "loop.txt") break //Stupid workaround for mistakingly loading loop.txt as a music track
-    var slot = string_digits(file), arraySlot = real(slot);
-    global.mus[arraySlot] = FMODGMS_Snd_LoadSound(cDirBgm + file);
+    var slot = string_digits(file), arraySlot = real(slot), track = FMODGMS_Snd_LoadSound(cDirBgm + file);
     var table = file_text_open_read(cDirBgm + "loop.txt"), info;
     while !(file_text_eof(table)) //Look for loop points in the music data table
     {
@@ -226,14 +261,15 @@ while (file != "")
         if (info[| 0] == slot) //If the parsed string belongs to this track...
         {
             show_debug_message("Found loop points for music " + slot);
-            FMODGMS_Snd_Set_LoopPoints(global.mus[arraySlot], FMODGMS_Util_SecondsToSamples(real(info[| 1]), 44100), FMODGMS_Util_SecondsToSamples(real(info[| 2]), 44100)); //Set loop points for track
-            FMODGMS_Snd_Set_LoopMode(global.mus[arraySlot], 1, -1); //Set track to loop
+            FMODGMS_Snd_Set_LoopPoints(track, FMODGMS_Util_SecondsToSamples(real(info[| 1]), 44100), FMODGMS_Util_SecondsToSamples(real(info[| 2]), 44100)); //Set loop points for track
+            FMODGMS_Snd_Set_LoopMode(track, 1, -1); //Set track to loop
             ds_list_destroy(info);
             break
         }
         ds_list_destroy(info);
         file_text_readln(table);
     }
+    ds_list_insert(global.mus, real(slot), track);
     file_text_close(table); //Close the lookup table after
     file = file_find_next();
 }
@@ -242,18 +278,27 @@ c_init();
 worldShape = -1;
 worldObject = -1;
 global.world = -1;
-/*global.worldModel is a list of 3D models that is rendered by using a fake "vertex batching" method
-to give the illusion of displaying multiple textures on one whole model. Under the hood, it's only
-rendering multiple models as parts of the world, depending on how many textures are used in the map.*/
-global.worldModel = ds_list_create();
 //Level properties
 for (i = 0; i &lt; 2; i++)
 {
     //Music slot 0 is the main level music. Set it to noone for silence.
     //Music slot 1 is used for battle music. Set it to noone for no battle music in levels.
+    global.channel[i] = FMODGMS_Chan_CreateChannel();
     global.levelMusic[i] = noone;
     global.musicVolume[i] = !i;
+    /*global.worldModel has a list of vertex buffers that are rendered by using a fake "vertex batching" method
+    to give the illusion of displaying multiple textures on one whole model. Under the hood, it's only
+    rendering multiple models as parts of the world, depending on how many textures are used in the map.
+    global.worldModel[0] contains world model segments
+    global.worldModel[1] contains the texture ID for each segment
+    global.worldModel[2] contains the vertex buffer format used for world model segments*/
+    global.worldModel[i] = ds_list_create();
 }
+//Create world
+vertex_format_begin();
+vertex_format_add_position_3d();
+vertex_format_add_textcoord();
+global.worldModel[2] = vertex_format_end();
 global.skybox = 0; //The texture ID of the skybox.
 global.battle = false; //Used for switching between normal and battle music.
 global.dawn = false; //Used to play musDawn on level start. 
@@ -263,6 +308,9 @@ global.roomIcon = 0; //Also for RPC. The number corresponds to which large icon 
 global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
 global.deltaTime = 60 / 1000000 * delta_time;
 global.defaultMatrix = matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1); //The default matrix. Used for resetting matrices back to default by recycling this variable.
+global.currentRoom = -2; /*PN uses a different room system to get around the memory leak issues with GameMaker: Studio 1.4 involving rooms.
+When you change or restart rooms, the game would leak ~3 KB of memory.
+As a workaround, only one room must be utilized during the whole session.*/
 pauseBg = -1;
 pauseX = -463;
 healthY = -46;
@@ -270,6 +318,7 @@ setFramerate = true; /*Sets the maximum framerate. The values are as follows:
 false - 30
 true - 60*/
 display_set_gui_size(960, 540);
+room_change(0);
 </string>
           </argument>
         </arguments>
@@ -323,9 +372,9 @@ if (keyboard_check(vk_numpad0) &amp;&amp; keyboard_check_pressed(vk_numpad1) &am
     audio_play_sound(musMosa, 1, true);
 }*/
 //Toggle pause
-if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(global.snd[cSndPause]))
+if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPlayer) &amp;&amp; !cutscene_exists()) || global.paused) &amp;&amp; !audio_is_playing(global.snd[| cSndPause]))
 {
-    audio_play_sound(global.snd[cSndPause], 0, false);
+    audio_play_sound(global.snd[| cSndPause], 0, false);
     global.paused = !global.paused;
     FMODGMS_Chan_Set_Volume(global.channel, 1 / (1 + 4 * global.paused));
     if (global.paused)
@@ -343,7 +392,7 @@ if (bind_hardcode_pressed(vk_enter, gp_start) &amp;&amp; ((instance_exists(objPl
 //Return to title screen
 if (bind_hardcode_pressed(vk_escape, gp_select) &amp;&amp; instance_exists(objPlayer))
 {
-    room_goto(rmTitle);
+    room_change(-1);
     global.paused = false;
     exit
 }
@@ -438,172 +487,6 @@ healthY = lerp(healthY, -46 + 2 * (instance_exists(objPlayer) &amp;&amp; objPlay
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Clear map
-if (c_world_exists()) c_world_destroy();
-if (c_object_exists(worldObject)) c_object_destroy(worldObject);
-if (c_shape_exists(worldShape)) c_shape_destroy(worldShape);
-for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
-{
-    var vertexBatch = ds_list_find_value(global.worldModel, i);
-    if (ds_exists(vertexBatch, ds_type_list))
-    {
-        var modelID = ds_list_find_value(vertexBatch, 1);
-        show_debug_message("Destroyed vertex batch with texture " + string(ds_list_find_value(vertexBatch, 0)) + ", model ID " + string(modelID));
-        d3d_model_destroy(modelID);
-        ds_list_destroy(vertexBatch);
-    }
-}
-ds_list_clear(global.worldModel);
-show_debug_message("Cleared world model");
-if (background_exists(pauseBg))
-{
-    global.paused = false;
-    background_delete(pauseBg);
-}
-audio_stop_all();
-music_stop();
-global.dawn = false;
-global.skybox = 0;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="4">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Load map
-switch (room)
-{
-    case (rmTitle): audio_sound_gain(global.levelMusic[0], 1, 0);
-    case (rmMain):
-        //Create separate D3D models for multiple textures
-        var vertexBatch, i;
-        for (i = 0; i &lt; global.assets[2]; i++) vertexBatch[i] = ds_list_create();
-        //Start reading level file data 
-        worldShape = c_shape_create();
-        c_shape_begin_trimesh();
-        var file = file_text_open_read("data\map\level.pnl");
-        while !(file_text_eof(file))
-        {
-            number = level_read_real(file);
-            switch (number)
-            {
-                case (0.1): //Geometry
-                case (0.2): //Actors
-                    header = number;
-                break
-            }
-            if (room == rmTitle &amp;&amp; header == 0.2) break //Abort actors if level is in title screen
-            if (number == header) continue
-            switch (header)
-            {
-                case (0.1): //Geometry
-                    var y1 = level_read_real(file), z1 = level_read_real(file), x2 = level_read_real(file), y2 = level_read_real(file), z2 = level_read_real(file), x3 = level_read_real(file), y3 = level_read_real(file), z3 = level_read_real(file), texture = level_read_real(file), realTexture = 1;
-                    if (texture) realTexture = texture + 1; //Align PN Editor's texture IDs to in-game IDs
-                    for (i = 0; i &lt; global.assets[2]; i++) //Loop through the textures to match the triangle's
-                        if (i == realTexture)
-                        {
-                            if (ds_list_empty(vertexBatch[i])) ds_list_add(vertexBatch[i], i, d3d_model_create()); //If this vertex batch is not made yet, make one
-                            var model = ds_list_find_value(vertexBatch[i], 1); //Get model from the vertex batch list
-                            d3d_model_primitive_begin(model, pr_trianglelist);
-                            if (x3 == number &amp;&amp; y3 == y1) //If the triangle is the upper half of a wall, map accordingly
-                            {
-                                d3d_model_vertex_texture(model, number, y1, z1, 0, 0);
-                                d3d_model_vertex_texture(model, x2, y2, z1, point_distance(number, y1, x2, y2) / 16, 0);
-                                d3d_model_vertex_texture(model, number, y1, z3, 0, -(z3 - z1) / 16);
-                            }
-                            else
-                                if (x3 == x2 &amp;&amp; y3 == y2) //Check if lower half of a wall
-                                {
-                                    var hRepeat = point_distance(number, y1, x2, y2) / 16, vRepeat = (z2 - z1) / 16;
-                                    d3d_model_vertex_texture(model, number, y1, z1, 0, vRepeat);
-                                    d3d_model_vertex_texture(model, x2, y2, z2, hRepeat, 0);
-                                    d3d_model_vertex_texture(model, x2, y2, z1, hRepeat, vRepeat);
-                                }
-                                else
-                                {
-                                    d3d_model_vertex_texture(model, number, y1, z1, number / 16, y1 / 16);
-                                    d3d_model_vertex_texture(model, x2, y2, z2, x2 / 16, y2 / 16);
-                                    d3d_model_vertex_texture(model, x3, y3, z3, x3 / 16, y3 / 16);
-                                }
-                            d3d_model_primitive_end(model);
-                        }
-                    c_shape_add_triangle(number, y1, z1, x2, y2, z2, x3, y3, z3);
-                    global.minZ = min(global.minZ, z1, z2, z3);
-                break
-                case (0.2): //Actors
-                    var yy = level_read_real(file), zz = level_read_real(file), dir = level_read_real(file), type = level_read_real(file), obj = objPlayerSpawn;
-                    switch (type)
-                    {
-                        case (1): obj = objGoomba; break
-                        case (2): obj = objBomb; break
-                    }
-                    with (instance_create(number, yy, obj))
-                    {
-                        z = zz + half;
-                        faceDir = dir;
-                    }
-                break
-            }
-        }
-        file_text_close(file);
-        for (i = 0; i &lt; global.assets[2]; i++)
-            if (ds_list_empty(vertexBatch[i])) ds_list_destroy(vertexBatch[i]); //Delete vertex batch if there are no triangles stored
-            else
-            {
-                ds_list_add(global.worldModel, vertexBatch[i]); //Add it to the world model otherwise
-                show_debug_message("Added triangles to world model with texture " + string(ds_list_find_value(vertexBatch[i], 0)) + ", model ID " + string(ds_list_find_value(vertexBatch[i], 1)));
-            }
-        c_shape_end_trimesh(worldShape);
-        worldObject = c_object_create(worldShape, 1, 1);
-        global.world = c_world_create();
-        c_world_add_object(worldObject);
-        show_debug_message("Created world model");
-    break
-}
-//Reset in-game states
-music_start();
-global.battle = false;
-framerate_set();
-discord_update_presence("0 backups collected", global.roomName, "largeicon" + string(global.roomIcon), "smallicon");
-window_set_cursor(cr_default);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="7" enumb="3">
       <action>
         <libid>1</libid>
@@ -622,13 +505,6 @@ window_set_cursor(cr_default);
           <argument>
             <kind>1</kind>
             <string>///Unload game
-ds_list_destroy(global.worldModel);
-for (var i = 0, n = array_height_2d(global.fnt); i &lt; n; i++)
-{
-    font_delete(global.fnt[i, 0]);
-    if (global.fnt[i, 1]) sprite_delete(global.fnt[i, 1]);
-}
-for (var i = 0, n = array_length_1d(global.snd); i &lt; n; i++) audio_destroy_stream(global.snd[i]);
 FMODGMS_Sys_Close();
 discord_free_app();
 discord_free_dll();
@@ -661,15 +537,13 @@ image_system_cleanup();
             <string>///Draw pause GUI
 if (global.paused) draw_background_ext(pauseBg, 0, 0, display_get_gui_width() / background_get_width(pauseBg), display_get_gui_height() / background_get_height(pauseBg), 0, make_color_rgb(128, 128, 128), 1);
 var pX2 = 2 * pauseX + (800 * global.paused);
-draw_set_font(global.fnt[cFntMario, 0]);
 draw_set_halign(fa_right);
 draw_text_transformed(pX2 + 100, 200, "Paused", 2, 2, 0);
 draw_set_halign(fa_left);
-draw_set_font(-1);
-draw_image(global.bg[cBgPauseMario], 0, pauseX, 0);
-draw_image_ext(global.spr[cSprIntro, 0], 0, pX2, 100, 0.5, 0.5, 0, c_white, 1);
+draw_image(global.bg[| cBgPauseMario], 0, pauseX, 0);
+draw_image_ext(sprite_get(cSprIntro), 0, pX2, 100, 0.5, 0.5, 0, c_white, 1);
 draw_text(8, 8, string(round(fps_real)) + " FPS#" + string(global.deltaTime) + "#" + string(setFramerate));
-if (instance_exists(objPlayer)) draw_image_ext(global.spr[cSprHealth, 0], objPlayer.hp, view_wview[0] * 0.5, healthY, 2, 2, 0, c_white, 1);
+if (instance_exists(objPlayer)) draw_image_ext(sprite_get(cSprHealth), objPlayer.hp, view_wview[0] * 0.5, healthY, 2, 2, 0, c_white, 1);
 </string>
           </argument>
         </arguments>

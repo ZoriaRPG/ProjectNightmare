@@ -50,7 +50,9 @@ next = noone;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (image_alpha &lt; 1) image_alpha += 0.01; else if (next != noone) room_goto(next); else game_end();
+            <string>if (image_alpha &lt; 1) image_alpha += 0.01;
+else if (next != noone) room_change(next);
+else game_end();
 </string>
           </argument>
         </arguments>

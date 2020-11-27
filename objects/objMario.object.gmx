@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>objPlayer</parentName>
@@ -26,19 +26,19 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-jumpSnd[0] = global.snd[cSndMarioJump];
-jumpSnd[1] = global.snd[cSndMarioJump2];
-jumpSnd[2] = global.snd[cSndMarioJump3];
-jumpSnd[3] = global.snd[cSndMarioJump4];
-jumpSnd[4] = global.snd[cSndMarioJump5];
-fallSnd[0] = global.snd[cSndMarioFall];
-fallSnd[1] = global.snd[cSndMarioFall2];
-hurtSnd[0] = global.snd[cSndMarioHurt];
-hurtSnd[1] = global.snd[cSndMarioHurt2];
-hurtSnd[2] = global.snd[cSndMarioHurt3];
-hurtSnd[3] = global.snd[cSndMarioHurt4];
-hurtSnd[4] = global.snd[cSndMarioHurt5];
-deadSnd[0] = global.snd[cSndMarioDead];
+jumpSnd[0] = cSndMarioJump;
+jumpSnd[1] = cSndMarioJump2;
+jumpSnd[2] = cSndMarioJump3;
+jumpSnd[3] = cSndMarioJump4;
+jumpSnd[4] = cSndMarioJump5;
+fallSnd[0] = cSndMarioFall;
+fallSnd[1] = cSndMarioFall2;
+hurtSnd[0] = cSndMarioHurt;
+hurtSnd[1] = cSndMarioHurt2;
+hurtSnd[2] = cSndMarioHurt3;
+hurtSnd[3] = cSndMarioHurt4;
+hurtSnd[4] = cSndMarioHurt5;
+deadSnd[0] = cSndMarioDead;
 hitbox_create();
 </string>
           </argument>
@@ -147,7 +147,6 @@ else
                 }
                 else
                 {
-                    //Animation control (in mid-air)
                     sprite = cSprMarioJump;
                     frameSpd = 0;
                     frame = zSpeed &lt;= 0;

@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>objActor</parentName>
@@ -60,8 +60,9 @@ alarm[0] = 1;
           <argument>
             <kind>1</kind>
             <string>///Post-initialize variables
-radius = (sprite_get_width(idleSprite) * 0.5) * scale;
-height = sprite_get_height(idleSprite) * scale;
+var getSprite = sprite_get(idleSprite);
+radius = (image_get_width(getSprite) * 0.5) * scale;
+height = image_get_height(getSprite) * scale;
 hitbox_create();
 faceDir = startDir;
 </string>

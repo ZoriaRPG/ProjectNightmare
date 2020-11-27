@@ -56,6 +56,30 @@ audio_emitter_free(emitter);
         </arguments>
       </action>
     </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//Turn off D3D
+d3d_end();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="7" enumb="25">
       <action>
         <libid>1</libid>
@@ -125,12 +149,12 @@ if (target &amp;&amp; instance_exists(target))
                 if (mode == 2)
                 {
                     mode = 0;
-                    audio_play_sound(global.snd[cSndCameraOut], 1, false);
+                    audio_play_sound(global.snd[| cSndCameraOut], 1, false);
                 }
                 else
                 {
                     mode = 2;
-                    audio_play_sound(global.snd[cSndCameraIn], 1, false);
+                    audio_play_sound(global.snd[| cSndCameraIn], 1, false);
                 }
                 target.fVisible = true;
             }
@@ -142,14 +166,14 @@ if (target &amp;&amp; instance_exists(target))
                     mode = 0;
                     target.fVisible = true;
                     target.faceDir = faceDir;
-                    audio_play_sound(global.snd[cSndCameraOut], 1, false);
+                    audio_play_sound(global.snd[| cSndCameraOut], 1, false);
                 }
                 else
                 {
                     mode = 1;
                     target.fVisible = false;
                     faceDir = tD;
-                    audio_play_sound(global.snd[cSndCameraIn], 1, false);
+                    audio_play_sound(global.snd[| cSndCameraIn], 1, false);
                 }
                 pitch = 0;
             }
@@ -162,7 +186,7 @@ if (target &amp;&amp; instance_exists(target))
             global.cX = tX;
             global.cY = tY;
             var b = 0;
-            if (target.fOnGround &amp;&amp; target.fric == 0.2) b = lengthdir_y(target.spdDis * 3, current_time * 0.85)
+            if (target.fOnGround &amp;&amp; target.fric == 0.2) b = lengthdir_y(target.spdDis * 3, current_time * 0.85);
             if (target.sliding || target.fric != 0.2) b = -6;
             bob = lerp(bob, b, 0.05);
             global.cZ = target.top - 4 + bob;
@@ -182,7 +206,7 @@ if (target &amp;&amp; instance_exists(target))
             else if (global.bind[7, 3] &amp;&amp; faceDir != tD)
             {
                 faceDir = tD;
-                audio_play_sound(global.snd[cSndCameraSpin], 1, false);
+                audio_play_sound(global.snd[| cSndCamera], 1, false);
             }
             //Set the increments of the camera to zoom out for 3rd person
             var incX = lengthdir_x(range, faceDir), incY = lengthdir_y(range, faceDir), incZ = 0, obstructed = false, tBlockZ = tRZ + 24, tBlockZ2 = tZ + 24, tToX = tX - incX, tToY = tY - incY, tToZ = tBlockZ2, maxPitch = 89.5, minPitch = -89.5;
@@ -230,58 +254,6 @@ if (target &amp;&amp; instance_exists(target))
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Turn off D3D
-d3d_end();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="4">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Set global camera variables
-global.cX = x;
-global.cY = y;
-global.cZ = z;
-global.cD = faceDir;
-global.cP = pitch;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -304,7 +276,7 @@ draw_set_color(c_white);
 var realPitch = pitch;
 if (mode == 1) realPitch = clamp(pitch + flinch, -89.5, 89.5); //Add flinching if first person mode
 var cCos = dcos(global.cD), cSin = dsin(global.cD), cTan = dtan(realPitch);
-d3d_set_projection_ext(global.cX, global.cY, global.cZ, global.cX + cCos, global.cY - cSin, global.cZ + cTan, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, 65536);
+d3d_set_projection_ext(global.cX, global.cY, global.cZ, global.cX + cCos, global.cY - cSin, global.cZ + cTan, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, global.maxRender);
 audio_listener_position(global.cX, global.cY, global.cZ);
 audio_listener_orientation(cCos, -cSin, cTan, 0, 0, 1);
 //Draw the skybox
@@ -316,34 +288,31 @@ if (global.skybox != noone)
 }
 //Draw world model
 texture_set_repeat(true);
-for (i = 0; i &lt; ds_list_size(global.worldModel); i++)
-{
-    var vertexBatch = ds_list_find_value(global.worldModel, i);
-    if (ds_exists(vertexBatch, ds_type_list)) d3d_model_draw(ds_list_find_value(vertexBatch, 1), 0, 0, 0, texture_get(ds_list_find_value(vertexBatch, 0)));
-}
+for (i = 0; i &lt; ds_list_size(global.worldModel[0]); i++) vertex_submit(ds_list_find_value(global.worldModel[0], i), pr_trianglelist, texture_get(ds_list_find_value(global.worldModel[1], i)));
 texture_set_repeat(false);
 //Draw actors
 with (objActor)
 {
     if (fVisible &amp;&amp; sprite != -1)
     { 
-        if (global.spr[sprite, 1])
+        var getSprite = sprite_get(sprite);
+        if (ds_list_find_value(global.spr[? sprite], 1))
         {
-            var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(global.spr[sprite, 0]);
+            var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(getSprite);
             while (dir &lt; 0) dir += 4;
             cFrame = min(((frames * 0.25) * dir) + frame, frames - 1);
         }
         else cFrame = frame;
         matrix_set(matrix_world, matrix_build(x, y, bottom, -90, global.cD - 90, 0, 1, 1, 1));
         var size = scale * 0.5;
-        draw_image_ext(global.spr[sprite, 0], cFrame, 0, 0, size, -size, 0, c_white, 1);
+        draw_image_ext(getSprite, cFrame, 0, 0, size, -size, 0, c_white, 1);
         shader_reset();
     }
     if (fShadow &amp;&amp; shadowZ != -65536 &amp;&amp; global.cZ &gt; shadowZ)
     {
         matrix_set(matrix_world, shadowMatrix);
         var shadowSize = 2 * radius;
-        draw_image_stretched_ext(global.bg[cBgShadow], 0, -radius, -radius, shadowSize, shadowSize, c_white, 0.5);
+        draw_image_stretched_ext(global.bg[| cBgShadow], 0, -radius, -radius, shadowSize, shadowSize, c_white, 0.5);
     }
 }
 matrix_set(matrix_world, global.defaultMatrix);

@@ -96,7 +96,7 @@ if (player &amp;&amp; bottom &lt; player.top &amp;&amp; top + 4 &gt; player.bott
         {
             z = other.z + half;
             zSpeed = 2;
-            d3d_sound_play(global.snd[cSndGoombaDead], false, 1);
+            d3d_sound_play(cSndGoombaDead, false, 1);
         }
         fSolid = false;
         instance_destroy();
@@ -143,7 +143,7 @@ if (instance_exists(target))
 {
     if (!alert &amp;&amp; target.z &gt; z - 8 &amp;&amp; target.z &lt; z + 8 &amp;&amp; point_distance_3d(x, y, z, target.x, target.y, target.z) &lt; 100 &amp;&amp; !c_raycast_world(x, y, z, target.x, target.y, target.z, 1))
     {
-        d3d_sound_play(global.snd[cSndGoomba], false, 1);
+        d3d_sound_play(cSndGoomba, false, 1);
         timer[0] = 600;
         alert = true;
         spd = 0.5;

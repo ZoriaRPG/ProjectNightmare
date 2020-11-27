@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -61,6 +61,7 @@ with (instance_create(x, y, objMario))
     z = other.z + half;
     faceDir = other.faceDir;
 }
+instance_destroy();
 </string>
           </argument>
         </arguments>

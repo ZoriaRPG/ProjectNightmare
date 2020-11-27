@@ -2,7 +2,7 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>objActor</parentName>
@@ -51,10 +51,8 @@ bounciness = 3;
           <argument>
             <kind>1</kind>
             <string>///Move to holder's position
-if (timer[0] == -65536)
-    fPushable = abs(hSpeed) &gt; 0.1 || abs(vSpeed) &gt; 0.1 || abs(zSpeed) &gt; 0.1;
-else
-    timer_tick(0);
+if (timer[0] == -65536) fPushable = abs(hSpeed) &gt; 0.1 || abs(vSpeed) &gt; 0.1 || abs(zSpeed) &gt; 0.1;
+else timer_tick(0);
 if (target)
 {
     fShadow = false;

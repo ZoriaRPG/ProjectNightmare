@@ -91,7 +91,7 @@ actor_update();
           <argument>
             <kind>1</kind>
             <string>///Move test
-if (!instance_exists(objTransition) &amp;&amp; (z &lt; global.minZ - 300 || timer_tick(2))) transition_create(room, c_black);
+if (!instance_exists(objTransition) &amp;&amp; (z &lt; global.minZ - 300 || timer_tick(2))) transition_create(global.currentRoom, c_black);
 if (instance_exists(objCamera))
     if (timer_tick(1)) fVisible = objCamera.mode != 1;
     else if (timer[1] &amp;&amp; objCamera.mode != 1) fVisible = !fVisible;
@@ -197,7 +197,7 @@ if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global
     {
         objCamera.flinch = 3;
         player_sound_play(jumpSnd);
-        d3d_sound_play(global.snd[cSndJump], false, 1);
+        d3d_sound_play(cSndJump, false, 1);
     }
     if !(c_raycast_world(x, y, z, x, y, top + jumpSpd, 1)) z += h;
     zSpeed = h - 0.1;

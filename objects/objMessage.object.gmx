@@ -33,7 +33,7 @@ alarmToggle = false;
 show = false;
 message[0] = "";
 currentMessage = 1;
-audio_play_sound(global.snd[cSndMessageOpen], 1, false);
+audio_play_sound(global.snd[| cSndMessageOpen], 1, false);
 </string>
           </argument>
         </arguments>
@@ -65,7 +65,7 @@ audio_play_sound(global.snd[cSndMessageOpen], 1, false);
     }
 if (timer_tick(1))
 {
-    if (message[0] != message[currentMessage]) audio_play_sound(global.snd[cSndMessage], 1, false);
+    if (message[0] != message[currentMessage]) audio_play_sound(global.snd[| cSndMessage], 1, false);
     timer[1] = 5;
 }
 if (alarmToggle &amp;&amp; timer[0] == -65536)
@@ -91,13 +91,12 @@ if (alarmToggle &amp;&amp; timer[0] == -65536)
             timer[2] = 1;
             currentMessage++;
         }
-        else
-            if (show)
-            {
-                audio_play_sound(global.snd[cSndMessageClose], 1, false);
-                timer[0] = 10;
-                show = false;
-            }
+        else if (show)
+        {
+            audio_play_sound(global.snd[| cSndMessageClose], 1, false);
+            timer[0] = 10;
+            show = false;
+        }
 }
 </string>
           </argument>
@@ -121,16 +120,16 @@ if (alarmToggle &amp;&amp; timer[0] == -65536)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (show) scale = 10; else if (alarmToggle) scale = timer[0]; else scale = (10 - timer[0]);
+            <string>if (show) scale = 10;
+else if (alarmToggle) scale = timer[0];
+else scale = (10 - timer[0]);
 scale *= 0.1;
 draw_set_color(c_black);
 draw_set_alpha(0.51);
 draw_rectangle(16, view_hview[0] - (144 * scale), view_wview[0] - 16, view_hview[0] - (16 * scale), false);
 draw_set_alpha(1);
 draw_set_color(c_white);
-draw_set_font(global.fnt[cFntMessage, 0]);
 draw_text_ext_transformed(20, view_hview[0] - (140 * scale), message[0], -1, (view_wview[0] * 0.5) - 20, 2, 2 * scale, 0);
-draw_set_font(-1);
 </string>
           </argument>
         </arguments>

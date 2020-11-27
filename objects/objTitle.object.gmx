@@ -58,7 +58,30 @@ menu[4,2]="Master Volume ";
 menu[4,3]="Music Volume ";
 menu[4,4]="Sound Volume ";
 menu[4,5]="Back";*/
-FMODGMS_Snd_PlaySound(global.mus[cMusTitle], global.channel); //Stupid workaround, since the title map doesn't play music for some reason
+FMODGMS_Snd_PlaySound(global.mus[| cMusTitle], global.channel); //Stupid workaround, since the title map doesn't play music for some reason
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>ds_list_destroy(menu[1]);
 </string>
           </argument>
         </arguments>
@@ -126,17 +149,17 @@ if (bind_hardcode_pressed(vk_enter, gp_face1) &amp;&amp; timer[0] == -65536)
     {
         //Press Enter to begin Menu
         case (0):
-            audio_play_sound(global.snd[cSndBegin], 1, false);
+            audio_play_sound(global.snd[| cSndEnter2], 1, false);
             timer[0] = 60;
         break
         //Main Menu
         case (1):
             if !(instance_exists(objTransition))
             {
-                audio_play_sound(global.snd[cSndEnter], 1, false);
+                audio_play_sound(global.snd[| cSndEnter], 1, false);
                 switch (currentOption)
                 {
-                    case (0): transition_create(rmMain, c_white); break
+                    case (0): transition_create(0, c_white); break
                     case (1): transition_create(noone, c_black); break //noone exits the game
                 }
             }
@@ -148,7 +171,7 @@ if (currentMenu)
     var input = bind_hardcode_pressed(vk_down, gp_padd) - bind_hardcode_pressed(vk_up, gp_padu);
     if (input != 0)
     {
-        audio_play_sound(global.snd[cSndSelect], 1, false);
+        audio_play_sound(global.snd[| cSndSelect], 1, false);
         var s = ds_list_size(menu[currentMenu]), next = currentOption + input;
         currentOption = (next + (next &lt; 0) * s) mod (s);
     }
@@ -181,7 +204,7 @@ var vw = view_wview[0] * 0.5, vh = view_hview[0] * 0.5, dir = get_timer() / 900,
 draw_set_alpha(0.51);
 draw_rectangle_color(vw - s, 0, vw + s, view_hview[0], c_black, c_black, c_black, c_black, false);
 draw_set_alpha(1);
-draw_image_ext(global.spr[cSprIntro, 0], 0, vw, vh - 132, wx, wy, 0, c_white, 1);
+draw_image_ext(sprite_get(cSprIntro), 0, vw, vh - 132, wx, wy, 0, c_white, 1);
 draw_set_halign(fa_center);
 //For some reason it won't upscale to 2x, so let's use wx2 and wy2
 switch (currentMenu)
