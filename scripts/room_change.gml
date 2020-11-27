@@ -72,7 +72,7 @@ with (objControl)
         {
             var texID = tempData[| j + 9];
             if (texID != ds_list_find_value(global.worldModel[1], i)) continue
-            var pos, texPointer = ds_list_find_value(global.tex[? texID], 0);
+            var pos, texPointer = ds_list_find_value(global.tex[| texID], 0);
             //X,Y,Z
             pos[0] = tempData[| j];
             pos[1] = tempData[| j + 1];

@@ -296,7 +296,7 @@ with (objActor)
     if (fVisible &amp;&amp; sprite != -1)
     { 
         var getSprite = sprite_get(sprite);
-        if (ds_list_find_value(global.spr[? sprite], 1))
+        if (sprite_rotates(sprite))
         {
             var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(getSprite);
             while (dir &lt; 0) dir += 4;

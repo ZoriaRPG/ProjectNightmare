@@ -100,12 +100,12 @@ Example: 0.png, 1.png, 2.png...
 
 "ani.txt" contains sprite definitions, where every line is formatted like this: sprite|frames|rotates|xOffset|yOffset
 
-The sprite map structure is as follows:
-global.spr[? id] = a list containing sprite data:
+The sprite list structure is as follows:
+global.spr[| id] = a list containing sprite data:
     0 = the sprite itself
     1 = rotates (4-directional)
 */
-global.spr = ds_map_create();
+global.spr = ds_list_create();
 image_stream_start("spr", 2048, 2048, 0, true, false);
 var file = file_find_first(cDirSpr + "*.png", 0), tempData = ds_list_create();
 while (file != "")
@@ -138,7 +138,7 @@ for (i = 0; i &lt; assets; i++) //Add every streamed sprite to global.spr
 {
     var sprData = ds_list_create();
     ds_list_add(sprData, image_group_find_image("spr", string(i)), tempData[| i]);
-    ds_map_add(global.spr, i, sprData);
+    ds_list_add(global.spr, sprData);
 }
 ds_list_clear(tempData);
 assets = 0;
@@ -170,14 +170,12 @@ Example: 0.png, 1.png, 2.png...
 
 "ani.txt" contains texture definitions, where every line is formatted like this: texture|frames|speed
 
-The sprite map structure is as follows:
+The sprite list structure is as follows:
 global.tex[? id] = a list containing texture data:
     0 = pointer of graphic
     1 = animation speed
-    2... = the graphic as separate texture pointer(s)
-*/
-tempData = ds_list_create();
-global.tex = ds_map_create();
+    2... = the graphic as separate texture pointer(s)*/
+global.tex = ds_list_create();
 image_stream_start("tex", 1024, 1024, 0, true, false);
 file = file_find_first(cDirTex + "*.png", 0);
 while (file != "")
@@ -211,7 +209,7 @@ for (i = 0; i &lt; assets; i++)
     var texData = ds_list_create();
     ds_list_add(texData, image_group_find_image("tex", string(i)), tempData[| i]);
     for (var j = 0, p = texData[| 0], n = image_get_number(p); j &lt; n; j++) ds_list_add(texData, image_get_texture(p, j)); //Add frames to texture data list
-    ds_map_add(global.tex, i, texData);
+    ds_list_add(global.tex, texData);
 }
 ds_list_destroy(tempData);
 assets = 0;
