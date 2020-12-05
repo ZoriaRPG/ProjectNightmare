@@ -57,10 +57,14 @@ floorPitch = 0; //Used for checking the vertical angle of slopes and detecting s
 sliding = false; //Used for sliding off of steep slopes.
 //Animation
 shadowZ = -9;
-shadowMatrix = matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1);
+shadowMatrix = SMF_MATIDENTITY;
 sprite = -1;
 frame = 0; //Similar to image_index.
 frameSpd = 0; //Similar to image_speed.
+//anim, skin and bodygroup are only used for animated models
+anim = 0;
+skin = 0;
+bodygroup = 0;
 scale = 1; //scale is used for changing the actor's sprite size. Does not affect hitbox.
 emitter = audio_emitter_create();
 audio_emitter_falloff(emitter, 85.5, 170.5, 1);

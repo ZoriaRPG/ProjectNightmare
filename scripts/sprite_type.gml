@@ -1,3 +1,3 @@
 ///sprite_rotates(spriteID)
-//Returns a boolean that determines if the sprite has 4 directions or not.
+//Returns a number that determines the sprite type.
 return (ds_list_find_value(global.spr[| argument0], 1))

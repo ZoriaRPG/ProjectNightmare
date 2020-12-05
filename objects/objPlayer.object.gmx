@@ -43,7 +43,6 @@ jumpSnd[0] = noone;
 fallSnd[0] = noone;
 hurtSnd[0] = noone;
 deadSnd[0] = noone;
-timer[0] = irandom_range(60, 300);
 </string>
           </argument>
         </arguments>
@@ -153,7 +152,6 @@ if (instance_exists(objCamera))
 if (fric == 0.2)
 {
     //change friction if sliding
-    if (sliding) fric = 0.02;
     if (keyL &gt; 0)
     {
         faceDir = point_direction(0,0,keyX,keyY) + global.cD;
@@ -162,17 +160,6 @@ if (fric == 0.2)
         var lX2 = abs(lengthdir_x(vector, faceDir)) * walkSpeed, lY2 = abs(lengthdir_y(vector, faceDir)) * walkSpeed, acc2 = 0.75;
         hSpeed = clamp(hSpeed + ((lX * acc2) / acc), -lX2, lX2);
         vSpeed = clamp(vSpeed + ((lY * acc2) / acc), -lY2, lY2);
-    }
-    //Divekick
-    if (global.bind[5, 3] &amp;&amp; object_index == objMario &amp;&amp; onGround &amp;&amp; spdDis &gt; 1)
-    {
-        objCamera.flinch = -10;
-        var divePower = lengthdir_x(1.3, floorPitch);
-        hSpeed *= divePower;
-        vSpeed *= divePower;
-        zSpeed += 1;
-        fric = 0.02;
-        sprite = cSprMarioSlide2;
     }
 }
 else if (spdDis &lt; 0.3) fric = 0.2;
@@ -186,12 +173,6 @@ if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global
         fric = 0.2;
         hSpeed *= 0.5;
         vSpeed *= 0.5;
-        if (object_index == objMario)
-        {
-            sprite = cSprMarioFlip;
-            frameSpd = 0.2;
-            frame = 0;
-        }
     }
     else
     {
@@ -201,6 +182,11 @@ if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global
     }
     if !(c_raycast_world(x, y, z, x, y, top + jumpSpd, 1)) z += h;
     zSpeed = h - 0.1;
+    if (object_index == objMario)
+    {
+        anim = cAniMarioJump;
+        frame = 0;
+    }
 }
 //Get nearest enemy
 var near = instance_nearest(x, y, objEnemy);
@@ -239,8 +225,12 @@ if (global.bind[6, 3])
                         cutscene_wait(20);
                         //Add messages manually, because cutscene_message only allows string inputs.
                         ds_list_add(list, 3);
-                        var strings = ds_list_create();
-                        for (var i = 0, n = array_length_1d(near.message); i &lt; n; i++) ds_list_add(strings, near.message[i]);
+                        var strings = ds_list_create(), i = 0;
+                        repeat (array_length_1d(near.message))
+                        {
+                           ds_list_add(strings, near.message[i]);
+                           i++; 
+                        }
                         ds_list_add(list, strings);
                         cutscene_wait_message();
                         cutscene_wait(10);

@@ -215,7 +215,8 @@ switch (currentMenu)
         draw_text_transformed_colour(vw, tvh, text, wx2, wy2, 0, blink, blink, blink, blink, 1);
     break
     default:
-        for (var i = 0; i &lt; ds_list_size(menu[currentMenu]); i++)
+        var i = 0;
+        repeat (ds_list_size(menu[currentMenu]))
         {
             var tc = c_white, ts = ds_list_find_value(menu[currentMenu], i), ts2 = ts;
             if (i == currentOption)
@@ -224,6 +225,7 @@ switch (currentMenu)
                 ts2 = "&gt;" + ts + "&lt;";
             }
             draw_text_transformed_colour(vw, tvh + i * 32, ts2, wx2, wy2, 0, tc, tc, tc, tc, 1);
+            i++;
         }
 }
 draw_set_halign(fa_left);

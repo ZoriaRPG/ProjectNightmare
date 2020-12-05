@@ -85,7 +85,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <scripts name="Actors">
-      <script>scripts\hitbox_create.gml</script>
+      <script>scripts\actor_create.gml</script>
       <script>scripts\actor_update.gml</script>
       <script>scripts\actor_clear.gml</script>
       <script>scripts\d3d_sound_play.gml</script>
@@ -246,7 +246,6 @@
     <scripts name="Input">
       <script>scripts\mouse_look.gml</script>
       <script>scripts\bind_hardcode_pressed.gml</script>
-      <script>scripts\bind_input_clear.gml</script>
       <script>scripts\bind_axis.gml</script>
     </scripts>
     <scripts name="Rich Presence">
@@ -256,7 +255,56 @@
       <script>scripts\discord_free_app.gml</script>
       <script>scripts\discord_free_dll.gml</script>
     </scripts>
-    <script>scripts\change_option.gml</script>
+    <scripts name="Snidr's Model Format">
+      <script>scripts\smf_init.gml</script>
+      <script>scripts\smf_model_load.gml</script>
+      <script>scripts\smf_model_load_obj.gml</script>
+      <script>scripts\smf_model_draw.gml</script>
+      <script>scripts\smf_frame_create.gml</script>
+      <script>scripts\smf_sample_get_bone_orientation.gml</script>
+      <script>scripts\smf_sample_create_from_frame.gml</script>
+      <script>scripts\smf_frame_rotate_bone_global.gml</script>
+      <script>scripts\smf_frame_replace_bone.gml</script>
+      <script>scripts\smf_frame_lerp_bone.gml</script>
+      <script>scripts\smf_animation_load.gml</script>
+      <script>scripts\smf_animation_set_shader_uniforms.gml</script>
+      <script>scripts\smf_sample_create.gml</script>
+      <script>scripts\smf_sample_blend.gml</script>
+      <script>scripts\smf_normalize.gml</script>
+      <script>scripts\smf_cross_product.gml</script>
+      <script>scripts\smf_orthogonalize.gml</script>
+      <script>scripts\smf_rotate_vector.gml</script>
+      <script>scripts\smf_matrix_create.gml</script>
+      <script>scripts\smf_matrix_create_from_axisangle.gml</script>
+      <script>scripts\smf_matrix_create_from_dualquat.gml</script>
+      <script>scripts\smf_matrix_orthogonalize.gml</script>
+      <script>scripts\smf_matrix_orthogonalize_up.gml</script>
+      <script>scripts\smf_matrix_invert_orientation.gml</script>
+      <script>scripts\smf_matrix_reset.gml</script>
+      <script>scripts\smf_matrix_create_up.gml</script>
+      <script>scripts\smf_quat_create.gml</script>
+      <script>scripts\smf_quat_normalize.gml</script>
+      <script>scripts\smf_quat_multiply.gml</script>
+      <script>scripts\smf_quat_get_to.gml</script>
+      <script>scripts\smf_quat_get_si.gml</script>
+      <script>scripts\smf_quat_get_up.gml</script>
+      <script>scripts\smf_quat_dot.gml</script>
+      <script>scripts\smf_quat_get_conjugate.gml</script>
+      <script>scripts\smf_dualquat_create.gml</script>
+      <script>scripts\smf_dualquat_create_from_matrix.gml</script>
+      <script>scripts\smf_dualquat_normalize.gml</script>
+      <script>scripts\smf_dualquat_get_translation.gml</script>
+      <script>scripts\smf_dualquat_get_conjugate.gml</script>
+      <script>scripts\smf_dualquat_lerp.gml</script>
+      <script>scripts\smf_dualquat_multiply.gml</script>
+      <script>scripts\smf_dualquat_set_translation.gml</script>
+      <script>scripts\smf_dualquat_transform_vector.gml</script>
+      <script>scripts\smf_dualquat_create_identity.gml</script>
+      <script>scripts\smf_dualquat_sclerp.gml</script>
+      <script>scripts\smf_create_vertex_buffer.gml</script>
+      <script>scripts\smf_add_vertex.gml</script>
+      <script>scripts\smf_model_save.gml</script>
+    </scripts>
     <script>scripts\framerate_set.gml</script>
     <script>scripts\level_read_real.gml</script>
     <script>scripts\level_read_string.gml</script>
@@ -264,7 +312,7 @@
     <script>scripts\music_stop.gml</script>
     <script>scripts\string_parse.gml</script>
     <script>scripts\sprite_get.gml</script>
-    <script>scripts\sprite_rotates.gml</script>
+    <script>scripts\sprite_type.gml</script>
     <script>scripts\texture_get.gml</script>
     <script>scripts\timer_create.gml</script>
     <script>scripts\timer_tick.gml</script>
@@ -272,6 +320,9 @@
     <script>scripts\FMODGMS_Util_SecondsToSamples.gml</script>
     <script>scripts\room_change.gml</script>
   </scripts>
+  <shaders name="shaders">
+    <shader type="GLSLES">shaders\sh_smf_animate.shader</shader>
+  </shaders>
   <objects name="objects">
     <object>objects\objControl</object>
     <object>objects\objCamera</object>
@@ -306,28 +357,20 @@
   <rooms name="rooms">
     <room>rooms\rmMain</room>
   </rooms>
-  <constants number="54">
+  <constants number="52">
     <constant name="cDirSpr">game_save_id + "data\gfx\spr\"</constant>
     <constant name="cDirBg">game_save_id + "data\gfx\bg\"</constant>
     <constant name="cDirTex">game_save_id + "data\gfx\tex\"</constant>
-    <constant name="cDirMtl">game_save_id + "data\gfx\mtl"</constant>
+    <constant name="cDirMtl">game_save_id + "data\gfx\mtl\"</constant>
     <constant name="cDirFnt">game_save_id + "data\gfx\fnt\"</constant>
     <constant name="cDirSfx">game_save_id + "data\sfx\"</constant>
     <constant name="cDirBgm">game_save_id + "data\sfx\bgm\"</constant>
     <constant name="cDirMap">game_save_id + "data\map\</constant>
     <constant name="cSprIntro">0</constant>
     <constant name="cSprMario">1</constant>
-    <constant name="cSprMarioRun">2</constant>
-    <constant name="cSprMarioJump">3</constant>
-    <constant name="cSprMarioBlink">4</constant>
-    <constant name="cSprMarioWoah">5</constant>
-    <constant name="cSprMarioSlideStart">6</constant>
-    <constant name="cSprMarioSlide">7</constant>
-    <constant name="cSprMarioSlide2">8</constant>
-    <constant name="cSprMarioFlip">9</constant>
-    <constant name="cSprBomb">10</constant>
-    <constant name="cSprHealth">11</constant>
-    <constant name="cSprGoomba">12</constant>
+    <constant name="cSprBomb">2</constant>
+    <constant name="cSprHealth">3</constant>
+    <constant name="cSprGoomba">4</constant>
     <constant name="cBgPauseMario">0</constant>
     <constant name="cBgShadow">1</constant>
     <constant name="cSndCoin">0</constant>
@@ -361,6 +404,12 @@
     <constant name="cMusTitle">0</constant>
     <constant name="cMusOverworld">1</constant>
     <constant name="cMusLose">2</constant>
+    <constant name="cAniMarioIdle">0</constant>
+    <constant name="cAniMarioWalk">1</constant>
+    <constant name="cAniMarioRun">2</constant>
+    <constant name="cAniMarioJump">3</constant>
+    <constant name="cAniMarioFall">4</constant>
+    <constant name="cAniMarioLand">5</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>event_inherited();
 sprite = cSprBomb;
-hitbox_create();
+actor_create();
 </string>
           </argument>
         </arguments>

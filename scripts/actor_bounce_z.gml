@@ -6,10 +6,8 @@ if (fBounce)
     {
         hSpeed /= bounciness;
         vSpeed /= bounciness;
-        if (round(abs(zSpeed)))
-            zSpeed /= -bounciness;
-        else
-            zSpeed = 0;
+        if (round(abs(zSpeed))) zSpeed /= -bounciness;
+        else zSpeed = 0;
     }
     else
     {
@@ -18,6 +16,5 @@ if (fBounce)
         zSpeed = 0;
     }
 }
-else
-    zSpeed = 0;
+else zSpeed = 0;
 return (zSpeed)

@@ -239,7 +239,7 @@ if (target &amp;&amp; instance_exists(target))
             x = global.cX;
             y = global.cY;
             z = global.cZ;
-            if !(mode == 2) pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2), 2, pitch);
+            if !(mode == 2) pitch += turn_to_angle(point_pitch(global.cX, global.cY, global.cZ, tX, tY, tBlockZ2 - 10), 2, pitch);
             else
             {
                 minPitch = -45;
@@ -275,7 +275,7 @@ if (target &amp;&amp; instance_exists(target))
 draw_set_color(c_white);
 var realPitch = pitch;
 if (mode == 1) realPitch = clamp(pitch + flinch, -89.5, 89.5); //Add flinching if first person mode
-var cCos = dcos(global.cD), cSin = dsin(global.cD), cTan = dtan(realPitch);
+var cCos = dcos(global.cD), cSin = dsin(global.cD), cTan = dtan(realPitch), i = 0;
 d3d_set_projection_ext(global.cX, global.cY, global.cZ, global.cX + cCos, global.cY - cSin, global.cZ + cTan, 0, 0, 1, 45, view_wview[0] / view_hview[0], 1, global.maxRender);
 audio_listener_position(global.cX, global.cY, global.cZ);
 audio_listener_orientation(cCos, -cSin, cTan, 0, 0, 1);
@@ -288,25 +288,59 @@ if (global.skybox != noone)
 }
 //Draw world model
 texture_set_repeat(true);
-for (i = 0; i &lt; ds_list_size(global.worldModel[0]); i++) vertex_submit(ds_list_find_value(global.worldModel[0], i), pr_trianglelist, texture_get(ds_list_find_value(global.worldModel[1], i)));
+repeat (ds_list_size(global.worldModel[0]))
+{
+    vertex_submit(ds_list_find_value(global.worldModel[0], i), pr_trianglelist, texture_get(ds_list_find_value(global.worldModel[1], i)));
+    i++;
+}
 texture_set_repeat(false);
 //Draw actors
 with (objActor)
 {
     if (fVisible &amp;&amp; sprite != -1)
     { 
-        var getSprite = sprite_get(sprite);
-        if (sprite_rotates(sprite))
+        var getSprite = sprite_get(sprite), getType = sprite_type(sprite);
+        switch (getType)
         {
-            var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(getSprite);
-            while (dir &lt; 0) dir += 4;
-            cFrame = min(((frames * 0.25) * dir) + frame, frames - 1);
+            case (0):
+            case (1):
+                var cFrame = frame, size = scale * 0.5;
+                matrix_set(matrix_world, matrix_build(x, y, bottom, -90, global.cD - 90, 0, size, size, size));
+                if (getType)
+                {
+                    var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(getSprite);
+                    while (dir &lt; 0) dir += 4;
+                    cFrame = min(((frames * 0.25) * dir) + frame, frames - 1);
+                }
+                draw_image_ext(getSprite, cFrame, 0, 0, 1, -1, 0, c_white, 1);
+                smf_matrix_reset();
+            break
+            case (2):
+                matrix_set(matrix_world, matrix_build(x, y, bottom, 0, 0, faceDir, scale, scale, scale));
+                shader_set(sh_smf_animate);
+                var i, submodels = getSprite[| 0], bodygroups = getSprite[| 1], animation = getSprite[| 2 + anim];
+                smf_animation_set_shader_uniforms(sh_smf_animate, smf_sample_blend(animation[| frame], animation[| (frame + 1) mod (ds_list_size(animation))], frac(frame)));
+                //Submodels
+                i = 0;
+                repeat (ds_list_size(submodels))
+                {
+                    if (skin[i] == -1) continue //Don't draw disabled submodels
+                    var submodel = submodels[| i];
+                    smf_model_draw(submodel[| 0], global.mtl[| submodel[| 1 + skin[i]]]);
+                    i++;
+                }
+                //Bodygroups
+                i = 0;
+                repeat (ds_list_size(bodygroups))
+                {
+                    if (bodygroup[i] == -1) continue //Don't draw disabled bodygroups
+                    var bgModel = bodygroups[| i];
+                    smf_model_draw(bgModel[| 1 + bodygroup[i]], global.mtl[| bgModel[| 0]]);
+                    i++;
+                }
+                shader_reset();
+            break
         }
-        else cFrame = frame;
-        matrix_set(matrix_world, matrix_build(x, y, bottom, -90, global.cD - 90, 0, 1, 1, 1));
-        var size = scale * 0.5;
-        draw_image_ext(getSprite, cFrame, 0, 0, size, -size, 0, c_white, 1);
-        shader_reset();
     }
     if (fShadow &amp;&amp; shadowZ != -65536 &amp;&amp; global.cZ &gt; shadowZ)
     {
@@ -315,7 +349,7 @@ with (objActor)
         draw_image_stretched_ext(global.bg[| cBgShadow], 0, -radius, -radius, shadowSize, shadowSize, c_white, 0.5);
     }
 }
-matrix_set(matrix_world, global.defaultMatrix);
+matrix_set(matrix_world, SMF_MATIDENTITY);
 </string>
           </argument>
         </arguments>

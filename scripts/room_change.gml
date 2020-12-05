@@ -20,7 +20,6 @@ with (objControl)
     }
     //Clear world model texture list
     ds_list_clear(global.worldModel[1]);
-    show_debug_message("Cleared world model");
     if (background_exists(pauseBg))
     {
         global.paused = false;
@@ -31,9 +30,13 @@ with (objControl)
     global.dawn = false;
     global.skybox = 0;
     //---ROOM START---
-    var file = file_text_open_read(cDirMap + string(global.currentRoom) + ".pnl"), tempData = ds_list_create(); //Open level file that corresponds to the current room ID
+    var i = 0, file = file_text_open_read(cDirMap + string(global.currentRoom) + ".pnl"), tempData = ds_list_create(); //Open level file that corresponds to the current room ID
     //Read level information
-    for (i = 0; i < 2; i++) global.levelMusic[i] = level_read_real(file);
+    repeat (2)
+    {
+        global.levelMusic[i] = level_read_real(file);
+        i++;
+    }
     global.roomIcon = level_read_real(file);
     global.roomName = level_read_string(file);
     global.skybox = level_read_real(file);
@@ -44,7 +47,7 @@ with (objControl)
     ds_list_add(global.worldModel[1], tempData[| 9]); //Add the first triangle's texture to the world textures list
     for (i = 19; i < dataSize; i += 10) //First loop through the list to get every texture that gets used in the level
     {
-        var unique = true;
+        var unique = true, j;
         //Iterate through every texture ID in the world textures list to see if the current triangle's texture is already included
         for (j = 0; j < ds_list_size(global.worldModel[1]); j++)
             if (tempData[| i] == ds_list_find_value(global.worldModel[1], j)) //If the texture ID is already included, skip to the next triangle
@@ -52,12 +55,7 @@ with (objControl)
                 unique = false;
                 break
             }
-        if (unique)
-        {
-            var newTex = tempData[| i];
-            ds_list_add(global.worldModel[1], newTex); //Add the unique texture ID to the world textures list
-            show_debug_message("New texture " + string(newTex) + " at slot " + string(j));
-        }
+        if (unique) ds_list_add(global.worldModel[1], tempData[| i]); //Add the unique texture ID to the world textures list
     }
     var textures = ds_list_size(global.worldModel[1]);
     repeat (textures) ds_list_add(global.worldModel[0], vertex_create_buffer()); //Create vertex buffers as world model segments for each texture
@@ -74,15 +72,7 @@ with (objControl)
             if (texID != ds_list_find_value(global.worldModel[1], i)) continue
             var pos, texPointer = ds_list_find_value(global.tex[| texID], 0);
             //X,Y,Z
-            pos[0] = tempData[| j];
-            pos[1] = tempData[| j + 1];
-            pos[2] = tempData[| j + 2];
-            pos[3] = tempData[| j + 3];
-            pos[4] = tempData[| j + 4];
-            pos[5] = tempData[| j + 5];
-            pos[6] = tempData[| j + 6];
-            pos[7] = tempData[| j + 7];
-            pos[8] = tempData[| j + 8];
+            for (var k = 0; k < 9; k++) pos[k] = tempData[| j + k];
             //U,V
             pos[9] = image_get_width(texPointer) * 0.5;
             pos[10] = image_get_height(texPointer) * 0.5;
@@ -94,7 +84,6 @@ with (objControl)
             vertex_texcoord(buffer, pos[6] / pos[9], pos[7] / pos[10]);
             c_shape_add_triangle(pos[0], pos[1], pos[2], pos[3], pos[4], pos[5], pos[6], pos[7], pos[8]);
             global.minZ = min(global.minZ, pos[2], pos[5], pos[8]);
-            show_debug_message("New triangle at model segment slot " + string(i));
         }
         vertex_end(buffer);
     }

@@ -1,2 +1,1 @@
-if (fEnemy)
-    faceDir = irandom(360);
+if (fEnemy) faceDir = irandom(360);

@@ -30,9 +30,3 @@ globalvar SMF_bindList, SMF_bindLocalList, SMF_frameList;
 SMF_bindList = ds_list_create();
 SMF_frameList = ds_list_create();
 SMF_bindLocalList = ds_list_create();
-
-//---------------Collision module------------------\\
-globalvar SMF_colTriBytes, SMF_colBuffHeader;
-SMF_colTriBytes = 12 * 2; //Bytes per triangle
-SMF_colBuffHeader = 10 * 4; //Size of header
-

@@ -72,45 +72,78 @@ global.bind[10, 1] = gp_axisrv; //Camera up
 global.bind[11, 1] = gp_axisrh; //Camera left
 global.bind[12, 1] = gp_axisrv; //Camera down
 global.bind[13, 1] = gp_axisrh; //Camera right
-bind_input_clear();
+for (var i = 0; i &lt; 14; i++) for (var j = 2; j &lt; 7; j++) global.bind[i, j] = false;
 /*[ASSETS]
 All game assets are externalized and stored in a ZIP file. The asset maps are as follows:
 global.spr = sprites/models (coming soon)
 global.bg = backgrounds
 global.tex = textures
-global.mtl = materials (coming soon)
+global.mtl = materials
 global.fnt = fonts (coming soon)
 global.snd = sounds
 global.mus = music
 ---
-Check if the data folder is in the local appdata. If not, extract data.zip.
-If your game gives an error that is related to a missing asset, you have to manually extract data.zip.
-Just for the sake of debugging, we disabled data path checking.*/
-/*if !(directory_exists("data"))*/ zip_unzip("data.zip", game_save_id);
+Extract all assets from data.zip.
+If your game gives an error that is related to a missing asset, you'll have to redownload data.zip.
+Just for the sake of debugging, we disabled path checking.*/
+directory_destroy("data");
+zip_unzip("data.zip", game_save_id);
 //Prepare Custom Sprite Framework for loading sprites and backgrounds
 image_system_init();
 image_group_create("spr");
 image_group_create("bg");
 image_group_create("tex");
+image_group_create("mtl");
+smf_init();
 var assets = 0; /*Temporary variable for counting current asset types
 ---SPRITES---
 They are mostly used by the GUI and Actors.
 The sprite files are located in data\gfx\spr and MUST be PNGs and numbered.
 Example: 0.png, 1.png, 2.png...
 
-"ani.txt" contains sprite definitions, where every line is formatted like this: sprite|frames|rotates|xOffset|yOffset
+"ani.txt" contains sprite definitions, where every line is formatted like this:
+    Defining a normal/rotatable sprite: sprite|frames|rotates|x offset|y offset
+
+Models are also stored in the sprite list structure. They are put in numbered folders and use Snidr's Model Format.
+Each model folder contains:
+    -Submodels (.smf files numbered from 0) that make the whole model. You can assign skins to them that define which material they should use. You can hide the submodel by setting its skin to -1.
+    -Bodygroups (x\y.smf, where x is the ID and y is the value, both are numbered from 0) that display a part on the model based on their value. You can only assign one material per bodygroup. You can hide the bodygroup by setting its value to -1.
+    -Animations (.ani files numbered from 0). You can assign 
+
+"mdl.txt", contains model information, where every line is formatted like this:
+    Defining a submodel: 0|submodel ID|skin 0 material ID...
+    Defining a bodygroup: 1|bodygroup ID|material ID
+    Defining an animation: 2|animation ID|frame cycle type|frames
+                           Animation frame cycle types: 0 = linear
+                                                        1 = linear, loop
+                                                        2 = quadratic
+                                                        3 = quadratic, loop
 
 The sprite list structure is as follows:
 global.spr[| id] = a list containing sprite data:
-    0 = the sprite itself
-    1 = rotates (4-directional)
-*/
+    0 = the sprite itself (model list if sprite type is 2)
+        The model list structure is as follows:
+        0 = submodels list:
+            0... = submodel list:
+                   0 = model pointer
+                   1... = skin material
+        1 = bodygroups list:
+            0... = bodygroup list:
+                   0 = material
+                   1... = model pointer
+        2... = animation index list:
+            0... = frame sample
+    1 = sprite type:
+        0 = normal
+        1 = 4-directional
+        2 = animated model
+        3 = static model (coming soon)*/
 global.spr = ds_list_create();
 image_stream_start("spr", 2048, 2048, 0, true, false);
-var file = file_find_first(cDirSpr + "*.png", 0), tempData = ds_list_create();
+var file = file_find_first(cDirSpr + "*.png", 0), tempData = ds_priority_create();
 while (file != "")
 {
-    var slot = string_digits(file), table = file_text_open_read(cDirSpr + "ani.txt"), frames = 1, rotates = false, xOfs = 0, yOfs = 0, info;
+    var list = ds_list_create(), slot = string_digits(file), table = file_text_open_read(cDirSpr + "ani.txt"), frames = 1, rotates = false, xOfs = 0, yOfs = 0, info;
     while !(file_text_eof(table)) //Look for animation data in the animation data table
     {
         info = string_parse(level_read_string(table), "|");
@@ -128,21 +161,138 @@ while (file != "")
     //Close the lookup table after and add the sprites to the atlas
     file_text_close(table);
     image_stream_add("spr", slot, cDirSpr + file, frames, xOfs, yOfs);
-    ds_list_insert(tempData, real(slot), rotates);
-    //Increment the total sprites count and find the next sprite
-    assets++;
+    ds_list_add(list, "sprite", rotates);
+    ds_priority_add(tempData, list, real(slot));
     file = file_find_next();
 }
 file_find_close();
 image_stream_finish("spr");
-for (i = 0; i &lt; assets; i++) //Add every streamed sprite to global.spr
+//Prepare model lists
+var file = file_find_first(cDirSpr + "*", fa_directory);
+while (file != "")
 {
-    var sprData = ds_list_create();
-    ds_list_add(sprData, image_group_find_image("spr", string(i)), tempData[| i]);
-    ds_list_add(global.spr, sprData);
+    if (string_letters(file) != "") //Stupid workaround (why is it looking for files too when it's specifically set to look for FOLDERS???)
+    {
+        file = file_find_next();
+        continue
+    }
+    var addModel = ds_list_create(), addModel2 = ds_list_create();
+    ds_list_add(addModel2, ds_list_create(), ds_list_create());
+    ds_list_add(addModel, addModel2, 2);
+    ds_priority_add(tempData, addModel, real(file));
+    file = file_find_next();
 }
-ds_list_clear(tempData);
-assets = 0;
+file_find_close();
+//Add streamed sprites and empty model lists to the sprite list structure
+i = 0;
+repeat (ds_priority_size(tempData))
+{
+    var list = ds_priority_find_min(tempData);
+    if (list[| 0] == "sprite") ds_list_replace(list, 0, image_group_find_image("spr", string(i)));
+    ds_list_add(global.spr, list);
+    ds_priority_delete_min(tempData);
+    i++;
+}
+ds_priority_destroy(tempData);
+//Load model data for each model list
+for (i = 0; i &lt; ds_list_size(global.spr); i++)
+{
+    if (sprite_type(i) != 2) continue //Skip non-models
+    var modelList = sprite_get(i), submodelsList = modelList[| 0], bodygroupsList = modelList[| 1], modelSlot = string(i), folder = cDirSpr + modelSlot + "\";
+    //Load submodels
+    file = file_find_first(folder + "*.smf", 0);
+    while (file != "")
+    {
+        var list = ds_list_create(), slot = string_digits(file), table = file_text_open_read(folder + "mdl.txt"), info;
+        ds_list_add(list, smf_model_load(folder + file));
+        while !(file_text_eof(table)) //Look for skins data in the model data table
+        {
+            str = file_text_read_string(table);
+            file_text_readln(table);
+            if (string_copy(str, 1, 1) != "0") continue //Ignore all strings that don't have the "submodel" header (0)
+            info = string_parse(str, "|");
+            if (info[| 1] == slot) //If the parsed string belongs to this submodel...
+            {
+                for (var j = 2; j &lt; ds_list_size(info); j++) ds_list_add(list, real(info[| j])); //Add all skins from the list
+                ds_list_destroy(info);
+                break
+            }
+            ds_list_destroy(info);
+        }
+        file_text_close(table);
+        ds_list_insert(submodelsList, real(slot), list);
+        file = file_find_next();
+    }
+    file_find_close();
+    //Load bodygroup materials
+    file = file_find_first(folder + "*", fa_directory);
+    while (file != "")
+    {
+        if (string_letters(file) != "") //Stupid workaround (why is it looking for files too when it's specifically set to look for FOLDERS???)
+        {
+            file = file_find_next();
+            continue
+        }
+        var list = ds_list_create(), table = file_text_open_read(folder + "mdl.txt"), info;
+        while !(file_text_eof(table)) //Look for bodygroups data in the model data table
+        {
+            str = file_text_read_string(table);
+            file_text_readln(table);
+            if (string_copy(str, 1, 1) != "1") continue //Ignore all strings that don't have the "bodygroup" header (1)
+            info = string_parse(str, "|");
+            if (info[| 1] == file) //If the parsed string belongs to this bodygroup...
+            {
+                ds_list_add(list, real(info[| 2])); //Add bodygroup material from parsed string
+                ds_list_destroy(info);
+                break
+            }
+            ds_list_destroy(info);
+        }
+        file_text_close(table);
+        ds_list_insert(bodygroupsList, real(file), list);
+        file = file_find_next();
+    }
+    file_find_close();
+    //Load bodygroup models
+    for (j = 0; j &lt; ds_list_size(bodygroupsList); j++)
+    {
+        var bodygroupFolder = folder + string(j) + "\";
+        file = file_find_first(bodygroupFolder + "*.smf", 0);
+        while (file != "")
+        {
+            var slot = string_digits(file);
+            ds_list_insert(bodygroupsList[| j], 1 + real(slot), smf_model_load(bodygroupFolder + file));
+            file = file_find_next();
+        }
+        file_find_close();
+    }
+    //Load animations
+    file = file_find_first(folder + "*.ani", 0);
+    while (file != "")
+    {
+        var animation = smf_animation_load(folder + file), list = ds_list_create(), slot = string_digits(file), table = file_text_open_read(folder + "mdl.txt"), info, type, frames;
+        while !(file_text_eof(table)) //Look for animation data in the model data table
+        {
+            str = file_text_read_string(table);
+            file_text_readln(table);
+            if (string_copy(str, 1, 1) != "2") continue //Ignore all strings that don't have the "animation" header (2)
+            info = string_parse(str, "|");
+            if (info[| 1] == slot) //If the parsed string belongs to this submodel...
+            {
+                type = real(info[| 2]); //Get animation keyframe cycle type
+                frames = real(info[| 3]); //Get animation keyframes amount
+                ds_list_destroy(info);
+                break
+            }
+            ds_list_destroy(info);
+        }
+        file_text_close(table);
+        for (j = 0; j &lt; frames; j++) ds_list_add(list, smf_sample_create(animation, type, j / frames));
+        ds_list_insert(modelList, 2 + real(slot), list);
+        file = file_find_next();
+    }
+    file_find_close();
+}
 /*---BACKGROUNDS---
 They have no frames at all, so we can store way less data than sprites or textures.
 The background files are located in data\gfx\bg and MUST be PNGs and numbered.
@@ -155,8 +305,7 @@ image_stream_start("bg", 1024, 1024, 0, true, false);
 file = file_find_first(cDirBg + "*.png", 0);
 while (file != "")
 {
-    var slot = string_digits(file);
-    image_stream_add("bg", slot, cDirBg + file, 1, 0, 0);
+    image_stream_add("bg", string_digits(file), cDirBg + file, 1, 0, 0);
     //Increment the total backgrounds count and find the next background
     assets++;
     file = file_find_next();
@@ -177,6 +326,7 @@ global.tex[? id] = a list containing texture data:
     0 = pointer of graphic
     1 = animation speed
     2... = the graphic as separate texture pointer(s)*/
+tempData = ds_list_create();
 global.tex = ds_list_create();
 image_stream_start("tex", 1024, 1024, 0, true, false);
 file = file_find_first(cDirTex + "*.png", 0);
@@ -188,7 +338,6 @@ while (file != "")
         info = string_parse(file_text_read_string(table), "|");
         if (info[| 0] == slot) //If the parsed string belongs to this texture...
         {
-            show_debug_message("Found animation data for texture " + slot);
             frames = real(info[| 1]); //Set amount of frames this texture has
             spd = real(info[| 2]); //Animation speed
             ds_list_destroy(info);
@@ -211,10 +360,34 @@ for (i = 0; i &lt; assets; i++)
 {
     var texData = ds_list_create();
     ds_list_add(texData, image_group_find_image("tex", string(i)), tempData[| i]);
-    for (var j = 0, p = texData[| 0], n = image_get_number(p); j &lt; n; j++) ds_list_add(texData, image_get_texture(p, j)); //Add frames to texture data list
+    for (var j = 0, p = texData[| 0]; j &lt; image_get_number(p); j++) ds_list_add(texData, image_get_texture(p, j)); //Add frames to texture data list
     ds_list_add(global.tex, texData);
 }
 ds_list_destroy(tempData);
+assets = 0;
+/*---MATERIALS---
+Materials are textures used by models. They have no frames at all, so we can store them
+similarly to backgrounds; both have way less data to go through than sprites or textures.
+If you add some extra code, you can assign a shader for each material to make it shiny, for example.
+
+The material files are located in data\gfx\mtl and MUST be PNGs and numbered.
+Example: 0.png, 1.png, 2.png...
+
+The material list structure is as follows:
+global.mtl[| id] = the material's texture pointer*/
+global.mtl = ds_list_create();
+image_stream_start("mtl", 1024, 1024, 0, true, false);
+file = file_find_first(cDirMtl + "*.png", 0);
+while (file != "")
+{
+    image_stream_add_3d("mtl", string_digits(file), cDirMtl + file, 1, 0, 0);
+    //Increment the total backgrounds count and find the next background
+    assets++;
+    file = file_find_next();
+}
+file_find_close();
+image_stream_finish("mtl");
+for (i = 0; i &lt; assets; i++) ds_list_add(global.mtl, image_get_texture(image_group_find_image("mtl", string(i)), 0));
 assets = 0;
 /*---SOUNDS---
 The sound files are located in data\sfx\ and MUST be OGGs and numbered.
@@ -244,7 +417,8 @@ FMODGMS_Sys_Initialize(2);
 The music files are located in data\sfx\bgm and MUST be any audio format supported by FMOD.
 Example: 0.ogg, 1.mp3, 2.mod...
 
-"loop.txt" contains music definitions, where every line is formatted like this: track|loopStart|loopEnd
+"loop.txt" contains music definitions, where every line is formatted like this: track|loop start|loop end
+
 In order to correctly assign loop points to tracks, the sample rate must be 44100 hz.
 If a music track doesn't have any loop points, it will only play once.
 
@@ -262,7 +436,6 @@ while (file != "")
         info = string_parse(file_text_read_string(table), "|");
         if (info[| 0] == slot) //If the parsed string belongs to this track...
         {
-            show_debug_message("Found loop points for music " + slot);
             FMODGMS_Snd_Set_LoopPoints(track, FMODGMS_Util_SecondsToSamples(real(info[| 1]), 44100), FMODGMS_Util_SecondsToSamples(real(info[| 2]), 44100)); //Set loop points for track
             FMODGMS_Snd_Set_LoopMode(track, 1, -1); //Set track to loop
             ds_list_destroy(info);
@@ -310,7 +483,6 @@ global.roomName = "Loading"; //Used for Discord Rich Presence
 global.roomIcon = 0; //Also for RPC. The number corresponds to which large icon key should be used.
 global.minZ = 0; //The minimal Z of the level. Used for deleting actors below this position.
 global.deltaTime = 60 / 1000000 * delta_time;
-global.defaultMatrix = matrix_build(0, 0, 0, 0, 0, 0, 1, 1, 1); //The default matrix. Used for resetting matrices back to default by recycling this variable.
 global.currentRoom = -2; /*PN uses a different room system to get around the memory leak issues with GameMaker: Studio 1.4 involving rooms.
 When you change or restart rooms, the game would leak ~3 KB of memory.
 As a workaround, only one room must be utilized during the whole session.*/
@@ -403,8 +575,8 @@ if (bind_hardcode_pressed(vk_escape, gp_select) &amp;&amp; instance_exists(objPl
 to play at any framerate. Instead of using step events, all objects use the according
 User Defined events as their steps.*/
 global.gamepad = gamepad_is_connected(0);
-var i, clearInput = false;
-for (i = 0; i &lt; 14; i++)
+var i = 0, clearInput = false;
+repeat (14)
 {
     var keyBind = global.bind[i, 0], conBind = global.bind[i, 1];
     if (global.gamepad)
@@ -442,9 +614,9 @@ for (i = 0; i &lt; 14; i++)
         global.bind[i, 6] = global.bind[i, 2];
     }
     global.bind[i, 3] = bind_hardcode_pressed(keyBind, conBind);
+    i++;
 }
-var gameLoop = global.deltaTime;
-while (gameLoop--)
+while (global.deltaTime--)
 {
     with (all)
     {
@@ -456,9 +628,22 @@ while (gameLoop--)
     //every time global.deltaTime is 1+ is pointless.
     if !(clearInput)
     {
-        bind_input_clear();
+        i = 0;
+        repeat (14)
+        {
+            global.bind[i, 3] = false;
+            i++;
+        }
         clearInput = true;
     }
+}
+i = 0;
+repeat (14)
+{
+    global.bind[i, 2] = false;
+    global.bind[i, 4] = true;
+    global.bind[i, 5] = 0;
+    global.bind[i, 6] = 0;
 }
 </string>
           </argument>

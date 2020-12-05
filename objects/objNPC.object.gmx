@@ -32,7 +32,9 @@ fSolid = true;
 //NPC data
 message[0] = "...";
 idleSprite = cSprMario;
-talkSprite = cSprMarioWoah;
+talkSprite = idleSprite;
+idleAnim = cAniMarioIdle;
+talkAnim = idleAnim;
 working = false;
 startDir = 0;
 //Create the hitbox based on the NPC's sprite boundaries
@@ -61,10 +63,14 @@ alarm[0] = 1;
             <kind>1</kind>
             <string>///Post-initialize variables
 var getSprite = sprite_get(idleSprite);
-radius = (image_get_width(getSprite) * 0.5) * scale;
-height = image_get_height(getSprite) * scale;
-hitbox_create();
+if (getSprite[| 1] &lt; 2)
+{
+    radius = (image_get_width(getSprite) * 0.5) * scale;
+    height = image_get_height(getSprite) * scale;
+}
+sprite = idleSprite;
 faceDir = startDir;
+actor_create();
 </string>
           </argument>
         </arguments>

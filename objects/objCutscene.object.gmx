@@ -37,7 +37,12 @@ global.follow = false;
 canLoop = false;
 timer_create();
 timer[0] = 1;
-for (var i = 0; i &lt; 7; i++) startPos[i] = 0;
+var i = 0;
+repeat (7)
+{
+    startPos[i] = 0;
+    i++;
+}
 </string>
           </argument>
         </arguments>
@@ -115,7 +120,15 @@ if (timer_tick(0))
         //cutscene_message
         case (3):
             var strings = cutscene_get_value();
-            with (instance_create(0,0,objMessage)) for (var i = 0; i &lt; ds_list_size(strings); i++) message[1 + i] = ds_list_find_value(strings, i);
+            with (instance_create(0,0,objMessage))
+            {
+                var i = 0;
+                repeat (ds_list_size(strings))
+                {
+                    message[1 + i] = ds_list_find_value(strings, i);
+                    i++;
+                }
+            }
             ds_list_destroy(strings);
         break
         //cutscene_wait_message
