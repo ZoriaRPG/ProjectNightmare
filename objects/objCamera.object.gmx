@@ -129,7 +129,20 @@ if (mode) cursor = cr_none;
 window_set_cursor(cursor);
 if (target &amp;&amp; instance_exists(target))
 {
-    if (cutscene_exists())
+    if !(cutscene_exists()) mouse_look(false);
+    if (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow))
+    {
+        var lookVec = lengthdir_y(8, angle_difference(target.faceDir, faceDir));
+        x = target.x - lengthdir_x(range, faceDir) - lengthdir_x(lookVec, faceDir + 90);
+        y = target.y - lengthdir_y(range, faceDir) - lengthdir_y(lookVec, faceDir + 90);
+        z = max(target.z + 12, global.minZ);
+        global.cX = x;
+        global.cY = y;
+        global.cZ = z;
+        global.cD = faceDir;
+        global.cP = pitch;
+    }
+    /*if (cutscene_exists())
     {
         mode = 0;
         target.fVisible = true;
@@ -247,7 +260,7 @@ if (target &amp;&amp; instance_exists(target))
             }
             pitch = clamp(pitch, minPitch, maxPitch);
         }
-    }
+    }*/
 }
 </string>
           </argument>

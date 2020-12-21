@@ -40,7 +40,9 @@ hurtSnd[3] = cSndMarioHurt4;
 hurtSnd[4] = cSndMarioHurt5;
 deadSnd[0] = cSndMarioDead;
 scale = 1.25;
+blinkFrame = 0;
 actor_create();
+timer[0] = irandom_range(30, 300);
 </string>
           </argument>
         </arguments>
@@ -68,26 +70,28 @@ actor_create();
 switch (anim)
 {
     case (cAniMarioJump):
-        if (frame &lt; 5) frameSpd = 0.3;
+        if (frame &lt; 5) frameSpd = 0.4;
         else
         {
-            frame = 5;
+            frame = 5.9;
             frameSpd = 0;
         }
     case (cAniMarioFall):
-        var isFalling = anim == cAniMarioFall;
+        var isFalling = anim != cAniMarioJump;
         bodygroup[0] = isFalling;
         bodygroup[1] = isFalling;
-        if (zSpeed &gt;= 0 &amp;&amp; fOnGround)
-            if (spdDis &lt;= 1)
-            {
-                anim = cAniMarioLand;
-                frame = 0;
-            }
-            else anim = cAniMarioIdle;
+        skin[1] = !isFalling * 3;
+        if (fOnGround)
+        {
+            skin[1] = 0;
+            anim = cAniMarioLand;
+            frame = 0;
+        }
     break
     case (cAniMarioLand):
     {
+        bodygroup[0] = 0;
+        bodygroup[1] = 0;
         if (frame &lt; 5) frameSpd = 0.3 + (spdDis * 0.3);
         else
         {
@@ -97,23 +101,35 @@ switch (anim)
     }
     break
     default:
-        bodygroup[0] = 0;
-        bodygroup[1] = 0;
         if (onGround)
             if (spdDis &gt; 0.1)
             {
                 anim = cAniMarioWalk;
                 if (spdDis &gt; 1) anim = cAniMarioRun;
-                frameSpd = spdDis * 0.225;
+                frameSpd = spdDis * 0.2;
             }
             else
             {
                 anim = cAniMarioIdle;
-                frameSpd = 0.05;
+                frameSpd = 0.075;
             }
         else anim = cAniMarioFall;
 }
-skin[1] = (anim == cAniMarioJump) * 3;
+if (skin[1] &lt; 3)
+{
+    skin[1] = floor(blinkFrame) - 2 * (blinkFrame &gt; 3);
+    if (timer_tick(0))
+    {
+        blinkFrame = 0.0001;
+        timer[0] = irandom_range(30, 300);
+    }
+    if (blinkFrame &gt; 0)
+    {
+        blinkFrame += 0.2;
+        if (blinkFrame &gt; 3.999) blinkFrame = 0;
+    }
+}
+if (z &lt; global.minZ) skin[1] = 5;
 event_inherited();
 </string>
           </argument>

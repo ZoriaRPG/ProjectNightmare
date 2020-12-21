@@ -110,4 +110,5 @@ with (objControl)
     framerate_set();
     discord_update_presence("0 backups collected", global.roomName, "largeicon" + string(global.roomIcon), "smallicon");
     window_set_cursor(cr_default);
+    if !(instance_exists(objCutscene)) window_mouse_set(window_get_x() + window_get_width() * 0.5, window_get_y() + window_get_height() * 0.5);
 }
