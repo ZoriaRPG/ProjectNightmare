@@ -34,8 +34,11 @@ fSolid = true;
 fPushable = true;
 onGround = true;
 fric = 0.2;
-spdDis = 0;
+//Player movement &amp; gimmick variables
+spd = 0;
+moveDir = 0;
 jumpSpd = 2.5;
+targetDir = faceDir;
 holding = noone;
 //Variables with the postfix "Snd" have arrays that can be extended. Use this to assign
 //multiple sounds to one variable.
@@ -96,12 +99,6 @@ if (instance_exists(objCamera))
     else if (timer[1] &amp;&amp; objCamera.mode != 1) fVisible = !fVisible;
 if (onGround)
 {
-    //Friction
-    if !(sliding)
-    {
-        hSpeed = lerp(hSpeed, 0, fric);
-        vSpeed = lerp(vSpeed, 0, fric);
-    }
     //Death cutscene
     if (!hp &amp;&amp; !cutscene_exists())
     {
@@ -120,7 +117,6 @@ if (onGround)
     }
 }
 onGround = fOnGround || c_raycast_world(x, y, z, x, y, bottom - 2, 1);
-spdDis = point_distance(0, 0, hSpeed, vSpeed);
 if (!hp || cutscene_exists()) exit
 if (keyboard_check_pressed(ord("R")))
 {
@@ -133,55 +129,51 @@ if (keyboard_check_pressed(ord("R")))
     y = ystart;
     z = 300;
 }
-//Code by YAL
-var keyX = global.bind[0, 5] - global.bind[2, 6], keyY = global.bind[3, 5] - global.bind[1, 6], keyL, camD = 0;
-keyL = point_distance(0, 0, keyX, keyY) * !sliding; //length of moving vector
-//if needed, normalize vector to prevent faster diagonal movement:
-if (keyL &gt; 1)
+var keyX = global.bind[0, 5] - global.bind[2, 6], keyY = global.bind[3, 5] - global.bind[1, 6];
+spd = point_distance(0, 0, hSpeed, vSpeed);
+if ((abs(keyX) || abs(keyY)) &amp;&amp; !sliding)
 {
-    keyX /= keyL;
-    keyY /= keyL;
-    keyL = 1;
-}
-if (instance_exists(objCamera))
-{
-    if (abs(keyY) &amp;&amp; !objCamera.mode) objCamera.faceDir -= (keyY * spdDis);
-    camD = objCamera.faceDir;
-}
-//actually move around, if needed:
-if (fric == 0.2)
-{
-    //change friction if sliding
-    if (keyL &gt; 0)
+    var gotoDir = point_direction(0, 0, keyX, keyY);
+    if (onGround &amp;&amp; abs(angle_difference(targetDir, gotoDir)) == 180)
+        if (abs(spd) &gt;= 0.05)
+        {
+            spd *= 0.9;
+            anim = cAniMarioSkid;
+            frame = 0;
+            (instance_create(x, y, objSkid)).z = bottom;
+        }
+        else
+        {
+            targetDir = gotoDir;
+            moveDir = targetDir;
+        }
+    else
     {
-        faceDir = point_direction(0,0,keyX,keyY) + global.cD;
-        var acc = 1 + 6 * !onGround, cDD = global.cD - 90, lX = lengthdir_x(keyX, global.cD) + lengthdir_x(keyY, cDD), lY = lengthdir_y(keyX, global.cD) + lengthdir_y(keyY, cDD), vector = point_distance(0, 0, lX, lY), walkSpeed = 2;
-        if (onGround &amp;&amp; floorPitch) walkSpeed = lengthdir_x(2, floorPitch);
-        var lX2 = abs(lengthdir_x(vector, faceDir)) * walkSpeed, lY2 = abs(lengthdir_y(vector, faceDir)) * walkSpeed, acc2 = 0.75;
-        hSpeed = clamp(hSpeed + ((lX * acc2) / acc), -lX2, lX2);
-        vSpeed = clamp(vSpeed + ((lY * acc2) / acc), -lY2, lY2);
+        var moveModifier = 1 - 0.5 * !onGround, maxSpeed = 2.5;
+        if (onGround) maxSpeed = lengthdir_x(2.5, floorPitch);
+        spd = min(spd + 0.1 * moveModifier, maxSpeed);
+        targetDir = gotoDir;
+        moveDir += turn_to_angle(global.cD + targetDir, 10 * moveModifier, moveDir);
     }
 }
-else if (spdDis &lt; 0.3) fric = 0.2;
+else if (abs(spd) &gt;= 0.01)
+{
+    var stopModifier = 0.9;
+    if !(onGround) stopModifier = 0.95;
+    spd *= stopModifier;
+}
+else spd = 0;
+objCamera.faceDir -= lengthdir_y(spd * 0.5, targetDir);
+faceDir += turn_to_angle(moveDir, 10, faceDir);
+hSpeed = lengthdir_x(spd, moveDir);
+vSpeed = lengthdir_y(spd, moveDir);
 //jump when on the ground
 if (onGround &amp;&amp; !sliding &amp;&amp; floorPitch &lt; 60 &amp;&amp; global.bind[4, 3])
 {
-    var h = jumpSpd;
-    if (fric != 0.2)
-    {
-        h = 1;
-        fric = 0.2;
-        hSpeed *= 0.5;
-        vSpeed *= 0.5;
-    }
-    else
-    {
-        objCamera.flinch = 3;
-        player_sound_play(jumpSnd);
-        d3d_sound_play(cSndJump, false, 1);
-    }
-    if !(c_raycast_world(x, y, z, x, y, top + jumpSpd, 1)) z += h;
-    zSpeed = h - 0.1;
+    player_sound_play(jumpSnd);
+    d3d_sound_play(cSndJump, false, 1);
+    if !(c_raycast_world(x, y, z, x, y, top + jumpSpd, 1)) z += jumpSpd;
+    zSpeed = jumpSpd - 0.1;
     if (object_index == objMario)
     {
         anim = cAniMarioJump;

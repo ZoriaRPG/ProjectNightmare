@@ -322,6 +322,7 @@
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\sh_smf_animate.shader</shader>
+    <shader type="GLSLES">shaders\shBillboard.shader</shader>
   </shaders>
   <objects name="objects">
     <object>objects\objControl</object>
@@ -349,6 +350,10 @@
           <object>objects\objEnemy</object>
           <object>objects\objHoldable</object>
         </objects>
+        <objects name="Particles">
+          <object>objects\objSkid</object>
+          <object>objects\objParticle</object>
+        </objects>
       </objects>
       <object>objects\objTransition</object>
       <object>objects\objMessage</object>
@@ -357,7 +362,7 @@
   <rooms name="rooms">
     <room>rooms\rmMain</room>
   </rooms>
-  <constants number="52">
+  <constants number="54">
     <constant name="cDirSpr">game_save_id + "data\gfx\spr\"</constant>
     <constant name="cDirBg">game_save_id + "data\gfx\bg\"</constant>
     <constant name="cDirTex">game_save_id + "data\gfx\tex\"</constant>
@@ -371,6 +376,7 @@
     <constant name="cSprBomb">2</constant>
     <constant name="cSprHealth">3</constant>
     <constant name="cSprGoomba">4</constant>
+    <constant name="cSprSmoke">5</constant>
     <constant name="cBgPauseMario">0</constant>
     <constant name="cBgShadow">1</constant>
     <constant name="cSndCoin">0</constant>
@@ -410,6 +416,7 @@
     <constant name="cAniMarioJump">3</constant>
     <constant name="cAniMarioFall">4</constant>
     <constant name="cAniMarioLand">5</constant>
+    <constant name="cAniMarioSkid">6</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

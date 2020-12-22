@@ -49,12 +49,12 @@ bottom = 0; //The top of the z position.
 hSpeed = 0;
 vSpeed = 0;
 zSpeed = 0;
-spd = 0;
 bounciness = 1; //Bounciness is calculated by spd divided by bounciness. Less is more.
 faceDir = 0;
 floorAngle = 0; //Used for checking the direction of slopes.
 floorPitch = 0; //Used for checking the vertical angle of slopes and detecting steep surfaces.
 sliding = false; //Used for sliding off of steep slopes.
+fric = 0; //Used for deacceleration.
 //Animation
 shadowZ = -9;
 shadowMatrix = SMF_MATIDENTITY;
@@ -155,32 +155,19 @@ if (sliding)
     }
     else sliding = false;
 }
-else
+else if (fOnGround)
 {
-    //spd is a shortcut for setting hSpeed and vSpeed based on faceDir. You have to 
-    //manually reset hSpeed and vSpeed if you want to stop the actor from moving.
-    if (spd != 0)
+    //If the floor we are standing on is more than 60 degrees upwards...
+    if (floorPitch &gt; 60)
     {
-        //The real speed is calculated based on the angle of the slope that the actor is standing on.
-        var realSpeed = spd;
-        if (fOnGround &amp;&amp; floorPitch) realSpeed = lengthdir_x(spd, floorPitch);
-        hSpeed = lengthdir_x(realSpeed, faceDir);
-        vSpeed = lengthdir_y(realSpeed, faceDir);
+        //Reset speed and start sliding
+        hSpeed = 0;
+        vSpeed = 0;
+        zSpeed = 0;
+        sliding = true;
     }
-    if (fOnGround)
-    {
-        //If the floor we are standing on is more than 60 degrees upwards...
-        if (floorPitch &gt; 60)
-        {
-            //Reset speed and start sliding
-            hSpeed = 0;
-            vSpeed = 0;
-            zSpeed = 0;
-            sliding = true;
-        }
-    }
-    else if (fGravity &amp;&amp; zSpeed &gt; -10) zSpeed -= 0.1; //Gravity
 }
+else if (fGravity &amp;&amp; zSpeed &gt; -10) zSpeed -= 0.1; //Gravity
 //Collision
 if !(fGhost)
 {

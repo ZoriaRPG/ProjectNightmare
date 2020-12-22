@@ -124,18 +124,29 @@ global.cP = pitch;
           <argument>
             <kind>1</kind>
             <string>///Attach camera to target
-var cursor = cr_default;
-if (mode) cursor = cr_none;
+var cursor = cr_none;
+if (window_has_focus()) cursor = cr_default;
 window_set_cursor(cursor);
 if (target &amp;&amp; instance_exists(target))
 {
     if !(cutscene_exists()) mouse_look(false);
     if (!cutscene_exists() || (cutscene_exists() &amp;&amp; global.follow))
     {
-        var lookVec = lengthdir_y(8, angle_difference(target.faceDir, faceDir));
-        x = target.x - lengthdir_x(range, faceDir) - lengthdir_x(lookVec, faceDir + 90);
-        y = target.y - lengthdir_y(range, faceDir) - lengthdir_y(lookVec, faceDir + 90);
-        z = max(target.z + 12, global.minZ);
+        var tZ = previousZ, lookVec = lengthdir_y(8, target.targetDir);
+        if (target.fOnGround &amp;&amp; target.shadowZ != -65536) previousZ = target.shadowZ + target.half;
+        if (target.z &lt; previousZ - 10|| target.z &gt; previousZ + 40) tZ = target.z;
+        var xTo = target.x - lengthdir_x(range, faceDir) - lengthdir_x(lookVec, faceDir + 90), yTo = target.y - lengthdir_y(range, faceDir) - lengthdir_y(lookVec, faceDir + 90), zTo = tZ + 16, camZTo = zTo - 2;
+        if (c_raycast_world(target.x, target.y, zTo, xTo, yTo, zTo, 1))
+        {
+            xTo = c_hit_x();
+            yTo = c_hit_y();
+            zTo = c_hit_z();
+            camZTo = zTo + (target.z - tZ) * 0.5 - 10;
+        }
+        x = lerp(x, xTo, 0.2);
+        y = lerp(y, yTo, 0.2);
+        z = lerp(z, max(zTo, global.minZ), 0.1);
+        pitch = lerp_angle(pitch, point_pitch(x, y, z, target.x, target.y, camZTo), 0.2);
         global.cX = x;
         global.cY = y;
         global.cZ = z;
@@ -317,18 +328,27 @@ with (objActor)
         {
             case (0):
             case (1):
-                var cFrame = frame, size = scale * 0.5;
-                matrix_set(matrix_world, matrix_build(x, y, bottom, -90, global.cD - 90, 0, size, size, size));
-                if (getType)
-                {
-                    var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(getSprite);
-                    while (dir &lt; 0) dir += 4;
-                    cFrame = min(((frames * 0.25) * dir) + frame, frames - 1);
-                }
-                draw_image_ext(getSprite, cFrame, 0, 0, 1, -1, 0, c_white, 1);
-                smf_matrix_reset();
-            break
             case (2):
+                var cFrame = frame, size = scale * 0.5;
+                if (getType == 2)
+                {
+                    shader_set(shBillboard);
+                    matrix_set(matrix_world, matrix_build(x, y, bottom, 0, 0, 0, 1, 1, 1));
+                }
+                else
+                {
+                    matrix_set(matrix_world, matrix_build(x, y, bottom, -90, global.cD - 90, 0, 1, 1, 1));
+                    if (getType == 1)
+                    {
+                        var dir = (round((point_direction(x, y, global.cX, global.cY) - faceDir) / 90)) mod (4), frames = image_get_number(getSprite);
+                        while (dir &lt; 0) dir += 4;
+                        cFrame = min(((frames * 0.25) * dir) + frame, frames - 1);
+                    }
+                }
+                draw_image_ext(getSprite, cFrame, 0, 0, size, -size, 0, c_white, 1);
+                shader_reset();
+            break
+            case (4):
                 matrix_set(matrix_world, matrix_build(x, y, bottom, 0, 0, faceDir, scale, scale, scale));
                 shader_set(sh_smf_animate);
                 var i, submodels = getSprite[| 0], bodygroups = getSprite[| 1], animation = getSprite[| 2 + anim];
@@ -362,7 +382,17 @@ with (objActor)
         draw_image_stretched_ext(global.bg[| cBgShadow], 0, -radius, -radius, shadowSize, shadowSize, c_white, 0.5);
     }
 }
-matrix_set(matrix_world, SMF_MATIDENTITY);
+with (objParticle)
+{
+    if (sprite == -1) continue
+    if (sprite_type(sprite) != 2) continue
+    shader_set(shBillboard);
+    matrix_set(matrix_world, matrix_build(x, y, z, 0, 0, 0, 1, 1, 1));
+    var size = scale * 0.5;
+    draw_image_ext(sprite_get(sprite), frame, 0, 0, size, -size, 0, c_white, 1);
+    shader_reset();
+}
+smf_matrix_reset();
 </string>
           </argument>
         </arguments>

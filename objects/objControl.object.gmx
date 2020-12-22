@@ -136,8 +136,9 @@ global.spr[| id] = a list containing sprite data:
     1 = sprite type:
         0 = normal
         1 = 4-directional
-        2 = animated model
-        3 = static model (coming soon)*/
+        2 = billboard
+        3 = static model (coming soon)
+        4 = animated model*/
 global.spr = ds_list_create();
 image_stream_start("spr", 2048, 2048, 0, true, false);
 var file = file_find_first(cDirSpr + "*.png", 0), tempData = ds_priority_create();
@@ -178,7 +179,7 @@ while (file != "")
     }
     var addModel = ds_list_create(), addModel2 = ds_list_create();
     ds_list_add(addModel2, ds_list_create(), ds_list_create());
-    ds_list_add(addModel, addModel2, 2);
+    ds_list_add(addModel, addModel2, 4);
     ds_priority_add(tempData, addModel, real(file));
     file = file_find_next();
 }
@@ -197,7 +198,7 @@ ds_priority_destroy(tempData);
 //Load model data for each model list
 for (i = 0; i &lt; ds_list_size(global.spr); i++)
 {
-    if (sprite_type(i) != 2) continue //Skip non-models
+    if (sprite_type(i) != 4) continue //Skip non-models
     var modelList = sprite_get(i), submodelsList = modelList[| 0], bodygroupsList = modelList[| 1], modelSlot = string(i), folder = cDirSpr + modelSlot + "\";
     //Load submodels
     file = file_find_first(folder + "*.smf", 0);
