@@ -382,15 +382,16 @@ with (objActor)
         draw_image_stretched_ext(global.bg[| cBgShadow], 0, -radius, -radius, shadowSize, shadowSize, c_white, 0.5);
     }
 }
-with (objParticle)
+i = 0;
+repeat (ds_list_size(global.particles))
 {
-    if (sprite == -1) continue
-    if (sprite_type(sprite) != 2) continue
     shader_set(shBillboard);
-    matrix_set(matrix_world, matrix_build(x, y, z, 0, 0, 0, 1, 1, 1));
-    var size = scale * 0.5;
-    draw_image_ext(sprite_get(sprite), frame, 0, 0, size, -size, 0, c_white, 1);
+    var particle = global.particles[| i];
+    matrix_set(matrix_world, matrix_build(particle[| cParX], particle[| cParY], particle[| cParZ], 0, 0, 0, 1, 1, 1));
+    var size = particle[| cParScale] * 0.5;
+    draw_image_ext(sprite_get(particle[| cParSprite]), particle[| cParFrame], 0, 0, size, -size, 0, c_white, 1);
     shader_reset();
+    i++;
 }
 smf_matrix_reset();
 </string>

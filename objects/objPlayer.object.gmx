@@ -135,12 +135,14 @@ if ((abs(keyX) || abs(keyY)) &amp;&amp; !sliding)
 {
     var gotoDir = point_direction(0, 0, keyX, keyY);
     if (onGround &amp;&amp; abs(angle_difference(targetDir, gotoDir)) == 180)
-        if (abs(spd) &gt;= 0.05)
+        if (abs(spd) &gt;= 0.06)
         {
-            spd *= 0.9;
+            spd *= 0.89;
             anim = cAniMarioSkid;
             frame = 0;
-            (instance_create(x, y, objSkid)).z = bottom;
+            particle_create(x, y, bottom, cParTypeSkid);
+            d3d_sound_play(cSndSkid, false, 1);
+            //(instance_create(x, y, objSkid)).z = bottom;
         }
         else
         {

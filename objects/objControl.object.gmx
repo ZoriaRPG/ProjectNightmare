@@ -208,8 +208,7 @@ for (i = 0; i &lt; ds_list_size(global.spr); i++)
         ds_list_add(list, smf_model_load(folder + file));
         while !(file_text_eof(table)) //Look for skins data in the model data table
         {
-            str = file_text_read_string(table);
-            file_text_readln(table);
+            str = level_read_string(table);
             if (string_copy(str, 1, 1) != "0") continue //Ignore all strings that don't have the "submodel" header (0)
             info = string_parse(str, "|");
             if (info[| 1] == slot) //If the parsed string belongs to this submodel...
@@ -237,8 +236,7 @@ for (i = 0; i &lt; ds_list_size(global.spr); i++)
         var list = ds_list_create(), table = file_text_open_read(folder + "mdl.txt"), info;
         while !(file_text_eof(table)) //Look for bodygroups data in the model data table
         {
-            str = file_text_read_string(table);
-            file_text_readln(table);
+            str = level_read_string(table);
             if (string_copy(str, 1, 1) != "1") continue //Ignore all strings that don't have the "bodygroup" header (1)
             info = string_parse(str, "|");
             if (info[| 1] == file) //If the parsed string belongs to this bodygroup...
@@ -274,8 +272,7 @@ for (i = 0; i &lt; ds_list_size(global.spr); i++)
         var animation = smf_animation_load(folder + file), list = ds_list_create(), slot = string_digits(file), table = file_text_open_read(folder + "mdl.txt"), info, type, frames;
         while !(file_text_eof(table)) //Look for animation data in the model data table
         {
-            str = file_text_read_string(table);
-            file_text_readln(table);
+            str = level_read_string(table);
             if (string_copy(str, 1, 1) != "2") continue //Ignore all strings that don't have the "animation" header (2)
             info = string_parse(str, "|");
             if (info[| 1] == slot) //If the parsed string belongs to this submodel...
@@ -487,6 +484,7 @@ global.deltaTime = 60 / 1000000 * delta_time;
 global.currentRoom = -2; /*PN uses a different room system to get around the memory leak issues with GameMaker: Studio 1.4 involving rooms.
 When you change or restart rooms, the game would leak ~3 KB of memory.
 As a workaround, only one room must be utilized during the whole session.*/
+global.particles = ds_list_create(); /*PN uses a particles list to iterate through each particles (which is a list of data). Should be marginally faster than objects.*/
 pauseBg = -1;
 pauseX = -463;
 healthY = -46;
@@ -645,6 +643,45 @@ repeat (14)
     global.bind[i, 4] = true;
     global.bind[i, 5] = 0;
     global.bind[i, 6] = 0;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="25">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Update particles
+var i = 0;
+repeat (ds_list_size(global.particles))
+{
+    var particle = global.particles[| i];
+    ds_list_replace(particle, cParFrame, particle[| cParFrame] + particle[| cParFrameSpd]);
+    if (particle[| cParFrame] &gt; image_get_number(sprite_get(particle[| cParSprite])) - 1)
+    {
+        ds_list_destroy(particle);
+        ds_list_delete(global.particles, i);
+        continue
+    }
+    ds_list_replace(particle, cParX, particle[| cParX] + particle[| cParHSpeed]);
+    ds_list_replace(particle, cParY, particle[| cParY] + particle[| cParVSpeed]);
+    ds_list_replace(particle, cParZ, particle[| cParZ] + particle[| cParZSpeed]);
+    i++;
 }
 </string>
           </argument>

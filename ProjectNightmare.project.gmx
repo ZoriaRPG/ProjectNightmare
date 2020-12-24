@@ -319,6 +319,7 @@
     <script>scripts\transition_create.gml</script>
     <script>scripts\FMODGMS_Util_SecondsToSamples.gml</script>
     <script>scripts\room_change.gml</script>
+    <script>scripts\particle_create.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\sh_smf_animate.shader</shader>
@@ -350,10 +351,6 @@
           <object>objects\objEnemy</object>
           <object>objects\objHoldable</object>
         </objects>
-        <objects name="Particles">
-          <object>objects\objSkid</object>
-          <object>objects\objParticle</object>
-        </objects>
       </objects>
       <object>objects\objTransition</object>
       <object>objects\objMessage</object>
@@ -362,7 +359,7 @@
   <rooms name="rooms">
     <room>rooms\rmMain</room>
   </rooms>
-  <constants number="54">
+  <constants number="68">
     <constant name="cDirSpr">game_save_id + "data\gfx\spr\"</constant>
     <constant name="cDirBg">game_save_id + "data\gfx\bg\"</constant>
     <constant name="cDirTex">game_save_id + "data\gfx\tex\"</constant>
@@ -407,6 +404,7 @@
     <constant name="cSndMarioHurt5">25</constant>
     <constant name="cSndMarioDead">26</constant>
     <constant name="cSndJump">27</constant>
+    <constant name="cSndSkid">28</constant>
     <constant name="cMusTitle">0</constant>
     <constant name="cMusOverworld">1</constant>
     <constant name="cMusLose">2</constant>
@@ -417,6 +415,19 @@
     <constant name="cAniMarioFall">4</constant>
     <constant name="cAniMarioLand">5</constant>
     <constant name="cAniMarioSkid">6</constant>
+    <constant name="cParType">0</constant>
+    <constant name="cParX">1</constant>
+    <constant name="cParY">2</constant>
+    <constant name="cParZ">3</constant>
+    <constant name="cParHSpeed">4</constant>
+    <constant name="cParVSpeed">5</constant>
+    <constant name="cParZSpeed">6</constant>
+    <constant name="cParFaceDir">7</constant>
+    <constant name="cParScale">8</constant>
+    <constant name="cParSprite">9</constant>
+    <constant name="cParFrame">10</constant>
+    <constant name="cParFrameSpd">11</constant>
+    <constant name="cParTypeSkid">0</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
