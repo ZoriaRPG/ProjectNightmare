@@ -32,6 +32,9 @@ draw_set_circle_precision(64);
 d3d_set_perspective(true);
 d3d_set_hidden(true);
 d3d_set_culling(true);
+d3d_set_shading(false);
+d3d_light_define_ambient(c_dkgray);
+d3d_light_define_direction(1, 0, 0, -1, c_white);
 draw_set_alpha_test(true);
 draw_set_alpha_test_ref_value(0);
 audio_falloff_set_model(audio_falloff_exponent_distance);
@@ -132,12 +135,14 @@ global.spr[| id] = a list containing sprite data:
                    0 = material
                    1... = model pointer
         2... = animation index list:
-            0... = frame sample
+            0 = animation index
+            1 = frame cycle type
+            2... = frame sample
     1 = sprite type:
         0 = normal
         1 = 4-directional
         2 = billboard
-        3 = static model (coming soon)
+        3 = static model
         4 = animated model*/
 global.spr = ds_list_create();
 image_stream_start("spr", 2048, 2048, 0, true, false);
@@ -179,7 +184,14 @@ while (file != "")
     }
     var addModel = ds_list_create(), addModel2 = ds_list_create();
     ds_list_add(addModel2, ds_list_create(), ds_list_create());
-    ds_list_add(addModel, addModel2, 4);
+    //Check for animations. All models are static by default unless the model definitions file has an animation defined
+    var modelType = 3, table = file_text_open_read(cDirSpr + file + "\mdl.txt");
+    while !(file_text_eof(table)) if (string_copy(level_read_string(table), 1, 1) == "2")
+    {
+        modelType = 4;
+        break
+    }
+    ds_list_add(addModel, addModel2, modelType);
     ds_priority_add(tempData, addModel, real(file));
     file = file_find_next();
 }
@@ -198,7 +210,8 @@ ds_priority_destroy(tempData);
 //Load model data for each model list
 for (i = 0; i &lt; ds_list_size(global.spr); i++)
 {
-    if (sprite_type(i) != 4) continue //Skip non-models
+    var modelType = sprite_type(i);
+    if (modelType &lt; 3) continue //Skip non-models
     var modelList = sprite_get(i), submodelsList = modelList[| 0], bodygroupsList = modelList[| 1], modelSlot = string(i), folder = cDirSpr + modelSlot + "\";
     //Load submodels
     file = file_find_first(folder + "*.smf", 0);
@@ -266,30 +279,34 @@ for (i = 0; i &lt; ds_list_size(global.spr); i++)
         file_find_close();
     }
     //Load animations
-    file = file_find_first(folder + "*.ani", 0);
-    while (file != "")
+    if (modelType == 4)
     {
-        var animation = smf_animation_load(folder + file), list = ds_list_create(), slot = string_digits(file), table = file_text_open_read(folder + "mdl.txt"), info, type, frames;
-        while !(file_text_eof(table)) //Look for animation data in the model data table
+        file = file_find_first(folder + "*.ani", 0);
+        while (file != "")
         {
-            str = level_read_string(table);
-            if (string_copy(str, 1, 1) != "2") continue //Ignore all strings that don't have the "animation" header (2)
-            info = string_parse(str, "|");
-            if (info[| 1] == slot) //If the parsed string belongs to this submodel...
+            var animation = smf_animation_load(folder + file), list = ds_list_create(), slot = string_digits(file), table = file_text_open_read(folder + "mdl.txt"), info, type, frames;
+            while !(file_text_eof(table)) //Look for animation data in the model data table
             {
-                type = real(info[| 2]); //Get animation keyframe cycle type
-                frames = real(info[| 3]); //Get animation keyframes amount
+                str = level_read_string(table);
+                if (string_copy(str, 1, 1) != "2") continue //Ignore all strings that don't have the "animation" header (2)
+                info = string_parse(str, "|");
+                if (info[| 1] == slot) //If the parsed string belongs to this submodel...
+                {
+                    type = real(info[| 2]); //Get animation keyframe cycle type
+                    frames = real(info[| 3]); //Get animation keyframes amount
+                    ds_list_destroy(info);
+                    break
+                }
                 ds_list_destroy(info);
-                break
             }
-            ds_list_destroy(info);
+            file_text_close(table);
+            ds_list_add(list, animation, type);
+            for (j = 0; j &lt; frames; j++) ds_list_add(list, smf_sample_create(animation, type, j / frames));
+            ds_list_insert(modelList, 2 + real(slot), list);
+            file = file_find_next();
         }
-        file_text_close(table);
-        for (j = 0; j &lt; frames; j++) ds_list_add(list, smf_sample_create(animation, type, j / frames));
-        ds_list_insert(modelList, 2 + real(slot), list);
-        file = file_find_next();
+        file_find_close();
     }
-    file_find_close();
 }
 /*---BACKGROUNDS---
 They have no frames at all, so we can store way less data than sprites or textures.
@@ -461,18 +478,27 @@ for (i = 0; i &lt; 2; i++)
     global.levelMusic[i] = noone;
     global.musicVolume[i] = !i;
     /*global.worldModel has a list of vertex buffers that are rendered by using a fake "vertex batching" method
-    to give the illusion of displaying multiple textures on one whole model. Under the hood, it's only
-    rendering multiple models as parts of the world, depending on how many textures are used in the map.
+    to give the illusion of displaying multiple textures on one vertex buffer. Under the hood, it's only
+    rendering multiple vertex buffers as parts of the world, depending on how many textures are used in the map.
     global.worldModel[0] contains world model segments
     global.worldModel[1] contains the texture ID for each segment
-    global.worldModel[2] contains the vertex buffer format used for world model segments*/
+    global.worldModel[2] contains the format used by vertex buffers*/
     global.worldModel[i] = ds_list_create();
 }
-//Create world
 vertex_format_begin();
 vertex_format_add_position_3d();
+vertex_format_add_normal();
 vertex_format_add_textcoord();
+vertex_format_add_color();
 global.worldModel[2] = vertex_format_end();
+global.fog[0] = 0;
+global.fog[1] = 65536;
+for (i = 2; i &lt; 5; i++) global.fog[i] = 0;
+global.light[0] = -1;
+global.light[1] = 0;
+global.light[2] = -1;
+for (i = 3; i &lt; 6; i++) global.light[i] = 1;
+for (i = 6; i &lt; 9; i++) global.light[i] = 0.5;
 global.skybox = 0; //The texture ID of the skybox.
 global.battle = false; //Used for switching between normal and battle music.
 global.dawn = false; //Used to play musDawn on level start. 
@@ -574,7 +600,7 @@ if (bind_hardcode_pressed(vk_escape, gp_select) &amp;&amp; instance_exists(objPl
 to play at any framerate. Instead of using step events, all objects use the according
 User Defined events as their steps.*/
 global.gamepad = gamepad_is_connected(0);
-var i = 0, clearInput = false;
+var i = 0, clearInput = true;
 repeat (14)
 {
     var keyBind = global.bind[i, 0], conBind = global.bind[i, 1];
@@ -625,7 +651,7 @@ while (global.deltaTime--)
     }
     //Input clear optimizations are used, since having to reset input values
     //every time global.deltaTime is 1+ is pointless.
-    if !(clearInput)
+    if (clearInput)
     {
         i = 0;
         repeat (14)
@@ -633,7 +659,7 @@ while (global.deltaTime--)
             global.bind[i, 3] = false;
             i++;
         }
-        clearInput = true;
+        clearInput = false;
     }
 }
 i = 0;
@@ -667,6 +693,7 @@ repeat (14)
           <argument>
             <kind>1</kind>
             <string>///Update particles
+if (global.paused) exit
 var i = 0;
 repeat (ds_list_size(global.particles))
 {
@@ -768,7 +795,7 @@ draw_text_transformed(pX2 + 100, 200, "Paused", 2, 2, 0);
 draw_set_halign(fa_left);
 draw_image(global.bg[| cBgPauseMario], 0, pauseX, 0);
 draw_image_ext(sprite_get(cSprIntro), 0, pX2, 100, 0.5, 0.5, 0, c_white, 1);
-draw_text(8, 8, string(round(fps_real)) + " FPS#" + string(global.deltaTime) + "#" + string(setFramerate));
+draw_text(8, 8, string(fps) + "FPS#" + string(fps_real) + " RFPS#" + string(global.deltaTime) + "#" + string(setFramerate));
 if (instance_exists(objPlayer)) draw_image_ext(sprite_get(cSprHealth), objPlayer.hp, view_wview[0] * 0.5, healthY, 2, 2, 0, c_white, 1);
 </string>
           </argument>

@@ -1,3 +1,3 @@
-var f = 60;
-if !(setFramerate) f = 30;
+var f = 120;
+if !(setFramerate) f = 60;
 room_speed = f;

@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>event_inherited();
 sprite = cSprBomb;
+height = 12;
 actor_create();
 </string>
           </argument>

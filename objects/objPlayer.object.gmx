@@ -33,9 +33,12 @@ frameSpd = 0.01;
 fSolid = true;
 fPushable = true;
 onGround = true;
-fric = 0.2;
+//Player animation
+for (var i = 0; i &lt; 2; i++) headDir[i] = 0;
+customFrameIndex = 0;
 //Player movement &amp; gimmick variables
 spd = 0;
+fric = 0.2;
 moveDir = 0;
 jumpSpd = 2.5;
 targetDir = faceDir;
@@ -142,7 +145,7 @@ if ((abs(keyX) || abs(keyY)) &amp;&amp; !sliding)
             frame = 0;
             particle_create(x, y, bottom, cParTypeSkid);
             d3d_sound_play(cSndSkid, false, 1);
-            //(instance_create(x, y, objSkid)).z = bottom;
+            faceRoll = lerp_angle(faceRoll, 0, 0.075);
         }
         else
         {
@@ -153,9 +156,11 @@ if ((abs(keyX) || abs(keyY)) &amp;&amp; !sliding)
     {
         var moveModifier = 1 - 0.5 * !onGround, maxSpeed = 2.5;
         if (onGround) maxSpeed = lengthdir_x(2.5, floorPitch);
+        maxSpeed *= 1 - 0.5 * keyboard_check(vk_shift);
         spd = min(spd + 0.1 * moveModifier, maxSpeed);
         targetDir = gotoDir;
         moveDir += turn_to_angle(global.cD + targetDir, 10 * moveModifier, moveDir);
+        faceRoll = lerp_angle(faceRoll, angle_difference(targetDir, gotoDir), 0.1);
     }
 }
 else if (abs(spd) &gt;= 0.01)
@@ -163,10 +168,16 @@ else if (abs(spd) &gt;= 0.01)
     var stopModifier = 0.9;
     if !(onGround) stopModifier = 0.95;
     spd *= stopModifier;
+    faceRoll = lerp_angle(faceRoll, 0, 0.1);
 }
-else spd = 0;
-objCamera.faceDir -= lengthdir_y(spd * 0.5, targetDir);
-faceDir += turn_to_angle(moveDir, 10, faceDir);
+else
+{
+    spd = 0;
+    faceRoll = 0;
+}
+var lookTo = moveDir;
+//if (holding &amp;&amp; holding.holdableType) lookTo = global.cD;
+faceDir += turn_to_angle(lookTo, 10, faceDir);
 hSpeed = lengthdir_x(spd, moveDir);
 vSpeed = lengthdir_y(spd, moveDir);
 //jump when on the ground

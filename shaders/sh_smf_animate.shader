@@ -8,9 +8,11 @@ attribute vec4 in_Colour;                  //(bone1, bone2, weight1, weight2)
 attribute vec4 in_Colour2;                  //(bone1, bone2, weight1, weight2)
 
 varying vec2 v_vTexcoord;
+varying float v_vShading;
 
 const int maxBones = 64;
 uniform vec4 boneDQ[2*maxBones];
+uniform vec3 lightDirection;
 
 void main()
 {
@@ -51,16 +53,25 @@ boneDQ[bone4+1] * weight4;
     objectSpacePos += 2.0 * (blendReal.w * blendDual.xyz - blendDual.w * blendReal.xyz + cross(blendReal.xyz, blendDual.xyz));
     
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * vec4(objectSpacePos, 1.0);
+
+
+    //Transform normal vector
+    vec3 objectSpaceNormal = in_Normal + 2.0 * cross(blendReal.xyz, cross(blendReal.xyz, in_Normal) + blendReal.w * in_Normal);
+vec3 worldSpaceNormal = mat3(gm_Matrices[MATRIX_WORLD]) * objectSpaceNormal;
+v_vShading = 0.5 + 0.7 * max(dot(normalize(worldSpaceNormal), normalize(lightDirection)), 0.0);
 }
+
 
 //######################_==_YOYO_SHADER_MARKER_==_######################@~//
 // Simple passthrough fragment shader
 //
 varying vec2 v_vTexcoord;
+varying float v_vShading;
 
 void main()
 {
     gl_FragColor = texture2D( gm_BaseTexture, v_vTexcoord );
+gl_FragColor.rgb *= v_vShading;
 }
 
 

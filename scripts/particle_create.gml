@@ -4,7 +4,7 @@ while (ds_list_size(global.particles) >= 32000)
     ds_list_destroy(global.particles[| 0]);
     ds_list_delete(global.particles, 0);
 }
-var newParticle = ds_list_create(), setHSpeed, setVSpeed, setZSpeed, setScale, setSprite, setFrameSpd;
+var newParticle = ds_list_create(), setHSpeed = 0, setVSpeed = 0, setZSpeed = 0, setScale, setSprite, setFrameSpd;
 switch (argument3)
 {
     case (cParTypeSkid):
@@ -13,6 +13,11 @@ switch (argument3)
         setZSpeed = random(0.1);
         setScale = 0.5;
         setSprite = cSprSmoke;
+        setFrameSpd = 0.25;
+    break
+    case (cParTypeZap):
+        setScale = 0.7;
+        setSprite = cSprZap;
         setFrameSpd = 0.25;
     break
 }

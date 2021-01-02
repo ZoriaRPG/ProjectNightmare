@@ -1,4 +1,4 @@
-if (sprite_type(sprite) == 4)
+if (sprite_type(sprite) > 2)
 {
     var getModel = sprite_get(sprite), skinSize = ds_list_size(getModel[| 0]), bodygroupSize = ds_list_size(getModel[| 1]), i = 0;
     if (skinSize)

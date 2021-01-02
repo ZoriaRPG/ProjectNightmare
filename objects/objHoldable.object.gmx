@@ -28,6 +28,7 @@
             <string>event_inherited();
 fBounce = true;
 bounciness = 3;
+holdableType = 0;
 </string>
           </argument>
         </arguments>
@@ -55,6 +56,7 @@ if (timer[0] == -65536) fPushable = abs(hSpeed) &gt; 0.1 || abs(vSpeed) &gt; 0.1
 else timer_tick(0);
 if (target)
 {
+    fVisible = sprite_type(sprite) &lt; 3;
     fShadow = false;
     faceDir = target.faceDir;
     x = target.x;
@@ -64,6 +66,7 @@ if (target)
 }
 else
 {
+    fVisible = true;
     fShadow = true;
     event_inherited();
 }

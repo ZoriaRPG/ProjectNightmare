@@ -51,6 +51,8 @@ vSpeed = 0;
 zSpeed = 0;
 bounciness = 1; //Bounciness is calculated by spd divided by bounciness. Less is more.
 faceDir = 0;
+faceRoll = 0;
+facePitch = 0;
 floorAngle = 0; //Used for checking the direction of slopes.
 floorPitch = 0; //Used for checking the vertical angle of slopes and detecting steep surfaces.
 sliding = false; //Used for sliding off of steep slopes.
@@ -61,6 +63,7 @@ shadowMatrix = SMF_MATIDENTITY;
 sprite = -1;
 frame = 0; //Similar to image_index.
 frameSpd = 0; //Similar to image_speed.
+customFrame = undefined; //Used for real-time bone manipulations. SLOW!
 //anim, skin and bodygroup are only used for animated models
 anim = 0;
 skin = 0;
